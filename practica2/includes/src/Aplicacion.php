@@ -118,7 +118,9 @@ class Aplicacion
      */
     public function init($bdDatosConexion, $rutaApp = '/', $dirInstalacion = __DIR__)
     {
+     
         if (!$this->inicializada) {
+          
             $this->bdDatosConexion = $bdDatosConexion;
 
             $this->rutaRaizApp = $rutaApp;
