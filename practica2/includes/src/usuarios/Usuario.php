@@ -12,6 +12,8 @@ class Usuario
 
     public const USER_ROLE = 2;
 
+    public const BUSSINES_ROLE = 3;
+
     public static function login($nombreUsuario, $password)
     {
         $usuario = self::buscaUsuario($nombreUsuario);
@@ -21,9 +23,9 @@ class Usuario
         return false;
     }
     
-    public static function crea($nombreUsuario, $password, $nombre, $rol)
+    public static function crea($nombreUsuario, $password, $nombre,$email, $rol)
     {
-        $user = new Usuario($nombreUsuario, self::hashPassword($password), $nombre);
+        $user = new Usuario($nombreUsuario, self::hashPassword($password), $nombre,$email);
         $user->añadeRol($rol);
         return $user->guarda();
     }
@@ -37,7 +39,7 @@ class Usuario
         if ($rs) {
             $fila = $rs->fetch_assoc();
             if ($fila) {
-                $result = new Usuario($fila['nombreUsuario'], $fila['password'], $fila['nombre'], $fila['id']);
+                $result = new Usuario($fila['nombreUsuario'], $fila['password'], $fila['nombre'],$fila['email'], $fila['id_usuario']);
             }
             $rs->free();
         } else {
@@ -55,7 +57,7 @@ class Usuario
         if ($rs) {
             $fila = $rs->fetch_assoc();
             if ($fila) {
-                $result = new Usuario($fila['nombreUsuario'], $fila['password'], $fila['nombre'], $fila['id']);
+                $result = new Usuario($fila['nombreUsuario'], $fila['password'], $fila['nombre'],$fila['email'], $fila['id']);
             }
             $rs->free();
         } else {
@@ -98,9 +100,10 @@ class Usuario
     {
         $result = false;
         $conn = Aplicacion::getInstance()->getConexionBd();
-        $query=sprintf("INSERT INTO Usuarios(nombreUsuario, nombre, password) VALUES ('%s', '%s', '%s')"
+        $query=sprintf("INSERT INTO Usuarios(nombreUsuario,nombre, email, password, fecha_registro) VALUES ('%s', '%s', '%s', '%s', NOW())"
             , $conn->real_escape_string($usuario->nombreUsuario)
             , $conn->real_escape_string($usuario->nombre)
+            , $conn->real_escape_string($usuario->email)
             , $conn->real_escape_string($usuario->password)
         );
         if ( $conn->query($query) ) {
@@ -195,14 +198,17 @@ class Usuario
 
     private $nombre;
 
+    private $email;
+
     private $roles;
 
-    private function __construct($nombreUsuario, $password, $nombre, $id = null, $roles = [])
+    private function __construct($nombreUsuario, $password, $nombre,$email, $id = null, $roles = [])
     {
         $this->id = $id;
         $this->nombreUsuario = $nombreUsuario;
         $this->password = $password;
         $this->nombre = $nombre;
+        $this->email = $email;
         $this->roles = $roles;
     }
 
@@ -224,6 +230,10 @@ class Usuario
     public function añadeRol($role)
     {
         $this->roles[] = $role;
+    }
+    public function getEmail()
+    {
+        return $this->email;
     }
 
     public function getRoles()
