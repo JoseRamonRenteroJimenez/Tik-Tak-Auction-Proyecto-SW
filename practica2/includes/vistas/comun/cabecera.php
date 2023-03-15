@@ -1,7 +1,10 @@
 <?php
 
+
+
 use es\ucm\fdi\aw\Aplicacion;
 use es\ucm\fdi\aw\usuarios\FormularioLogout;
+$app = Aplicacion::getInstance();
 
 function mostrarSaludo()
 {
@@ -25,9 +28,14 @@ function mostrarSaludo()
 }
 
 ?>
+
 <header>
-    <h1>Mi gran página web</h1>
-    <div class="saludo">
-        <?= mostrarSaludo(); ?>
-    </div>
+   
+
+   <li><a href="<?= $app->resuelve('/contenidomiperfil.php')?>">mi perfil</a></li> 
+   <div class="saludo">
+
+     <?= mostrarSaludo(); ?>
+</div>
 </header>
+
