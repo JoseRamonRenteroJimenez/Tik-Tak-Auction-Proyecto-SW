@@ -32,30 +32,46 @@ class Subasta
         }
         return $result;
     }
-
-   /* public static function buscaPorId($idUsuario)
+    public static function listarSubastas($tituloSubasta)
     {
         $conn = Aplicacion::getInstance()->getConexionBd();
-        $query = sprintf("SELECT * FROM Usuarios WHERE id=%d", $idUsuario);
+        $query = sprintf("SELECT * FROM Subastas", $conn->real_escape_string($tituloSubasta));
         $rs = $conn->query($query);
-        $result = false;
+        $subastas = array(); // Creamos un array vacío para almacenar las subastas
         if ($rs) {
-            $fila = $rs->fetch_assoc();
-            if ($fila) {
-                $result = new Usuario($fila['nombreUsuario'], $fila['password'], $fila['nombre'],$fila['email'], $fila['id']);
+            while ($fila = $rs->fetch_assoc()) {
+                $subasta = new Subasta(
+                    $fila['id_usuario'],
+                    $fila['titulo'],
+                    $fila['descripcion'],
+                    $fila['fecha_inicio'],
+                    $fila['fecha_fin'],
+                    $fila['precio_inicial'],
+                    $fila['precio_actual'],
+                    $fila['imagen'],
+                    $fila['categoria'],
+                    $fila['estadoproducto'],
+                    $fila['id_subasta'],
+                    $fila['id_ganador'],
+                    $fila['estado']
+                );
+                $subastas[] = $subasta; // Agregamos la subasta al array
             }
             $rs->free();
         } else {
             error_log("Error BD ({$conn->errno}): {$conn->error}");
         }
-        return $result;
-    }*/
-   
+        return $subastas; // Devolvemos el array de subastas
+    }
+
+
     private static function inserta($subasta)
     {
+        echo($subasta->id_usuario.",".$subasta->titulo .",".$subasta->descripcion .",".$subasta->fecha_inicio.",". $subasta->fecha_fin .",".$subasta->precio_inicial.",". $subasta->precio_actual.",". $subasta->id_ganador .",".$subasta->estado .",".$subasta->imagen .",".$subasta->categoria.",". $subasta->estadoproducto.",". $subasta->obtenerEstadoSubasta($subasta->fecha_inicio,$subasta->fecha_fin));
         $result = false;
         $conn = Aplicacion::getInstance()->getConexionBd();
-        $query=sprintf("INSERT INTO Subastas(id_usuario, titulo, descripcion, fecha_inicio, fecha_fin, precio_inicial, precio_actual, id_ganador, estado, imagen, categoria, estadoproducto) VALUES ('%d', '%s', '%s', '%s','%s', '%f', '%f', '%d','%s', '%s', '%s')"
+        
+        $query=sprintf("INSERT INTO Subastas(id_usuario, titulo, descripcion, fecha_inicio, fecha_fin, precio_inicial, precio_actual, id_ganador, estado, imagen, categoria, estadoproducto) VALUES ('%d', '%s', '%s', '%s','%s', '%f', '%f', NULL,'%s','%s', '%s', '%s')"
             , $subasta->id_usuario
             , $conn->real_escape_string($subasta->titulo)
             , $conn->real_escape_string($subasta->descripcion)
@@ -63,22 +79,20 @@ class Subasta
             , $conn->real_escape_string($subasta->fecha_fin)
             , $subasta->precio_inicial
             , $subasta->precio_actual
-            , $subasta->id_ganador
-            , $conn->real_escape_string($subasta->estado)
+            , $conn->real_escape_string($subasta->obtenerEstadoSubasta($subasta->fecha_inicio,$subasta->fecha_fin))
             , $conn->real_escape_string($subasta->imagen)
             , $conn->real_escape_string($subasta->categoria)
             , $conn->real_escape_string($subasta->estadoproducto)
             
         );
         if ( $conn->query($query) ) {
-            $subasta->id = $conn->insert_id;
+            $subasta->id_subasta = $conn->insert_id;
             $result = $subasta;
         } else {
             error_log("Error BD ({$conn->errno}): {$conn->error}");
         }
         return $result;
     }
-   
     
     private static function actualiza($subasta)
     {
@@ -145,7 +159,7 @@ class Subasta
 
    
 
-    private $id;
+    private $id_subasta;
 
     private $id_usuario;
 
@@ -154,6 +168,8 @@ class Subasta
     private $descripcion;
 
     private $fecha_inicio;
+    
+    private  $fecha_fin;
 
     private $precio_inicial;
 
@@ -169,13 +185,14 @@ class Subasta
 
     private $estadoproducto;
 
-    private function __construct($id_subasta,$id_usuario, $titulo, $descripcion, $fecha_inicio, $fecha_fin, $precio_inicial, $precio_actual, $id_ganador=null, $estado, $imagen, $categoria, $estadoproducto)
+    private function __construct($id_usuario, $titulo, $descripcion, $fecha_inicio, $fecha_fin, $precio_inicial, $precio_actual,$imagen, $categoria, $estadoproducto,$id_subasta = null,$id_ganador = null, $estado = null)
     {
-        $this->id = $id;
+        $this->id_subasta = $id_subasta;
         $this->id_usuario = $id_usuario;
         $this->titulo = $titulo;
         $this->descripcion = $descripcion;
         $this->fecha_inicio = $fecha_inicio;
+        $this->fecha_fin = $fecha_fin;
         $this->precio_inicial = $precio_inicial;
         $this->precio_actual = $precio_actual;
         $this->id_ganador = $id_ganador;
@@ -184,8 +201,8 @@ class Subasta
         $this->categoria = $categoria;
         $this->estadoproducto = $estadoproducto;
     }
-   public function getId() {
-        return $this->id;
+   public function getIdSubasta() {
+        return $this->id_subasta;
     }
 
     public function getIdUsuario() {
@@ -203,7 +220,9 @@ class Subasta
     public function getFechaInicio() {
         return $this->fecha_inicio;
     }
-
+    public function getFechaFin() {
+        return $this->fecha_fin;
+    }
     public function getPrecioInicial() {
         return $this->precio_inicial;
     }
@@ -234,7 +253,7 @@ class Subasta
 
     public function guarda()
     {
-        if ($this->id !== null) {
+        if ($this->id_subasta !== null) {
             return self::actualiza($this);
         }
         return self::inserta($this);
@@ -242,7 +261,7 @@ class Subasta
     
     public function borrate()
     {
-        if ($this->id !== null) {
+        if ($this->id_subasta !== null) {
             return self::borra($this);
         }
         return false;

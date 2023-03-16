@@ -1,11 +1,10 @@
-
-
-
+<!DOCTYPE html>
+<html lang="es">
 <?php
-/*
-use Archivos_GIT\practica2\includes\src;
-use Archivos_GIT\practica2\includes\src\usuarios;
-use Archivos_GIT\practica2\includes\src\aplicacion.php;
+
+use es\ucm\fdi\aw\Aplicacion;
+use es\ucm\fdi\aw\usuarios\FormularioLogout;
+
 function mostrarSaludo()
 {
     $html = '';
@@ -26,7 +25,7 @@ function mostrarSaludo()
 
     return $html;
 }
-*/?>
+?>
 
 <html>
 <head><title>Cabecera</title></head>
@@ -36,6 +35,8 @@ function mostrarSaludo()
 	<div class="CabeceraSuperior">	
 	<!-- Aqui llamariamos a la funcion mostrar saludo-->
 	<!-- Hacer que justo esto de abajo se muestre solo cuando estas registrado-->
+	<?= mostrarSaludo(); ?>
+	<a href="contenidomiperfil.php">mi perfil</a>
 	<select>
 			  <option value="">Mi tik tak</option>
 			  <optgroup label="Opciones principales">
@@ -47,10 +48,11 @@ function mostrarSaludo()
 				<option value="opcion4">Opción 4</option>
 				<option value="opcion5">Opción 5</option>
 			  </optgroup>
-		</select> 		
+		</select>
+		<a href="ruta_notificaciones"><img src="\Archivos_GIT\practica2\includes\vistas\imagenes\campana.png" width="20"></img></a>
+		<a href="ruta o despegable_de_carrito"><img src="\Archivos_GIT\practica2\includes\vistas\imagenes\carrito.png" width="20"></img></a>	
 	</div>
-<a href="ruta_notificaciones"><img src="\Archivos_GIT\practica2\includes\vistas\imagenes\campana.png" width="20"></img></a>
-<a href="ruta o despegable_de_carrito"><img src="\Archivos_GIT\practica2\includes\vistas\imagenes\carrito.png" width="20"></img></a>
+	
     <div class="CabeceraInferior">		
 		<div class="Imagen">			
 		<img src="\Archivos_GIT\practica2\includes\vistas\imagenes\logotiktak.jpg" width="50"><p>Tik Tak auction</p>

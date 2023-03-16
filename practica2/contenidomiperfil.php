@@ -20,6 +20,7 @@ if ($app->tieneRol(es\ucm\fdi\aw\usuarios\Usuario::USER_ROLE)||$app->tieneRol(es
    
     </div>
     <a href="{$addsubastaUrl}">subir subasta</a>
+    <a href="{$addsubastaUrl}">ver subastas</a>
   EOS;
 } else {
   $contenidoPrincipal=<<<EOS
