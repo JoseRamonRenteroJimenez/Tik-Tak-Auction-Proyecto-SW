@@ -2,8 +2,11 @@
 <html lang="es">
 <?php
 
+
+
 use es\ucm\fdi\aw\Aplicacion;
 use es\ucm\fdi\aw\usuarios\FormularioLogout;
+$app = Aplicacion::getInstance();
 
 function mostrarSaludo()
 {
@@ -27,6 +30,7 @@ function mostrarSaludo()
 }
 ?>
 
+<<<<<<< HEAD
 <html>
 <head><title>Cabecera</title></head>
 <body>
@@ -79,3 +83,15 @@ function mostrarSaludo()
 </header>
 </body>
 </html>
+=======
+<header>
+   
+
+   <li><a href="<?= $app->resuelve('/contenidomiperfil.php')?>">mi perfil</a></li> 
+   <div class="saludo">
+
+     <?= mostrarSaludo(); ?>
+</div>
+</header>
+
+>>>>>>> origin/alberto-branch

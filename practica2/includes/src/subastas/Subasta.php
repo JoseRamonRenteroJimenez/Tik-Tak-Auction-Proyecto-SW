@@ -19,7 +19,7 @@ class Subasta
     public static function buscaSubasta($tituloSubasta)
     {
         $conn = Aplicacion::getInstance()->getConexionBd();
-        $query = sprintf("SELECT * FROM Subastas S WHERE S.titulo LIKE %'%s'%", $conn->real_escape_string($tituloSubasta));
+        $query = sprintf("SELECT * FROM Subastas S ", $conn->real_escape_string($tituloSubasta));
         $rs = $conn->query($query);
         $result = false;
         if ($rs) {
@@ -30,8 +30,13 @@ class Subasta
         } else {
             error_log("Error BD ({$conn->errno}): {$conn->error}");
         }
+       
         return $result;
     }
+<<<<<<< HEAD
+    public static function listarSubastas($tituloSubasta)
+=======
+
     public static function listarSubastas($tituloSubasta)
     {
         $conn = Aplicacion::getInstance()->getConexionBd();
@@ -64,10 +69,62 @@ class Subasta
         return $subastas; // Devolvemos el array de subastas
     }
 
+   /* public static function buscaPorId($idUsuario)
+>>>>>>> origin/alberto-branch
+    {
+        $conn = Aplicacion::getInstance()->getConexionBd();
+        $query = sprintf("SELECT * FROM Subastas", $conn->real_escape_string($tituloSubasta));
+        $rs = $conn->query($query);
+        $subastas = array(); // Creamos un array vacío para almacenar las subastas
+        if ($rs) {
+            while ($fila = $rs->fetch_assoc()) {
+                $subasta = new Subasta(
+                    $fila['id_usuario'],
+                    $fila['titulo'],
+                    $fila['descripcion'],
+                    $fila['fecha_inicio'],
+                    $fila['fecha_fin'],
+                    $fila['precio_inicial'],
+                    $fila['precio_actual'],
+                    $fila['imagen'],
+                    $fila['categoria'],
+                    $fila['estadoproducto'],
+                    $fila['id_subasta'],
+                    $fila['id_ganador'],
+                    $fila['estado']
+                );
+                $subastas[] = $subasta; // Agregamos la subasta al array
+            }
+            $rs->free();
+        } else {
+            error_log("Error BD ({$conn->errno}): {$conn->error}");
+        }
+<<<<<<< HEAD
+        return $subastas; // Devolvemos el array de subastas
+    }
+
 
     private static function inserta($subasta)
     {
         echo($subasta->id_usuario.",".$subasta->titulo .",".$subasta->descripcion .",".$subasta->fecha_inicio.",". $subasta->fecha_fin .",".$subasta->precio_inicial.",". $subasta->precio_actual.",". $subasta->id_ganador .",".$subasta->estado .",".$subasta->imagen .",".$subasta->categoria.",". $subasta->estadoproducto.",". $subasta->obtenerEstadoSubasta($subasta->fecha_inicio,$subasta->fecha_fin));
+=======
+        return $result;
+    }*/
+    function obtenerEstadoSubasta($fechaInicio, $fechaFin) {
+        $fechaActual = date('Y-m-d H:i:s');
+        
+        if ($fechaInicio > $fechaActual) {
+            return 'borrador';
+        } else if ($fechaInicio <= $fechaActual && $fechaActual <= $fechaFin) {
+            return 'activa';
+        } else {
+            return 'cerrada';
+        }
+    }
+    private static function inserta($subasta)
+    {
+      //  echo($subasta->id_usuario.",".$subasta->titulo .",".$subasta->descripcion .",".$subasta->fecha_inicio.",". $subasta->fecha_fin .",".$subasta->precio_inicial.",". $subasta->precio_actual.",". $subasta->id_ganador .",".$subasta->estado .",".$subasta->imagen .",".$subasta->categoria.",". $subasta->estadoproducto.",". $subasta->obtenerEstadoSubasta($subasta->fecha_inicio,$subasta->fecha_fin));
+>>>>>>> origin/alberto-branch
         $result = false;
         $conn = Aplicacion::getInstance()->getConexionBd();
         
