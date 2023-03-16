@@ -31,7 +31,6 @@ function mostrarSaludo()
 
 <header>
    
-
    <li><a href="<?= $app->resuelve('/contenidomiperfil.php?ventas=ventas')?>">mi perfil</a></li> 
    <div class="saludo">
 

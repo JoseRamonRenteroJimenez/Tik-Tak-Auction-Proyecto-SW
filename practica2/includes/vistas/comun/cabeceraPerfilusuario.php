@@ -24,14 +24,12 @@ function mostrarUsername()
 
 ?>
 
-
 <h1>Vista general de subastas en Mi tiktak </h1>
     <div>
     <a href="{$actividad}">Actividad</a>
     <a href="{$mensajes}">Mensajes</a>
     <a href="{$notificaciones}">Notificaciones</a>
    <div class="saludo">
-
      <?= mostrarUsername(); ?>
 </div>
 </div>

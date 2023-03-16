@@ -130,7 +130,7 @@ EOF;
     
    }
     
-
+   $html .= "</table>";
     return $html;
 }
 function visualizaSubasta($subasta)
@@ -143,6 +143,7 @@ function visualizaSubasta($subasta)
 
     
     $html = <<<EOF
+                         
                     <td>{$subasta->getTitulo()}</td>
                     <td>{$subasta->getDescripcion()}</td>
                     <td>{$subasta->getFechaInicio()}</td>
@@ -163,7 +164,7 @@ function visualizaSubasta($subasta)
                 </tr>
             EOF;
         
-        $html .= "</table>";
+        
         return $html;  
 }
 ?>

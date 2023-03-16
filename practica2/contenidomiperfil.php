@@ -8,9 +8,7 @@ $contenido='ventas';
 if ($app->tieneRol(es\ucm\fdi\aw\usuarios\Usuario::USER_ROLE)||$app->tieneRol(es\ucm\fdi\aw\usuarios\Usuario::BUSSINES_ROLE)) {
     
     $addsubastaUrl = $app->resuelve('/addSubasta.php');
-    $mensajes = $app->resuelve('/chat.php');
-    $actividad = $app->resuelve('/actividadPerfil.php');
-    $notificaciones = $app->resuelve('/listaNotificaciones.php');
+    
   $contenidoPrincipal=<<<EOS
 
                             <div>
