@@ -49,7 +49,7 @@ class ListadoSubastas extends Formulario
             </select>
             $erroresCampos[Relevancia]
             <div >
-                <button type="submit" name="subasta">Crear
+                <button type="submit" name="subasta">Ver
             <div>
         </form>
         EOF;
