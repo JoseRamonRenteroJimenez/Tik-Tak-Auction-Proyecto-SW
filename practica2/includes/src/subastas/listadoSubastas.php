@@ -104,15 +104,32 @@ function listasubastas($busqueda)
     $subastas = Subasta::listarSubastas($busqueda);
     
 
-    $html = '<ul>';
+ 
+    $html = <<<EOF
+    <table>
+        <tr>
+            <th>Titulo</th>
+            <th>Descripcion</th>
+            <th>Fecha de inicio</th>
+            <th>Fecha de fin</th>
+            <th>Precio inicial</th>
+            <th>Precio actual</th>
+            <th>ID ganador</th>
+            <th>Estado</th>
+            <th>Imagen</th>
+            <th>Categoria</th>
+            <th>Eliminar</th>
+        </tr>
+EOF;
+
    foreach($subastas as $subasta) {
-        $html .= '<li>';
+      
         $html .= visualizaSubasta($subasta);
       // echo($subasta);
         
-        $html .= '</li>';
+    
    }
-    $html .= '</ul>';
+    
 
     return $html;
 }
@@ -125,9 +142,28 @@ function visualizaSubasta($subasta)
     // echo($subasta->id_usuario.",".$subasta->titulo .",".$subasta->descripcion .",".$subasta->fecha_inicio.",". $subasta->fecha_fin .",".$subasta->precio_inicial.",". $subasta->precio_actual.",". $subasta->id_ganador .",".$subasta->estado .",".$subasta->imagen .",".$subasta->categoria.",". $subasta->estadoproducto.",". $subasta->obtenerEstadoSubasta($subasta->fecha_inicio,$subasta->fecha_fin));
 
     
-    
-    return <<<EOS
-            <p>$subasta->idsubasta $subasta->idusuario $subasta->titulo $subasta->descripcion $subasta->fechainicio $subasta->fechafin $subasta->precioinicial $subasta->precioactual $subasta->idganador $subasta->estado $subasta->imagen $subasta->categoria $subasta->estadoproducto </p>
-    EOS;
+    $html = <<<EOF
+                    <td>{$subasta->getTitulo()}</td>
+                    <td>{$subasta->getDescripcion()}</td>
+                    <td>{$subasta->getFechaInicio()}</td>
+                    <td>{$subasta->getFechaFin()}</td>
+                    <td>{$subasta->getPrecioInicial()}</td>
+                    <td>{$subasta->getPrecioActual()}</td>
+                    <td>{$subasta->getIdGanador()}</td>
+                    <td>{$subasta->getEstado()}</td>
+                    <td>{$subasta->getImagen()}</td>
+                    <td>{$subasta->getCategoria()}</td>
+                    <td>
+                        <form method="POST" action="includes/src/subastas/borrarSubastas.php">
+                            <input type="hidden" name="borrar" value="borrarSubasta">
+                            <input type="hidden" name="parametro" value="{$subasta->getIdSubasta()}">
+                            <button type="submit">Borrar</button>
+                        </form>
+                    </td>
+                </tr>
+            EOF;
+        
+        $html .= "</table>";
+        return $html;  
 }
 ?>
