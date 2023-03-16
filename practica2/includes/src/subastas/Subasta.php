@@ -16,16 +16,15 @@ class Subasta
         return $subasta->guarda();
     }
     //He puesto el metodo creaObjetoSubasta para cuando necesitamos crear un objeto subasta pero no guardarlo en la base de datos, hace falta para el select por ejemplo
-    public static function creaObjetoSubasta($id_usuario, $titulo, $descripcion, $fecha_inicio, $fecha_fin, $precio_inicial, $precio_actual, $imagen, $categoria, $estadoproducto)
+    public static function creaObjetoSubasta($id_subasta,$id_usuario, $titulo, $descripcion, $fecha_inicio, $fecha_fin, $precio_inicial, $precio_actual, $imagen, $categoria, $estadoproducto)
     {
         $subasta = new subasta($id_usuario, $titulo, $descripcion, $fecha_inicio, $fecha_fin, $precio_inicial, $precio_actual, $imagen, $categoria, $estadoproducto);
         return $subasta;
     }
-
-    public static function buscaSubasta($tituloSubasta)
+    public static function buscaSubasta($idSubasta)
     {
         $conn = Aplicacion::getInstance()->getConexionBd();
-        $query = sprintf("SELECT * FROM Subastas S ", $conn->real_escape_string($tituloSubasta));
+        $query = sprintf("SELECT * FROM Subastas WHERE id_subasta = '%d'", $conn->real_escape_string($idSubasta));
         $rs = $conn->query($query);
         $result = false;
         if ($rs) {
@@ -173,7 +172,7 @@ class Subasta
       
     private static function borra($subasta)
     {
-        return self::borraPorId($subasta->id);
+        return self::borraPorId($subasta->id_subasta);
     }
     
     private static function borraPorId($idSubasta)
@@ -183,9 +182,7 @@ class Subasta
         } 
        
         $conn = Aplicacion::getInstance()->getConexionBd();
-        $query = sprintf("DELETE FROM Subastas S WHERE S.id = %d"
-            , $idSubasta
-        );
+        $query = sprintf("DELETE FROM Subastas WHERE id_subasta = '%d'", $conn->real_escape_string($idSubasta));
         if ( ! $conn->query($query) ) {
             error_log("Error BD ({$conn->errno}): {$conn->error}");
             return false;

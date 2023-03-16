@@ -2,16 +2,16 @@
 
 require_once __DIR__.'/includes/config.php';
 
-$ListadoSubastas = new \es\ucm\fdi\aw\subastas\ListadoSubastas();
-$ListadoSubastas = $ListadoSubastas->gestiona();
+$borrarSubastas = new \es\ucm\fdi\aw\subastas\borrarSubastas();
+$borrarSubastas = $borrarSubastas->gestiona();
 
  
 $tituloPagina = 'Registro';
 $contenidoPrincipal=<<<EOF
   	<h1>Listado de subasta</h1>
-      $ListadoSubastas
+      $borrarSubastas
     
 EOF;
 
 $params = ['tituloPagina' => $tituloPagina, 'contenidoPrincipal' => $contenidoPrincipal];
-$app->generaVista('/plantillas/plantilla.php', $params);
+$app->generaVista('/plantillas/plantillaBorrado.php', $params);

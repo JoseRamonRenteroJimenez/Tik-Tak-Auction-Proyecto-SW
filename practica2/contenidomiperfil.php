@@ -10,6 +10,7 @@ if ($app->tieneRol(es\ucm\fdi\aw\usuarios\Usuario::USER_ROLE)||$app->tieneRol(es
     
     $addsubastaUrl = $app->resuelve('/addSubasta.php');
     $listarsubastaUrl = $app->resuelve('/verSubastas.php');
+    $borrarsubastaUrl = $app->resuelve('/vistaBorrarSubastas.php');
        
 
   $contenidoPrincipal=<<<EOS
@@ -22,7 +23,7 @@ if ($app->tieneRol(es\ucm\fdi\aw\usuarios\Usuario::USER_ROLE)||$app->tieneRol(es
     </div>
     <a href="{$addsubastaUrl}">subir subasta</a>
     <a href="{$listarsubastaUrl}">ver subastas</a>
-    <a href="{$listarsubastaUrl}">eliminar subastas</a>
+    <a href="{$borrarsubastaUrl}">eliminar subastas</a>
   EOS;
 } else {
   $contenidoPrincipal=<<<EOS
