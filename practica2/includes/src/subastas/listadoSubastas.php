@@ -97,21 +97,21 @@ class ListadoSubastas extends Formulario
     }
 }
 
-function listasubastas()
+function listasubastas($busqueda)
 {
-    $subasta = Subasta::buscaSubasta("e");
-    /*if (count($subasta) == 0) {
-        return '';
-    }*/
+   
+    
+    $subastas = Subasta::listarSubastas($busqueda);
+    
 
     $html = '<ul>';
-   //foreach($subasta as $subasta) {
+   foreach($subastas as $subasta) {
         $html .= '<li>';
         $html .= visualizaSubasta($subasta);
       // echo($subasta);
         
         $html .= '</li>';
-  // }
+   }
     $html .= '</ul>';
 
     return $html;
@@ -127,7 +127,7 @@ function visualizaSubasta($subasta)
     
     
     return <<<EOS
-            <p>$subasta->descripcion $subasta->titulo </p>
+            <p>$subasta->idsubasta $subasta->idusuario $subasta->titulo $subasta->descripcion $subasta->fechainicio $subasta->fechafin $subasta->precioinicial $subasta->precioactual $subasta->idganador $subasta->estado $subasta->imagen $subasta->categoria $subasta->estadoproducto </p>
     EOS;
 }
 ?>

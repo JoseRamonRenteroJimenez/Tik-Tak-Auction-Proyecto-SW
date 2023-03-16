@@ -4,27 +4,26 @@ require_once __DIR__.'/includes/src/subastas/listadoSubastas.php';
 
 $tituloPagina = 'Mi perfil';
 $contenidoPrincipal='';
-
+$contenido='ventas';
 if ($app->tieneRol(es\ucm\fdi\aw\usuarios\Usuario::USER_ROLE)||$app->tieneRol(es\ucm\fdi\aw\usuarios\Usuario::BUSSINES_ROLE)) {
     
     $addsubastaUrl = $app->resuelve('/addSubasta.php');
     $mensajes = $app->resuelve('/chat.php');
     $actividad = $app->resuelve('/actividadPerfil.php');
     $notificaciones = $app->resuelve('/listaNotificaciones.php');
-    $listarsubastas = new \es\ucm\fdi\aw\subastas\listadoSubastas();
-    $listarsubastas = $listarsubastas->gestiona();   
-
   $contenidoPrincipal=<<<EOS
 
                             <div>
                           
                             <a href="{$addsubastaUrl}">subir subasta</a>
-                            $listarsubastas
+                            
                             </div>
 
     
   EOS;
-  $contenidoPrincipal .= \es\ucm\fdi\aw\subastas\listasubastas();
+
+
+$contenidoPrincipal .= \es\ucm\fdi\aw\subastas\listasubastas($_GET["ventas"]);
  
 } else {
   $contenidoPrincipal=<<<EOS

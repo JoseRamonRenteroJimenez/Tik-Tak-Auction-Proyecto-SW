@@ -11,11 +11,11 @@ $app = Aplicacion::getInstance();
 		<li><a href="<?= $app->resuelve('/guardadosPerfil.php')?>">Guardados</a></li>
         <li><a href="<?= $app->resuelve('/ventasPerfil.php')?>">Ventas</a>
 		<ul>
-		<li><a href="<?= $app->resuelve('/ventasPerfil.php')?>">Vista general</a></li>
-		<li><a href="<?= $app->resuelve('/ventasPerfil.php')?>">Borradores</a></li>
-		<li><a href="<?= $app->resuelve('/ventasPerfil.php')?>">Programados</a></li>
-		<li><a href="<?= $app->resuelve('/ventasPerfil.php')?>">Activos</a></li>
-		<li><a href="<?= $app->resuelve('/ventasPerfil.php')?>">Vendidos</a></li>
+		<li><a href="<?= $app->resuelve('/contenidomiperfil.php?ventas=ventas')?>">Vista general</a></li> 
+		<li><a href="<?= $app->resuelve('/contenidomiperfil.php?ventas=borrador')?>">Borradores</a></li>
+		<li><a href="<?= $app->resuelve('/contenidomiperfil.php?ventas=programado')?>">Programados</a></li>
+		<li><a href="<?= $app->resuelve('/contenidomiperfil.php?ventas=activo')?>">Activos</a></li>
+		<li><a href="<?= $app->resuelve('/contenidomiperfil.php?ventas=cerrada')?>">Vendidos</a></li>
 		</ul>
 	</li>
 		
