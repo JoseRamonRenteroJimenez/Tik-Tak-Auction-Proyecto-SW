@@ -21,9 +21,10 @@ class ListadoSubastas extends Formulario
         $htmlErroresGlobales = self::generaListaErroresGlobales($this->errores);
         $erroresCampos = self::generaErroresCampos(['TipoSubasta', 'Estado', 'Relevancia'], $this->errores, 'span', array('class' => 'error'));
 
+        //Creamos aqui la parte fija del codigo HTML
         $html = <<<EOF
         $htmlErroresGlobales
-        //Creamos aqui la parte fija del codigo HTML
+        
         <form method="post">
             <p>Todas</p>
             <select name="TipoSubasta" value="$tipo">
@@ -33,6 +34,7 @@ class ListadoSubastas extends Formulario
                 </optgroup>
             </select>
             $erroresCampos[TipoSubasta]
+
             <select name="Estado" value="$estado">
                 <option>Estado</option>
                 <optgroup>
@@ -48,6 +50,9 @@ class ListadoSubastas extends Formulario
                 </optgroup>
             </select>
             $erroresCampos[Relevancia]
+            <div >
+                <button type="submit" name="subasta">Ver
+            <div>
         </form>
         EOF;
         return $html;
@@ -68,8 +73,8 @@ class ListadoSubastas extends Formulario
         
       
         $subastas = array(); // Declarar $subastas como un array vacío
-        $resultados = Subasta::buscaSubasta("");
-        echo ($resultados.getEstado());
+        $resultados = Subasta::listarSubastas("");
+        
         // Agregar cada objeto Subasta devuelto por el método al array $subastas
         foreach ($resultados as $fila) {
             $subasta = new Subasta($fila['id_usuario'], $fila['titulo'], $fila['descripcion'], $fila['fecha_inicio'], $fila['fecha_fin'], $fila['precio_inicial'], $fila['precio_actual'], $fila['imagen'], $fila['categoria'], $fila['estadoproducto'], $fila['id_subasta'], $fila['id_ganador'], $fila['estado']);
@@ -94,39 +99,5 @@ class ListadoSubastas extends Formulario
         }
         echo "</table>";      
     }
-}
-
-function listasubastas()
-{
-    $subasta = Subasta::buscaSubasta("e");
-    /*if (count($subasta) == 0) {
-        return '';
-    }*/
-
-    $html = '<ul>';
-   //foreach($subasta as $subasta) {
-        $html .= '<li>';
-        $html .= visualizaSubasta($subasta);
-      // echo($subasta);
-        
-        $html .= '</li>';
-  // }
-    $html .= '</ul>';
-
-    return $html;
-}
-function visualizaSubasta($subasta)
-{
-    /*$verURL = Utils::buildUrl('mensajes/mensajes.php', [
-        'id' => $subasta->id
-    ]);*/
-    //echo($subasta);
-    // echo($subasta->id_usuario.",".$subasta->titulo .",".$subasta->descripcion .",".$subasta->fecha_inicio.",". $subasta->fecha_fin .",".$subasta->precio_inicial.",". $subasta->precio_actual.",". $subasta->id_ganador .",".$subasta->estado .",".$subasta->imagen .",".$subasta->categoria.",". $subasta->estadoproducto.",". $subasta->obtenerEstadoSubasta($subasta->fecha_inicio,$subasta->fecha_fin));
-
-    
-    
-    return <<<EOS
-            <p>$subasta->descripcion $subasta->titulo </p>
-    EOS;
 }
 ?>
