@@ -9,7 +9,7 @@ if ($app->tieneRol(es\ucm\fdi\aw\usuarios\Usuario::USER_ROLE)||$app->tieneRol(es
     $formLogin = $formLogin->gestiona();
     
     $addsubastaUrl = $app->resuelve('/addSubasta.php');
-       
+    $listsubastaUrl = $app->resuelve('/verSubastas.php');
 
   $contenidoPrincipal=<<<EOS
     <h1>Vista general de subastas en Mi tiktak </h1>
@@ -20,7 +20,7 @@ if ($app->tieneRol(es\ucm\fdi\aw\usuarios\Usuario::USER_ROLE)||$app->tieneRol(es
    
     </div>
     <a href="{$addsubastaUrl}">subir subasta</a>
-    <a href="{$addsubastaUrl}">ver subastas</a>
+    <a href="{$listsubastaUrl}">ver subastas</a>
   EOS;
 } else {
   $contenidoPrincipal=<<<EOS

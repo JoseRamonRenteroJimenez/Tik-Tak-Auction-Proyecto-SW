@@ -21,9 +21,10 @@ class ListadoSubastas extends Formulario
         $htmlErroresGlobales = self::generaListaErroresGlobales($this->errores);
         $erroresCampos = self::generaErroresCampos(['TipoSubasta', 'Estado', 'Relevancia'], $this->errores, 'span', array('class' => 'error'));
 
+        //Creamos aqui la parte fija del codigo HTML
         $html = <<<EOF
         $htmlErroresGlobales
-        //Creamos aqui la parte fija del codigo HTML
+        
         <form method="post">
             <p>Todas</p>
             <select name="TipoSubasta" value="$tipo">
@@ -49,6 +50,9 @@ class ListadoSubastas extends Formulario
                 </optgroup>
             </select>
             $erroresCampos[Relevancia]
+            <div >
+                <button type="submit" name="subasta">Ver
+            <div>
         </form>
         EOF;
         return $html;
