@@ -128,7 +128,7 @@ class FormularioObjeto extends Formulario
                 
                 $app = Aplicacion::getInstance();
                 $idUsuario = $app->idUsuario();
-                echo( $idUsuario." " . $titulo." " . $descripcion." " . $fechaInicio." " . $fechaFin." " .$imagen." ". $precioInicial." " . $precioInicial." " . $categoria." " . $estadoproducto);
+              
                 $subasta = Subasta::crea($idUsuario, $titulo, $descripcion, $fechaInicio, $fechaFin, $precioInicial, $precioInicial,$imagen, $categoria, $estadoproducto);
                
             
