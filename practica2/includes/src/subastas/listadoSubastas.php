@@ -33,7 +33,6 @@ class ListadoSubastas extends Formulario
                 </optgroup>
             </select>
             $erroresCampos[TipoSubasta]
-
             <select name="Estado" value="$estado">
                 <option>Estado</option>
                 <optgroup>
