@@ -21,9 +21,9 @@ if ($app->tieneRol(es\ucm\fdi\aw\usuarios\Usuario::USER_ROLE)||$app->tieneRol(es
 
     
   EOS;
+  $contenido=$_GET["ventas"];
 
-
-$contenidoPrincipal .= \es\ucm\fdi\aw\subastas\listasubastas($_GET["ventas"]);
+$contenidoPrincipal .= \es\ucm\fdi\aw\subastas\listasubastas($contenido);
  
 } else {
   $contenidoPrincipal=<<<EOS
