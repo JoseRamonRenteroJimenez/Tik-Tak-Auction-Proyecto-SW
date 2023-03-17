@@ -15,7 +15,11 @@ class Subasta
         $subasta = new subasta($idusuario, $titulo, $descripcion, $fechainicio, $fechafin, $precioinicial, $precioactual, $imagen, $categoria, $estadoproducto);
         return $subasta->guarda();
     }
-
+    public static function actualizaSubasta($idSubasta,$idusuario, $titulo, $descripcion, $fechainicio, $fechafin, $precioinicial, $precioactual, $imagen, $categoria, $estadoproducto)
+    {
+        $subasta = new subasta($idusuario, $titulo, $descripcion, $fechainicio, $fechafin, $precioinicial, $precioactual, $imagen, $categoria, $estadoproducto,$idSubasta);
+        return $subasta->guarda();
+    }
     public static function buscaSubasta($tituloSubasta)
     {
         $conn = Aplicacion::getInstance()->getConexionBd();
@@ -192,7 +196,7 @@ class Subasta
         $conn->real_escape_string($subasta->imagen),
         $conn->real_escape_string($subasta->categoria),
         $conn->real_escape_string($subasta->estadoproducto),
-        $subasta->id
+        $subasta->idSubasta
     );
         if ( $conn->query($query) ) {
             $result = $subasta;
