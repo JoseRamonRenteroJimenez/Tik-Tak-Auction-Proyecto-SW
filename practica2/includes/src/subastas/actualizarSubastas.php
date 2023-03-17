@@ -5,7 +5,7 @@ use es\ucm\fdi\aw\Aplicacion;
 use es\ucm\fdi\aw\Formulario;
 
 
-class borrarSubastas extends Formulario
+class actualizarSubastas extends Formulario
 {
     public function __construct() {     
         parent::__construct('formObjeto', ['urlRedireccion']);
@@ -14,7 +14,7 @@ class borrarSubastas extends Formulario
     
     public function generaCamposFormulario(&$datos)
     {
-        $resultadoTablaSubastas = ListadoSubastas::prueba("ventas");
+        $resultadoTablaSubastas = ListadoSubastas::listadoActualizar("ventas");
         //Creamos aqui la parte fija del codigo HTML
         $html = <<<EOF
         <fieldset>
@@ -30,6 +30,17 @@ class borrarSubastas extends Formulario
     {
        
         if(isset($_POST['borrar']) && $_POST['borrar'] === 'borrarSubasta') {
+            $idSubasta = $_POST['parametro'];
+            $subasta = Subasta::buscaPorId($idSubasta);
+            if($subasta) {
+                $subasta->borrate();
+                echo "<p>Subasta borrada correctamente.</p>";
+            } else {
+                echo "<p>No se ha encontrado la subasta que se quiere borrar.</p>";
+            }
+        }
+
+        if(isset($_POST['actualizar']) && $_POST['actualizar'] === 'actualizarSubasta') {
             $idSubasta = $_POST['parametro'];
             $subasta = Subasta::buscaPorId($idSubasta);
             if($subasta) {
