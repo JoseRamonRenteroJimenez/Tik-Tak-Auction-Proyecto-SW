@@ -43,6 +43,87 @@ class ListadoSubastas extends Formulario
         return $html;
     }
 
+    static function listadoUnicaSubasta($id){
+        $subasta = Subasta::buscaPorId($id);
+    
+
+ 
+        $html = <<<EOF
+        <table>
+            <tr>
+                <th>Titulo</th>
+                <th>Descripcion</th>
+                <th>Fecha de inicio</th>
+                <th>Fecha de fin</th>
+                <th>Precio inicial</th>
+                <th>Precio actual</th>
+                <th>ID ganador</th>
+                <th>Estado</th>
+                <th>Imagen</th>
+                <th>Categoria</th>
+                <th>pujar</th>
+            </tr> 
+                        <td>{$subasta->getTitulo()}</td>
+                        <td>{$subasta->getDescripcion()}</td>
+                        <td>{$subasta->getFechaInicio()}</td>
+                        <td>{$subasta->getFechaFin()}</td>
+                        <td>{$subasta->getPrecioInicial()}</td>
+                        <td>{$subasta->getPrecioActual()}</td>
+                        <td>{$subasta->getIdGanador()}</td>
+                        <td>{$subasta->getEstado()}</td>
+                        <td>{$subasta->getImagen()}</td>
+                        <td>{$subasta->getCategoria()}</td>
+
+                        <td><form method="POST" action="">
+                          
+                        <textarea name="nuevoprecio">{$subasta->getPrecioActual()}</textarea>
+                        <input type="hidden" name="idsubasta" value="{$subasta->getIdSubasta()}">
+        
+                         <button type="submit" name="subasta">pujar
+                        </form>
+                        </td>
+    EOF;
+    
+
+        
+       $html .= "</table>";
+        return $html;
+    }
+
+
+
+    static function listadoPujar($busqueda){
+        $subastas = Subasta::listarSubastas($busqueda);
+    
+
+ 
+        $html = <<<EOF
+        <table>
+            <tr>
+                <th>Titulo</th>
+                <th>Descripcion</th>
+                <th>Fecha de inicio</th>
+                <th>Fecha de fin</th>
+                <th>Precio inicial</th>
+                <th>Precio actual</th>
+                <th>ID ganador</th>
+                <th>Estado</th>
+                <th>Imagen</th>
+                <th>Categoria</th>
+                <th>pujar</th>
+            </tr>
+    EOF;
+    
+       foreach($subastas as $subasta) {
+          
+            $html .= visualizaSubastaPujar($subasta);
+          // echo($subasta);
+       }
+        
+       $html .= "</table>";
+        return $html;
+    }
+
     protected function generaCamposFormulario(&$datos)
     {
        
@@ -184,7 +265,32 @@ function visualizaSubasta($subasta)
         
         return $html;  
 }
+function visualizaSubastaPujar($subasta)
+{
+  
+    $html = <<<EOF
+                         
+                    <td>{$subasta->getTitulo()}</td>
+                    <td>{$subasta->getDescripcion()}</td>
+                    <td>{$subasta->getFechaInicio()}</td>
+                    <td>{$subasta->getFechaFin()}</td>
+                    <td>{$subasta->getPrecioInicial()}</td>
+                    <td>{$subasta->getPrecioActual()}</td>
+                    <td>{$subasta->getIdGanador()}</td>
+                    <td>{$subasta->getEstado()}</td>
+                    <td>{$subasta->getImagen()}</td>
+                    <td>{$subasta->getCategoria()}</td>
 
+                    <form method="POST" action="/sw/practica2/vistaUnicaSubasta.php">
+                    <input type="hidden" name="idsubasta" value="{$subasta->getIdSubasta()}">
+                    <td><button type="submit" name="subasta">pujar</td>
+                     </form>
+                </tr>
+            EOF;
+        
+        
+        return $html;  
+}
 function visualizaSubastaActualizar($subasta)
 {
     
@@ -212,7 +318,9 @@ function visualizaSubastaActualizar($subasta)
                     
                         <form method="POST" action="addSubasta.php">
                             <input type="hidden" name="actualizar" value="actualizarSubasta">
-                            <input type="hidden" name="parametro" value="{$subasta->getIdSubasta()}">
+                            <input type="hidden" name="idsubasta" value="{$subasta->getIdSubasta()}">
+                            <input type="hidden" name="precioactual" value="{$subasta->getPrecioActual()}">
+                            <input type="hidden" name="idganador" value="{$subasta->getIdGanador()}">
                             <button type="submit">Actualizar</button>
                         </form>
                     </td>

@@ -15,9 +15,9 @@ class Subasta
         $subasta = new subasta($idusuario, $titulo, $descripcion, $fechainicio, $fechafin, $precioinicial, $precioactual, $imagen, $categoria, $estadoproducto);
         return $subasta->guarda();
     }
-    public static function actualizaSubasta($idSubasta,$idusuario, $titulo, $descripcion, $fechainicio, $fechafin, $precioinicial, $precioactual, $imagen, $categoria, $estadoproducto)
+    public static function actualizaSubasta($idSubasta,$idusuario, $titulo, $descripcion, $fechainicio, $fechafin, $precioinicial, $precioactual, $imagen, $categoria, $estadoproducto,$idganador=null)
     {
-        $subasta = new subasta($idusuario, $titulo, $descripcion, $fechainicio, $fechafin, $precioinicial, $precioactual, $imagen, $categoria, $estadoproducto,$idSubasta);
+        $subasta = new subasta($idusuario, $titulo, $descripcion, $fechainicio, $fechafin, $precioinicial, $precioactual, $imagen, $categoria, $estadoproducto,$idSubasta,$idganador);
         return $subasta->guarda();
     }
     public static function buscaSubasta($tituloSubasta)
@@ -80,6 +80,9 @@ class Subasta
             //listado de subastas cerradas 
             $query = sprintf("SELECT * FROM Subastas S WHERE S.estado= '%s'", $conn->real_escape_string($busqueda));
 
+        }else{
+            $query = sprintf("SELECT * FROM Subastas");
+            //$query = sprintf("SELECT * FROM Subastas WHERE Subastas.titulo LIKE %'%s'%",$conn->real_escape_string($busqueda));
         }
        // $query = sprintf("SELECT * FROM Subastas", $conn->real_escape_string($tituloSubasta));
         $rs = $conn->query($query);
