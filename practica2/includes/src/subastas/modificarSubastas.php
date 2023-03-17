@@ -5,7 +5,7 @@ use es\ucm\fdi\aw\Aplicacion;
 use es\ucm\fdi\aw\Formulario;
 
 
-class actualizarSubastas extends Formulario
+class modificarSubastas extends Formulario
 {
     public function __construct() {     
         parent::__construct('formObjeto', ['urlRedireccion']);

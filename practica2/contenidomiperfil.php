@@ -8,14 +8,14 @@ $contenido='ventas';
 if ($app->tieneRol(es\ucm\fdi\aw\usuarios\Usuario::USER_ROLE)||$app->tieneRol(es\ucm\fdi\aw\usuarios\Usuario::BUSSINES_ROLE)) {
     
     $addsubastaUrl = $app->resuelve('/addSubasta.php');
-    $actualizarsubastaUrl = $app->resuelve('/vistaActualizarSubastas.php');
+    $modificarsubastaUrl = $app->resuelve('/vistaModificarSubastas.php');
     
   $contenidoPrincipal=<<<EOS
 
                             <div>
                           
                             <a href="{$addsubastaUrl}">subir subasta</a>
-                            <a href="{$actualizarsubastaUrl}">borrar subasta</a>
+                            <a href="{$modificarsubastaUrl}">borrar subasta</a>
                             </div>
 
     
