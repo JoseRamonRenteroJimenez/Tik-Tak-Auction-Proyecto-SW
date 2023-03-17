@@ -10,6 +10,39 @@ class ListadoSubastas extends Formulario
         parent::__construct('formObjeto', ['urlRedireccion' => Aplicacion::getInstance()->resuelve('/index.php')]);
     }
     
+
+    static function prueba($busqueda){
+        $subastas = Subasta::listarSubastas($busqueda);
+    
+
+ 
+        $html = <<<EOF
+        <table>
+            <tr>
+                <th>Titulo</th>
+                <th>Descripcion</th>
+                <th>Fecha de inicio</th>
+                <th>Fecha de fin</th>
+                <th>Precio inicial</th>
+                <th>Precio actual</th>
+                <th>ID ganador</th>
+                <th>Estado</th>
+                <th>Imagen</th>
+                <th>Categoria</th>
+                <th>Eliminar</th>
+            </tr>
+    EOF;
+    
+       foreach($subastas as $subasta) {
+          
+            $html .= visualizaSubastaBorrado($subasta);
+          // echo($subasta);
+       }
+        
+       $html .= "</table>";
+        return $html;
+    }
+
     protected function generaCamposFormulario(&$datos)
     {
        
@@ -69,7 +102,7 @@ class ListadoSubastas extends Formulario
       
         $subastas = array(); // Declarar $subastas como un array vacío
         $resultados = Subasta::buscaSubasta("");
-        echo ($resultados.getEstado());
+        echo ($resultados->getEstado());
         // Agregar cada objeto Subasta devuelto por el método al array $subastas
         foreach ($resultados as $fila) {
             $subasta = new Subasta($fila['id_usuario'], $fila['titulo'], $fila['descripcion'], $fila['fecha_inicio'], $fila['fecha_fin'], $fila['precio_inicial'], $fila['precio_actual'], $fila['imagen'], $fila['categoria'], $fila['estadoproducto'], $fila['id_subasta'], $fila['id_ganador'], $fila['estado']);
@@ -117,7 +150,6 @@ function listasubastas($busqueda)
             <th>Estado</th>
             <th>Imagen</th>
             <th>Categoria</th>
-            <th>Eliminar</th>
         </tr>
 EOF;
 
@@ -125,14 +157,35 @@ EOF;
       
         $html .= visualizaSubasta($subasta);
       // echo($subasta);
-        
-    
    }
     
    $html .= "</table>";
     return $html;
 }
+
 function visualizaSubasta($subasta)
+{
+    
+    $html = <<<EOF
+                         
+                    <td>{$subasta->getTitulo()}</td>
+                    <td>{$subasta->getDescripcion()}</td>
+                    <td>{$subasta->getFechaInicio()}</td>
+                    <td>{$subasta->getFechaFin()}</td>
+                    <td>{$subasta->getPrecioInicial()}</td>
+                    <td>{$subasta->getPrecioActual()}</td>
+                    <td>{$subasta->getIdGanador()}</td>
+                    <td>{$subasta->getEstado()}</td>
+                    <td>{$subasta->getImagen()}</td>
+                    <td>{$subasta->getCategoria()}</td>
+                </tr>
+            EOF;
+        
+        
+        return $html;  
+}
+
+function visualizaSubastaBorrado($subasta)
 {
     
     $html = <<<EOF
@@ -161,4 +214,5 @@ function visualizaSubasta($subasta)
         
         return $html;  
 }
+
 ?>
