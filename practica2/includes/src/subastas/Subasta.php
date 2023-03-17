@@ -33,6 +33,24 @@ class Subasta
        
         return $result;
     }
+    public static function buscaPorId($idSubasta)
+    {
+        $conn = Aplicacion::getInstance()->getConexionBd();
+        $query = sprintf("SELECT * FROM Subastas S WHERE S.id_subasta='%d' ", $idSubasta );
+        $rs = $conn->query($query);
+        $result = false;
+        if ($rs) {
+            $fila = $rs->fetch_assoc();
+            if ($fila) {
+                $result = new Subasta( $fila['id_usuario'],  $fila['titulo'],  $fila['descripcion'],  $fila['fecha_inicio'],  $fila['fecha_fin'],  $fila['precio_inicial'],  $fila['precio_actual'],$fila['imagen'],$fila['categoria'],$fila['estadoproducto'], $fila['id_subasta'], $fila['id_ganador'], $fila['estado']);            }
+            $rs->free();
+        } else {
+            error_log("Error BD ({$conn->errno}): {$conn->error}");
+        }
+       
+        return $result;
+    }
+
 
     public static function listarSubastas($busqueda)
     {

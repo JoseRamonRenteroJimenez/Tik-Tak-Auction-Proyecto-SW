@@ -124,8 +124,6 @@ class FormularioObjeto extends Formulario
         if (count($this->errores) === 0) {
           //  $subasta = Subasta::buscaSubasta($tituloSubasta);
 	
-           
-                
                 $app = Aplicacion::getInstance();
                 $idUsuario = $app->idUsuario();
               

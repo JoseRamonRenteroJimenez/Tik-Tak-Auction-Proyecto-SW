@@ -135,12 +135,6 @@ EOF;
 }
 function visualizaSubasta($subasta)
 {
-    /*$verURL = Utils::buildUrl('mensajes/mensajes.php', [
-        'id' => $subasta->id
-    ]);*/
-    //echo($subasta);
-    // echo($subasta->id_usuario.",".$subasta->titulo .",".$subasta->descripcion .",".$subasta->fecha_inicio.",". $subasta->fecha_fin .",".$subasta->precio_inicial.",". $subasta->precio_actual.",". $subasta->id_ganador .",".$subasta->estado .",".$subasta->imagen .",".$subasta->categoria.",". $subasta->estadoproducto.",". $subasta->obtenerEstadoSubasta($subasta->fecha_inicio,$subasta->fecha_fin));
-
     
     $html = <<<EOF
                          
@@ -155,6 +149,7 @@ function visualizaSubasta($subasta)
                     <td>{$subasta->getImagen()}</td>
                     <td>{$subasta->getCategoria()}</td>
                     <td>
+                    
                         <form method="POST" action="includes/src/subastas/borrarSubastas.php">
                             <input type="hidden" name="borrar" value="borrarSubasta">
                             <input type="hidden" name="parametro" value="{$subasta->getIdSubasta()}">
