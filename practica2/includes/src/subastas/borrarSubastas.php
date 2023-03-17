@@ -14,7 +14,7 @@ class borrarSubastas extends Formulario
     public function generaCamposFormulario(&$datos)
     {
 
-    $resultadoTablaSubastas = ListadoSubastas::devolverTablaSubastas();
+    $resultadoTablaSubastas = ListadoSubastas::listasubastas("ventas");
     //Creamos aqui la parte fija del codigo HTML
     $html = <<<EOF
     <fieldset>
@@ -32,7 +32,7 @@ return $html;
        
         if(isset($_POST['borrar']) && $_POST['borrar'] === 'borrarSubasta') {
             $idSubasta = $_POST['parametro'];
-            $subasta = Subasta::buscaSubasta($idSubasta);
+            $subasta = Subasta::buscaPorId($idSubasta);
             if($subasta) {
                 $subasta->borrate();
                 echo "<p>Subasta borrada correctamente.</p>";

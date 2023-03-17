@@ -104,30 +104,43 @@ class ListadoSubastas extends Formulario
         $app = Aplicacion::getInstance();
         $idUsuario = $app->idUsuario();
     
-        $subastas = array();
-        $resultados = Subasta::listarSubastas("");
-        foreach ($resultados as $fila) {
-            $subasta = Subasta::creaObjetoSubasta($fila->getIdUsuario(), $fila->getTitulo(), $fila->getDescripcion(), $fila->getFechaInicio(), $fila->getFechaFin(), $fila->getPrecioInicial(), $fila->getPrecioActual(), $fila->getImagen(), $fila->getCategoria(), $fila->getEstadoProducto(), $fila->getIdSubasta(), $fila->getIdGanador(), $fila->getEstadoProducto());
-            array_push($subastas, $subasta);
-        }
-        $html = <<<EOF
-            <table>
-                <tr>
-                    <th>Titulo</th>
-                    <th>Descripcion</th>
-                    <th>Fecha de inicio</th>
-                    <th>Fecha de fin</th>
-                    <th>Precio inicial</th>
-                    <th>Precio actual</th>
-                    <th>ID ganador</th>
-                    <th>Estado</th>
-                    <th>Imagen</th>
-                    <th>Categoria</th>
-                    <th>Eliminar</th>
-                </tr>
-        EOF;
-        foreach ($subastas as $subasta) {
-            $html .= <<<EOF
+    $subastas = Subasta::listarSubastas($busqueda);
+    
+
+ 
+    $html = <<<EOF
+    <table>
+        <tr>
+            <th>Titulo</th>
+            <th>Descripcion</th>
+            <th>Fecha de inicio</th>
+            <th>Fecha de fin</th>
+            <th>Precio inicial</th>
+            <th>Precio actual</th>
+            <th>ID ganador</th>
+            <th>Estado</th>
+            <th>Imagen</th>
+            <th>Categoria</th>
+            <th>Eliminar</th>
+        </tr>
+EOF;
+
+   foreach($subastas as $subasta) {
+      
+        $html .= visualizaSubasta($subasta);
+      // echo($subasta);
+        
+    
+   }
+    
+   $html .= "</table>";
+    return $html;
+}
+function visualizaSubasta($subasta)
+{
+    
+    $html = <<<EOF
+                         
                     <td>{$subasta->getTitulo()}</td>
                     <td>{$subasta->getDescripcion()}</td>
                     <td>{$subasta->getFechaInicio()}</td>
@@ -139,6 +152,7 @@ class ListadoSubastas extends Formulario
                     <td>{$subasta->getImagen()}</td>
                     <td>{$subasta->getCategoria()}</td>
                     <td>
+                    
                         <form method="POST" action="includes/src/subastas/borrarSubastas.php">
                             <input type="hidden" name="borrar" value="borrarSubasta">
                             <input type="hidden" name="parametro" value="{$subasta->getIdSubasta()}">
