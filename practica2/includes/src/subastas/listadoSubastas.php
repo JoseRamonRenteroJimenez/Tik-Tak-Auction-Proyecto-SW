@@ -35,7 +35,7 @@ class ListadoSubastas extends Formulario
     
        foreach($subastas as $subasta) {
           
-            $html .= visualizaSubasta($subasta);
+            $html .= visualizaSubastaBorrado($subasta);
           // echo($subasta);
        }
         
@@ -150,7 +150,6 @@ function listasubastas($busqueda)
             <th>Estado</th>
             <th>Imagen</th>
             <th>Categoria</th>
-            <th>Eliminar</th>
         </tr>
 EOF;
 
@@ -179,6 +178,28 @@ function visualizaSubasta($subasta)
                     <td>{$subasta->getEstado()}</td>
                     <td>{$subasta->getImagen()}</td>
                     <td>{$subasta->getCategoria()}</td>
+                </tr>
+            EOF;
+        
+        
+        return $html;  
+}
+
+function visualizaSubastaBorrado($subasta)
+{
+    
+    $html = <<<EOF
+                         
+                    <td>{$subasta->getTitulo()}</td>
+                    <td>{$subasta->getDescripcion()}</td>
+                    <td>{$subasta->getFechaInicio()}</td>
+                    <td>{$subasta->getFechaFin()}</td>
+                    <td>{$subasta->getPrecioInicial()}</td>
+                    <td>{$subasta->getPrecioActual()}</td>
+                    <td>{$subasta->getIdGanador()}</td>
+                    <td>{$subasta->getEstado()}</td>
+                    <td>{$subasta->getImagen()}</td>
+                    <td>{$subasta->getCategoria()}</td>
                     <td>
                     
                         <form method="POST" action="includes/src/subastas/borrarSubastas.php">
@@ -193,7 +214,5 @@ function visualizaSubasta($subasta)
         
         return $html;  
 }
-
-
 
 ?>
