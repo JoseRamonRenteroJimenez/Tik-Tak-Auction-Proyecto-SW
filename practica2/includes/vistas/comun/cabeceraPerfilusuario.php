@@ -1,21 +1,16 @@
 <?php
 
-
-
 use es\ucm\fdi\aw\Aplicacion;
 use es\ucm\fdi\aw\usuarios\FormularioLogout;
 $app = Aplicacion::getInstance();
 
-function mostrarSaludo()
+function mostrarUsername()
 {
     $html = '';
     $app = Aplicacion::getInstance();
     if ($app->usuarioLogueado()) {
         $nombreUsuario = $app->nombreUsuario();
-
-        $formLogout = new FormularioLogout();
-        $htmlLogout = $formLogout->gestiona();
-        $html = "Bienvenido, ${nombreUsuario}. $htmlLogout";
+        $html = "${nombreUsuario}";
     } else {
         $loginUrl = $app->resuelve('/login.php');
         $registroUrl = $app->resuelve('/registro.php');
@@ -29,12 +24,12 @@ function mostrarSaludo()
 
 ?>
 
-<header>
-   
-   <li><a href="<?= $app->resuelve('/contenidomiperfil.php?ventas=ventas')?>">mi perfil</a></li> 
+<h1>Vista general de subastas en Mi tiktak </h1>
+    <div>
+    <a href="{$actividad}">Actividad</a>
+    <a href="{$mensajes}">Mensajes</a>
+    <a href="{$notificaciones}">Notificaciones</a>
    <div class="saludo">
-
-     <?= mostrarSaludo(); ?>
+     <?= mostrarUsername(); ?>
 </div>
-</header>
-
+</div>
