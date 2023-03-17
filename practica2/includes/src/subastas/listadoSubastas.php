@@ -69,8 +69,8 @@ class ListadoSubastas extends Formulario
         
       
         $subastas = array(); // Declarar $subastas como un array vacío
-        $resultados = Subasta::listarSubastas("");
-        
+        $resultados = Subasta::buscaSubasta("");
+        echo ($resultados.getEstado());
         // Agregar cada objeto Subasta devuelto por el método al array $subastas
         foreach ($resultados as $fila) {
             $subasta = new Subasta($fila['id_usuario'], $fila['titulo'], $fila['descripcion'], $fila['fecha_inicio'], $fila['fecha_fin'], $fila['precio_inicial'], $fila['precio_actual'], $fila['imagen'], $fila['categoria'], $fila['estadoproducto'], $fila['id_subasta'], $fila['id_ganador'], $fila['estado']);
@@ -95,5 +95,76 @@ class ListadoSubastas extends Formulario
         }
         echo "</table>";      
     }
+}
+
+function listasubastas($busqueda)
+{
+   
+    
+    $subastas = Subasta::listarSubastas($busqueda);
+    
+
+ 
+    $html = <<<EOF
+    <table>
+        <tr>
+            <th>Titulo</th>
+            <th>Descripcion</th>
+            <th>Fecha de inicio</th>
+            <th>Fecha de fin</th>
+            <th>Precio inicial</th>
+            <th>Precio actual</th>
+            <th>ID ganador</th>
+            <th>Estado</th>
+            <th>Imagen</th>
+            <th>Categoria</th>
+            <th>Eliminar</th>
+        </tr>
+EOF;
+
+   foreach($subastas as $subasta) {
+      
+        $html .= visualizaSubasta($subasta);
+      // echo($subasta);
+        
+    
+   }
+    
+   $html .= "</table>";
+    return $html;
+}
+function visualizaSubasta($subasta)
+{
+    /*$verURL = Utils::buildUrl('mensajes/mensajes.php', [
+        'id' => $subasta->id
+    ]);*/
+    //echo($subasta);
+    // echo($subasta->id_usuario.",".$subasta->titulo .",".$subasta->descripcion .",".$subasta->fecha_inicio.",". $subasta->fecha_fin .",".$subasta->precio_inicial.",". $subasta->precio_actual.",". $subasta->id_ganador .",".$subasta->estado .",".$subasta->imagen .",".$subasta->categoria.",". $subasta->estadoproducto.",". $subasta->obtenerEstadoSubasta($subasta->fecha_inicio,$subasta->fecha_fin));
+
+    
+    $html = <<<EOF
+                         
+                    <td>{$subasta->getTitulo()}</td>
+                    <td>{$subasta->getDescripcion()}</td>
+                    <td>{$subasta->getFechaInicio()}</td>
+                    <td>{$subasta->getFechaFin()}</td>
+                    <td>{$subasta->getPrecioInicial()}</td>
+                    <td>{$subasta->getPrecioActual()}</td>
+                    <td>{$subasta->getIdGanador()}</td>
+                    <td>{$subasta->getEstado()}</td>
+                    <td>{$subasta->getImagen()}</td>
+                    <td>{$subasta->getCategoria()}</td>
+                    <td>
+                        <form method="POST" action="includes/src/subastas/borrarSubastas.php">
+                            <input type="hidden" name="borrar" value="borrarSubasta">
+                            <input type="hidden" name="parametro" value="{$subasta->getIdSubasta()}">
+                            <button type="submit">Borrar</button>
+                        </form>
+                    </td>
+                </tr>
+            EOF;
+        
+        
+        return $html;  
 }
 ?>
