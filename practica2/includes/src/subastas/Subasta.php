@@ -207,7 +207,7 @@ class Subasta
       
     private static function borra($subasta)
     {
-        return self::borraPorId($subasta->id);
+        return self::borraPorId($subasta->idSubasta);
     }
     
     private static function borraPorId($idSubasta)
@@ -217,9 +217,7 @@ class Subasta
         } 
        
         $conn = Aplicacion::getInstance()->getConexionBd();
-        $query = sprintf("DELETE FROM Subastas S WHERE S.id = %d"
-            , $idSubasta
-        );
+        $query = sprintf("DELETE FROM subastas WHERE id_subasta = %d" , $idSubasta);
         if ( ! $conn->query($query) ) {
             error_log("Error BD ({$conn->errno}): {$conn->error}");
             return false;

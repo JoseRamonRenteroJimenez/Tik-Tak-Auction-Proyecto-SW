@@ -10,6 +10,39 @@ class ListadoSubastas extends Formulario
         parent::__construct('formObjeto', ['urlRedireccion' => Aplicacion::getInstance()->resuelve('/index.php')]);
     }
     
+
+    static function prueba($busqueda){
+        $subastas = Subasta::listarSubastas($busqueda);
+    
+
+ 
+        $html = <<<EOF
+        <table>
+            <tr>
+                <th>Titulo</th>
+                <th>Descripcion</th>
+                <th>Fecha de inicio</th>
+                <th>Fecha de fin</th>
+                <th>Precio inicial</th>
+                <th>Precio actual</th>
+                <th>ID ganador</th>
+                <th>Estado</th>
+                <th>Imagen</th>
+                <th>Categoria</th>
+                <th>Eliminar</th>
+            </tr>
+    EOF;
+    
+       foreach($subastas as $subasta) {
+          
+            $html .= visualizaSubasta($subasta);
+          // echo($subasta);
+       }
+        
+       $html .= "</table>";
+        return $html;
+    }
+
     protected function generaCamposFormulario(&$datos)
     {
        
@@ -69,7 +102,7 @@ class ListadoSubastas extends Formulario
       
         $subastas = array(); // Declarar $subastas como un array vacío
         $resultados = Subasta::buscaSubasta("");
-        echo ($resultados.getEstado());
+        echo ($resultados->getEstado());
         // Agregar cada objeto Subasta devuelto por el método al array $subastas
         foreach ($resultados as $fila) {
             $subasta = new Subasta($fila['id_usuario'], $fila['titulo'], $fila['descripcion'], $fila['fecha_inicio'], $fila['fecha_fin'], $fila['precio_inicial'], $fila['precio_actual'], $fila['imagen'], $fila['categoria'], $fila['estadoproducto'], $fila['id_subasta'], $fila['id_ganador'], $fila['estado']);
@@ -125,13 +158,12 @@ EOF;
       
         $html .= visualizaSubasta($subasta);
       // echo($subasta);
-        
-    
    }
     
    $html .= "</table>";
     return $html;
 }
+
 function visualizaSubasta($subasta)
 {
     
@@ -161,4 +193,7 @@ function visualizaSubasta($subasta)
         
         return $html;  
 }
+
+
+
 ?>

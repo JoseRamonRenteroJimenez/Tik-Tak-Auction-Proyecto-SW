@@ -4,6 +4,7 @@ namespace es\ucm\fdi\aw\subastas;
 use es\ucm\fdi\aw\Aplicacion;
 use es\ucm\fdi\aw\Formulario;
 
+
 class borrarSubastas extends Formulario
 {
     public function __construct() {     
@@ -13,17 +14,15 @@ class borrarSubastas extends Formulario
     
     public function generaCamposFormulario(&$datos)
     {
-
-    $resultadoTablaSubastas = ListadoSubastas::listasubastas("ventas");
-    //Creamos aqui la parte fija del codigo HTML
-    $html = <<<EOF
-    <fieldset>
-        <legend>Subastas actuales</legend>
-        $resultadoTablaSubastas      
-    </fieldset>;
-EOF;
-return $html;
-
+        $resultadoTablaSubastas = ListadoSubastas::prueba("ventas");
+        //Creamos aqui la parte fija del codigo HTML
+        $html = <<<EOF
+        <fieldset>
+            <legend>Subastas actuales</legend>
+            $resultadoTablaSubastas      
+        </fieldset>
+    EOF;
+    return $html;
     }
     
 
