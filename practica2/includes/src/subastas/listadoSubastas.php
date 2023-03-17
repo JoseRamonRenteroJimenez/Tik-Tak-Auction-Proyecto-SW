@@ -281,7 +281,7 @@ function visualizaSubastaPujar($subasta)
                     <td>{$subasta->getImagen()}</td>
                     <td>{$subasta->getCategoria()}</td>
 
-                    <form method="POST" action="/sw/practica2/vistaUnicaSubasta.php">
+                    <form method="POST" action="vistaUnicaSubasta.php">
                     <input type="hidden" name="idsubasta" value="{$subasta->getIdSubasta()}">
                     <td><button type="submit" name="subasta">pujar</td>
                      </form>

@@ -49,14 +49,14 @@ function mostrarSaludo()
 				<option value="opcion5">Opción 5</option>
 			  </optgroup>
 		</select> 
-        <a href="ruta_notificaciones"><img src="\sw\practica2\includes\vistas\imagenes\campana.png" width="20"></img></a>
-        <a href="ruta o despegable_de_carrito"><img src="\sw\practica2\includes\vistas\imagenes\carrito.png" width="20"></img></a>		
+        <a href="ruta_notificaciones"><img src="\Archivos_GIT\practica2\includes\vistas\imagenes\campana.png" width="20"></img></a>
+        <a href="ruta o despegable_de_carrito"><img src="\Archivos_GIT\practica2\includes\vistas\imagenes\carrito.png" width="20"></img></a>		
         <li><a href="<?= $app->resuelve('/contenidomiperfil.php?ventas=ventas')?>">mi perfil</a></li> 
 	</div>
 
     <div class="CabeceraInferior">		
 		<div class="Imagen">			
-		<img src="\sw\practica2\includes\vistas\imagenes\logotiktak.jpg" width="50"><p>Tik Tak auction</p>
+		<img src="\Archivos_GIT\practica2\includes\vistas\imagenes\logotiktak.jpg" width="50"><p>Tik Tak auction</p>
 		</div>
 		<div class="BarraBusq">
 		<form action="/search" method="post">
