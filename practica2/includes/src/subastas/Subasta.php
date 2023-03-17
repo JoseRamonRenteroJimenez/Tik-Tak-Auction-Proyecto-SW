@@ -109,36 +109,31 @@ class Subasta
    /* public static function buscaPorId($idUsuario)
     {
         $conn = Aplicacion::getInstance()->getConexionBd();
-        $query = sprintf("SELECT * FROM Subastas", $conn->real_escape_string($tituloSubasta));
+        $query = sprintf("SELECT * FROM Usuarios WHERE id=%d", $idUsuario);
         $rs = $conn->query($query);
-        $subastas = array(); // Creamos un array vacío para almacenar las subastas
+        $result = false;
         if ($rs) {
-            while ($fila = $rs->fetch_assoc()) {
-                $subasta = new Subasta(
-                    $fila['id_usuario'],
-                    $fila['titulo'],
-                    $fila['descripcion'],
-                    $fila['fecha_inicio'],
-                    $fila['fecha_fin'],
-                    $fila['precio_inicial'],
-                    $fila['precio_actual'],
-                    $fila['imagen'],
-                    $fila['categoria'],
-                    $fila['estadoproducto'],
-                    $fila['id_subasta'],
-                    $fila['id_ganador'],
-                    $fila['estado']
-                );
-                $subastas[] = $subasta; // Agregamos la subasta al array
+            $fila = $rs->fetch_assoc();
+            if ($fila) {
+                $result = new Usuario($fila['nombreUsuario'], $fila['password'], $fila['nombre'],$fila['email'], $fila['id']);
             }
             $rs->free();
         } else {
             error_log("Error BD ({$conn->errno}): {$conn->error}");
         }
-        return $subastas; // Devolvemos el array de subastas
+        return $result;
+    }*/
+    function obtenerEstadoSubasta($fechaInicio, $fechaFin) {
+        $fechaActual = date('Y-m-d H:i:s');
+        
+        if ($fechaInicio > $fechaActual) {
+            return 'borrador';
+        } else if ($fechaInicio <= $fechaActual && $fechaActual <= $fechaFin) {
+            return 'activa';
+        } else {
+            return 'cerrada';
+        }
     }
-
-
     private static function inserta($subasta)
     {
       //  echo($subasta->id_usuario.",".$subasta->titulo .",".$subasta->descripcion .",".$subasta->fecha_inicio.",". $subasta->fecha_fin .",".$subasta->precio_inicial.",". $subasta->precio_actual.",". $subasta->id_ganador .",".$subasta->estado .",".$subasta->imagen .",".$subasta->categoria.",". $subasta->estadoproducto.",". $subasta->obtenerEstadoSubasta($subasta->fecha_inicio,$subasta->fecha_fin));
@@ -167,6 +162,7 @@ class Subasta
         }
         return $result;
     }
+   
     
     private static function actualiza($subasta)
     {

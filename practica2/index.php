@@ -8,9 +8,6 @@ $contenidoPrincipal=<<<EOS
 </div>
 
 EOS;
-?>
-<?php
-$params = ['tituloPagina' => $tituloPagina, 'contenidoPrincipal' => $contenidoPrincipal];
-$app->generaVista('/plantillas/plantillaIndex.php', $params);
-?>
 
+$params = ['tituloPagina' => $tituloPagina, 'contenidoPrincipal' => $contenidoPrincipal];
+$app->generaVista('/plantillas/plantillaInicio.php', $params);

@@ -11,7 +11,7 @@ class ListadoSubastas extends Formulario
     }
     
 
-    static function prueba($busqueda){
+    static function listadoActualizar($busqueda){
         $subastas = Subasta::listarSubastas($busqueda);
     
 
@@ -35,7 +35,7 @@ class ListadoSubastas extends Formulario
     
        foreach($subastas as $subasta) {
           
-            $html .= visualizaSubastaBorrado($subasta);
+            $html .= visualizaSubastaActualizar($subasta);
           // echo($subasta);
        }
         
@@ -185,7 +185,7 @@ function visualizaSubasta($subasta)
         return $html;  
 }
 
-function visualizaSubastaBorrado($subasta)
+function visualizaSubastaActualizar($subasta)
 {
     
     $html = <<<EOF
@@ -202,10 +202,18 @@ function visualizaSubastaBorrado($subasta)
                     <td>{$subasta->getCategoria()}</td>
                     <td>
                     
-                        <form method="POST" action="includes/src/subastas/borrarSubastas.php">
+                        <form method="POST" action="practica2/vistaActualizarSubastas.php">
                             <input type="hidden" name="borrar" value="borrarSubasta">
                             <input type="hidden" name="parametro" value="{$subasta->getIdSubasta()}">
                             <button type="submit">Borrar</button>
+                        </form>
+                    </td>
+                    <td>
+                    
+                        <form method="POST" action="includes/src/subastas/borrarSubastas.php">
+                            <input type="hidden" name="actualizar" value="actualizarSubasta">
+                            <input type="hidden" name="parametro" value="{$subasta->getIdSubasta()}">
+                            <button type="submit">Actualizar</button>
                         </form>
                     </td>
                 </tr>
