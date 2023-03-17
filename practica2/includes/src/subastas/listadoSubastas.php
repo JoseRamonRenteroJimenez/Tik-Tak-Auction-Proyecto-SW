@@ -4,11 +4,10 @@ namespace es\ucm\fdi\aw\subastas;
 use es\ucm\fdi\aw\Aplicacion;
 use es\ucm\fdi\aw\Formulario;
 
-
 class ListadoSubastas extends Formulario
 {
     public function __construct() {
-        parent::__construct('formObjeto', ['urlRedireccion']);
+        parent::__construct('formObjeto', ['urlRedireccion' => Aplicacion::getInstance()->resuelve('/index.php')]);
     }
     
     protected function generaCamposFormulario(&$datos)
@@ -21,9 +20,10 @@ class ListadoSubastas extends Formulario
         // Se generan los mensajes de error si existen.
         $htmlErroresGlobales = self::generaListaErroresGlobales($this->errores);
         $erroresCampos = self::generaErroresCampos(['TipoSubasta', 'Estado', 'Relevancia'], $this->errores, 'span', array('class' => 'error'));
-    //Creamos aqui la parte fija del codigo HTML
+
         $html = <<<EOF
-        $htmlErroresGlobales     
+        $htmlErroresGlobales
+        //Creamos aqui la parte fija del codigo HTML
         <form method="post">
             <p>Todas</p>
             <select name="TipoSubasta" value="$tipo">
@@ -48,9 +48,6 @@ class ListadoSubastas extends Formulario
                 </optgroup>
             </select>
             $erroresCampos[Relevancia]
-            <div >
-                <button type="submit" name="subasta">Ver
-            <div>
         </form>
         EOF;
         return $html;
@@ -71,17 +68,18 @@ class ListadoSubastas extends Formulario
         
       
         $subastas = array(); // Declarar $subastas como un array vacío
-        $resultados = Subasta::listarSubastas("");
-        
+        $resultados = Subasta::buscaSubasta("");
+        echo ($resultados.getEstado());
         // Agregar cada objeto Subasta devuelto por el método al array $subastas
         foreach ($resultados as $fila) {
-            $subasta = Subasta::creaObjetoSubasta($fila->getIdUsuario(), $fila->getTitulo(), $fila->getDescripcion(), $fila->getFechaInicio(), $fila->getFechaFin(), $fila->getPrecioInicial(), $fila->getPrecioActual(), $fila->getImagen(), $fila->getCategoria(), $fila->getEstadoProducto(), $fila->getIdSubasta(), $fila->getIdGanador(), $fila->getEstadoProducto());
+            $subasta = new Subasta($fila['id_usuario'], $fila['titulo'], $fila['descripcion'], $fila['fecha_inicio'], $fila['fecha_fin'], $fila['precio_inicial'], $fila['precio_actual'], $fila['imagen'], $fila['categoria'], $fila['estadoproducto'], $fila['id_subasta'], $fila['id_ganador'], $fila['estado']);
             array_push($subastas, $subasta); // o también: $subastas[] = $subasta;
         }
         echo "<table>";
-        echo "<tr><th>Titulo</th><th>Descripcion</th><th>Fecha de inicio</th><th>Fecha de fin</th><th>Precio inicial</th><th>Precio actual</th><th>ID ganador</th><th>Estado</th><th>Imagen</th><th>Categoria</th></tr>";
+        echo "<tr><th>ID</th><th>Titulo</th><th>Descripcion</th><th>Fecha de inicio</th><th>Fecha de fin</th><th>Precio inicial</th><th>Precio actual</th><th>ID ganador</th><th>Estado</th><th>Imagen</th><th>Categoria</th></tr>";
         foreach ($subastas as $subasta) {
             echo "<tr>";
+            echo "<td>" . $subasta->getIdSubasta() . "</td>";
             echo "<td>" . $subasta->getTitulo() . "</td>";
             echo "<td>" . $subasta->getDescripcion() . "</td>";
             echo "<td>" . $subasta->getFechaInicio() . "</td>";
@@ -96,13 +94,11 @@ class ListadoSubastas extends Formulario
         }
         echo "</table>";      
     }
+}
 
-    //Devuelve una variable HTML con la tabla de subastas
-    static function devolverTablaSubastas()
-    {
-       
-        $app = Aplicacion::getInstance();
-        $idUsuario = $app->idUsuario();
+function listasubastas($busqueda)
+{
+   
     
     $subastas = Subasta::listarSubastas($busqueda);
     
@@ -161,9 +157,8 @@ function visualizaSubasta($subasta)
                     </td>
                 </tr>
             EOF;
-        }
-        $html .= "</table>";
+        
+        
         return $html;  
-    }
 }
 ?>
