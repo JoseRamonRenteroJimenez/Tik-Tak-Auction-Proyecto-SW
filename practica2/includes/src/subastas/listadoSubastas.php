@@ -202,7 +202,7 @@ function visualizaSubastaActualizar($subasta)
                     <td>{$subasta->getCategoria()}</td>
                     <td>
                     
-                        <form method="POST" action="practica2/vistaActualizarSubastas.php">
+                        <form method="POST" action="/addsubasta.php">
                             <input type="hidden" name="borrar" value="borrarSubasta">
                             <input type="hidden" name="parametro" value="{$subasta->getIdSubasta()}">
                             <button type="submit">Borrar</button>
