@@ -34,9 +34,8 @@ function mostrarSaludo()
 <body>
 
 <header class="CabeceraPrincipal">
-	<div class="CabeceraSuperior">	
-	<!-- Aqui llamariamos a la funcion mostrar saludo-->
-	<!-- Hacer que justo esto de abajo se muestre solo cuando estas registrado-->
+<?php echo mostrarSaludo(); ?>
+	<div class="CabeceraSuperior">		
 	<select>
 			  <option value="">Mi tik tak</option>
 			  <optgroup label="Opciones principales">
@@ -56,7 +55,7 @@ function mostrarSaludo()
 
     <div class="CabeceraInferior">		
 		<div class="Imagen">			
-		<img src="\sw\practica2\includes\vistas\imagenes\logotiktak.jpg" width="50"><p>Tik Tak auction</p>
+		<img src="\sw\practica2\includes\vistas\imagenes\logoTikTak.jpeg" width="50"><p>Tik Tak auction</p>
 		</div>
 		<div class="BarraBusq">
 		<form action="/search" method="post">

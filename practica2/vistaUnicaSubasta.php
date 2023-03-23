@@ -12,9 +12,9 @@ $hacerpuja= new \es\ucm\fdi\aw\subastas\hacerPuja();
 $hacerpuja = $hacerpuja->gestiona();
 
  
-$tituloPagina = 'Borrar';
+$tituloPagina = 'Subasta';
 $contenidoPrincipal=<<<EOF
-  	<h1>subsata a pujar</h1>
+  	<h1>Subasta a pujar</h1>
       $hacerpuja
     
 EOF;

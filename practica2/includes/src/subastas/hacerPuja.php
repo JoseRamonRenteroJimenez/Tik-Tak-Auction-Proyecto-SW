@@ -36,9 +36,9 @@ class hacerPuja extends Formulario
             $idganador=$app->idUsuario();
             if($subasta) {
                 $subasta = Subasta::actualizaSubasta($idSubasta,$subasta->getIdUsuario(), $subasta->getTitulo(), $subasta->getDescripcion(), $subasta->getFechaInicio(), $subasta->getFechaFin(), $subasta->getPrecioInicial(), $nuevoprecio,$subasta->getImagen(), $subasta->getCategoria(), $subasta->getEstadoProducto(),$idganador);
-                echo "<p>Subasta borrada correctamente.</p>";
+                echo "<p>Puja registrada.</p>";
             } else {
-                echo "<p>No se ha encontrado la subasta que se quiere borrar.</p>";
+                echo "<p>Error al hacer la puja</p>";
             }
         
     }
