@@ -5,7 +5,7 @@ use es\ucm\fdi\aw\Aplicacion;
 use es\ucm\fdi\aw\Formulario;
 
 
-class hacerPuja extends Formulario
+class HacerPuja extends Formulario
 {
     public function __construct() {     
         parent::__construct('formObjeto', ['urlRedireccion']);
@@ -36,15 +36,9 @@ class hacerPuja extends Formulario
             $idganador=$app->idUsuario();
             if($subasta) {
                 $subasta = Subasta::actualizaSubasta($idSubasta,$subasta->getIdUsuario(), $subasta->getTitulo(), $subasta->getDescripcion(), $subasta->getFechaInicio(), $subasta->getFechaFin(), $subasta->getPrecioInicial(), $nuevoprecio,$subasta->getImagen(), $subasta->getCategoria(), $subasta->getEstadoProducto(),$idganador);
-<<<<<<< HEAD
-                echo "<p>Subasta borrada correctamente.</p>";
-            } else {
-                echo "<p>No se ha encontrado la subasta que se quiere borrar.</p>";
-=======
                 echo "<p>Puja registrada.</p>";
             } else {
                 echo "<p>Error al hacer la puja</p>";
->>>>>>> b9afe30dceac95dd13269604d6f5fdafd20a1927
             }
         
     }

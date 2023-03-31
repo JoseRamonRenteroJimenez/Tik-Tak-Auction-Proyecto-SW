@@ -34,9 +34,14 @@ function mostrarSaludo()
 <body>
 
 <header class="CabeceraPrincipal">
+<<<<<<< HEAD
 	<div class="CabeceraSuperior">	
 	<!-- Aqui llamariamos a la funcion mostrar saludo-->
 	<!-- Hacer que justo esto de abajo se muestre solo cuando estas registrado-->
+=======
+<?php echo mostrarSaludo(); ?>
+	<div class="CabeceraSuperior">		
+>>>>>>> b9afe30dceac95dd13269604d6f5fdafd20a1927
 	<select>
 			  <option value="">Mi tik tak</option>
 			  <optgroup label="Opciones principales">
@@ -49,14 +54,23 @@ function mostrarSaludo()
 				<option value="opcion5">Opción 5</option>
 			  </optgroup>
 		</select> 
+<<<<<<< HEAD
         <a href="ruta_notificaciones"><img src="\Archivos_GIT\practica2\includes\vistas\imagenes\campana.png" width="20"></img></a>
         <a href="ruta o despegable_de_carrito"><img src="\Archivos_GIT\practica2\includes\vistas\imagenes\carrito.png" width="20"></img></a>		
+=======
+        <a href="ruta_notificaciones"><img src="\sw\practica2\includes\vistas\imagenes\campana.png" width="20"></img></a>
+        <a href="ruta o despegable_de_carrito"><img src="\sw\practica2\includes\vistas\imagenes\carrito.png" width="20"></img></a>		
+>>>>>>> b9afe30dceac95dd13269604d6f5fdafd20a1927
         <li><a href="<?= $app->resuelve('/contenidomiperfil.php?ventas=ventas')?>">mi perfil</a></li> 
 	</div>
 
     <div class="CabeceraInferior">		
 		<div class="Imagen">			
+<<<<<<< HEAD
 		<img src="\Archivos_GIT\practica2\includes\vistas\imagenes\logotiktak.jpg" width="50"><p>Tik Tak auction</p>
+=======
+		<img src="\sw\practica2\includes\vistas\imagenes\logoTikTak.jpeg" width="50"><p>Tik Tak auction</p>
+>>>>>>> b9afe30dceac95dd13269604d6f5fdafd20a1927
 		</div>
 		<div class="BarraBusq">
 		<form action="/search" method="post">

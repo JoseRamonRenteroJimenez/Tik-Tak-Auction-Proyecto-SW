@@ -1,6 +1,6 @@
 <?php
 require_once __DIR__.'/includes/config.php';
-require_once __DIR__.'/includes/src/subastas/listadoSubastas.php';
+require_once __DIR__.'/includes/src/subastas/ListadoSubastas.php';
 
 $tituloPagina = 'Mi perfil';
 $contenidoPrincipal='';
@@ -8,7 +8,7 @@ $contenido='ventas';
 
 $idpuja=$_POST["idsubasta"];
 
-$hacerpuja= new \es\ucm\fdi\aw\subastas\hacerPuja();
+$hacerpuja= new \es\ucm\fdi\aw\subastas\HacerPuja();
 $hacerpuja = $hacerpuja->gestiona();
 
  

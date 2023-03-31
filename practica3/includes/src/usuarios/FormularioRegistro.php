@@ -14,15 +14,27 @@ class FormularioRegistro extends Formulario
     {
         $nombreUsuario = $datos['nombreUsuario'] ?? '';
         $nombre = $datos['nombre'] ?? '';
+        $email=$datos['email'] ?? '';
+      
 
         // Se generan los mensajes de error si existen.
         $htmlErroresGlobales = self::generaListaErroresGlobales($this->errores);
-        $erroresCampos = self::generaErroresCampos(['nombreUsuario', 'nombre', 'password', 'password2'], $this->errores, 'span', array('class' => 'error'));
+        $erroresCampos = self::generaErroresCampos(['rolUsuario','nombreUsuario', 'nombre','email', 'password', 'password2'], $this->errores, 'span', array('class' => 'error'));
 
         $html = <<<EOF
         $htmlErroresGlobales
         <fieldset>
             <legend>Datos para el registro</legend>
+            
+            <div>
+            <label for="rolUsuario">Particular:</label>
+            <input id="rolUsuario" type="radio" name="rolUsuario" value="2" />
+            {$erroresCampos['rolUsuario']}
+
+            <label for="rolUsuario">Empresa:</label>
+            <input id="rolUsuario" type="radio" name="rolUsuario" value="3" />
+            {$erroresCampos['rolUsuario']}
+            </div>
             <div>
                 <label for="nombreUsuario">Nombre de usuario:</label>
                 <input id="nombreUsuario" type="text" name="nombreUsuario" value="$nombreUsuario" />
@@ -33,6 +45,12 @@ class FormularioRegistro extends Formulario
                 <input id="nombre" type="text" name="nombre" value="$nombre" />
                 {$erroresCampos['nombre']}
             </div>
+            <div>
+                <label for="email">Email:</label>
+                <input id="email" type="text" name="email" value="$email" />
+                {$erroresCampos['email']}
+            </div>
+
             <div>
                 <label for="password">Password:</label>
                 <input id="password" type="password" name="password" />
@@ -56,6 +74,9 @@ class FormularioRegistro extends Formulario
     {
         $this->errores = [];
 
+        $rolUsuario = trim($datos['rolUsuario'] ?? '');
+       
+
         $nombreUsuario = trim($datos['nombreUsuario'] ?? '');
         $nombreUsuario = filter_var($nombreUsuario, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         if ( ! $nombreUsuario || mb_strlen($nombreUsuario) < 5) {
@@ -67,7 +88,11 @@ class FormularioRegistro extends Formulario
         if ( ! $nombre || mb_strlen($nombre) < 5) {
             $this->errores['nombre'] = 'El nombre tiene que tener una longitud de al menos 5 caracteres.';
         }
-
+        $email = trim($datos['email'] ?? '');
+        $email = filter_var($email, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        if ( ! $email || mb_strlen($email) < 5) {
+            $this->errores['email'] = 'El email tiene que tener una longitud de al menos 5 caracteres.';
+        }
         $password = trim($datos['password'] ?? '');
         $password = filter_var($password, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         if ( ! $password || mb_strlen($password) < 5 ) {
@@ -86,7 +111,7 @@ class FormularioRegistro extends Formulario
             if ($usuario) {
                 $this->errores[] = "El usuario ya existe";
             } else {
-                $usuario = Usuario::crea($nombreUsuario, $password, $nombre, Usuario::USER_ROLE);
+                $usuario = Usuario::crea($nombreUsuario, $password, $nombre,$email, $rolUsuario);
                 $app = Aplicacion::getInstance();
                 $app->login($usuario);
             }
