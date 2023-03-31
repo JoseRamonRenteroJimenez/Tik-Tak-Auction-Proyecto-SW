@@ -13,6 +13,9 @@ class FormularioObjeto extends Formulario
     protected function generaCamposFormulario(&$datos)
     {
        
+        $idSubasta= '';
+        $precioactual= '';
+        $idganador= '';
         $titulo = $datos['titulo'] ?? '';
         $descripcion = $datos['descripcion'] ?? '';
         $fechaInicio = $datos['fechaInicio'] ?? '';
@@ -20,6 +23,23 @@ class FormularioObjeto extends Formulario
         $precioInicial = $datos['precioInicial'] ?? '';
         $categoria = $datos['categoria'] ?? '';
         $estadoProducto = $datos['estadoProducto'] ?? '';
+
+        if(isset($_POST['idsubasta'])){
+            $idSubasta= $_POST['idsubasta'];
+            $precioactual= $_POST['precioactual'];
+            $idganador= $_POST['idganador'];
+            
+            $subasta = Subasta::buscaPorId($idSubasta);
+            $titulo = $subasta->getTitulo();
+            $descripcion =$subasta->getDescripcion();
+            $fechaInicio=$subasta->getFechaInicio();
+            $fechaFin=$subasta->getFechaFin();
+            $precioInicial=$subasta->getPrecioInicial();
+            $categoria=$subasta->getCategoria();
+            $estadoProducto=$subasta->getEstadoProducto();
+       }
+
+     
 
         // Se generan los mensajes de error si existen.
         $htmlErroresGlobales = self::generaListaErroresGlobales($this->errores);
@@ -29,7 +49,9 @@ class FormularioObjeto extends Formulario
         $htmlErroresGlobales
         <fieldset>
             <legend>Datos para el registro de una subasta</legend>
-            
+            <input type="hidden" name="idSubasta" value="$idSubasta" />
+            <input type="hidden" name="precioactual" value="$precioactual" />
+            <input type="hidden" name="idganador" value="$idganador" />
             <div >
                 <label>Título:</label> <input type="text" name="titulo" value="$titulo" />
                 $erroresCampos[titulo]
@@ -87,6 +109,15 @@ class FormularioObjeto extends Formulario
        
         $imagen=trim($datos['imagen'] ?? '');
 
+        $idSubasta = trim($datos['idSubasta'] ?? '');
+        $idSubasta = filter_var($idSubasta, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+       
+        $precioactual = trim($datos['precioactual'] ?? '');
+        $precioactual = filter_var($precioactual, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+
+        $idganador = trim($datos['idganador'] ?? '');
+        $idganador = filter_var($idganador, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+
         $titulo = trim($datos['titulo'] ?? '');
         $titulo = filter_var($titulo, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         if ( ! $titulo || mb_strlen($titulo) < 5) {
@@ -126,10 +157,12 @@ class FormularioObjeto extends Formulario
 	
                 $app = Aplicacion::getInstance();
                 $idUsuario = $app->idUsuario();
-              
+              if($idSubasta!=""){
+                $subasta = Subasta::actualizaSubasta($idSubasta,$idUsuario, $titulo, $descripcion, $fechaInicio, $fechaFin, $precioInicial, $precioactual,$imagen, $categoria, $estadoproducto,$idganador);           
+              }else{
                 $subasta = Subasta::crea($idUsuario, $titulo, $descripcion, $fechaInicio, $fechaFin, $precioInicial, $precioInicial,$imagen, $categoria, $estadoproducto);
-               
-            
+              }
+                
         }
     }
 }
