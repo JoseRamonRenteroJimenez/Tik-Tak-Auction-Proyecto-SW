@@ -17,6 +17,37 @@ header {
 	color: white;
 }
 
+.CabeceraSuperior {
+	display: flex;
+	justify-content: flex-end;
+  }
+  
+  .CabeceraSuperior select,
+  .CabeceraSuperior a {
+	margin-left: 10px;
+  }
+  
+  .CabeceraInferior {
+	display: flex;
+  }
+  
+  .CabeceraInferior .Imagen {
+	display: flex;
+	align-items: center;
+  }
+  
+  .CabeceraInferior .BarraBusq {
+	flex-grow: 1;
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+  }
+  
+  .CabeceraInferior input[type="text"],
+  .CabeceraInferior select {
+	margin-right: 10px;
+  }
+
 header a, header a:visited {
 	color: white;
 	font-weight: bold;
@@ -60,9 +91,7 @@ aside {
 
 main {
 	padding: 10px;
-	float: left;
 	min-height: 600px;
-	width: 500px;
 	background-color: white;
 }
 
