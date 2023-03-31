@@ -17,6 +17,40 @@ header {
 	color: white;
 }
 
+<<<<<<< HEAD
+=======
+.CabeceraSuperior {
+	display: flex;
+	justify-content: flex-end;
+  }
+  
+  .CabeceraSuperior select,
+  .CabeceraSuperior a {
+	margin-left: 10px;
+  }
+  
+  .CabeceraInferior {
+	display: flex;
+  }
+  
+  .CabeceraInferior .Imagen {
+	display: flex;
+	align-items: center;
+  }
+  
+  .CabeceraInferior .BarraBusq {
+	flex-grow: 1;
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+  }
+  
+  .CabeceraInferior input[type="text"],
+  .CabeceraInferior select {
+	margin-right: 10px;
+  }
+
+>>>>>>> 0184f75da5a1c12fd62c9d877ff1ca3ca932e3f3
 header a, header a:visited {
 	color: white;
 	font-weight: bold;
@@ -60,9 +94,13 @@ aside {
 
 main {
 	padding: 10px;
+<<<<<<< HEAD
 	float: left;
 	min-height: 600px;
 	width: 500px;
+=======
+	min-height: 600px;
+>>>>>>> 0184f75da5a1c12fd62c9d877ff1ca3ca932e3f3
 	background-color: white;
 }
 

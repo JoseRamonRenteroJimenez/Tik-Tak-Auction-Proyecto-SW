@@ -14,15 +14,37 @@ class FormularioRegistro extends Formulario
     {
         $nombreUsuario = $datos['nombreUsuario'] ?? '';
         $nombre = $datos['nombre'] ?? '';
+<<<<<<< HEAD
 
         // Se generan los mensajes de error si existen.
         $htmlErroresGlobales = self::generaListaErroresGlobales($this->errores);
         $erroresCampos = self::generaErroresCampos(['nombreUsuario', 'nombre', 'password', 'password2'], $this->errores, 'span', array('class' => 'error'));
+=======
+        $email=$datos['email'] ?? '';
+      
+
+        // Se generan los mensajes de error si existen.
+        $htmlErroresGlobales = self::generaListaErroresGlobales($this->errores);
+        $erroresCampos = self::generaErroresCampos(['rolUsuario','nombreUsuario', 'nombre','email', 'password', 'password2'], $this->errores, 'span', array('class' => 'error'));
+>>>>>>> 0184f75da5a1c12fd62c9d877ff1ca3ca932e3f3
 
         $html = <<<EOF
         $htmlErroresGlobales
         <fieldset>
             <legend>Datos para el registro</legend>
+<<<<<<< HEAD
+=======
+            
+            <div>
+            <label for="rolUsuario">Particular:</label>
+            <input id="rolUsuario" type="radio" name="rolUsuario" value="2" />
+            {$erroresCampos['rolUsuario']}
+
+            <label for="rolUsuario">Empresa:</label>
+            <input id="rolUsuario" type="radio" name="rolUsuario" value="3" />
+            {$erroresCampos['rolUsuario']}
+            </div>
+>>>>>>> 0184f75da5a1c12fd62c9d877ff1ca3ca932e3f3
             <div>
                 <label for="nombreUsuario">Nombre de usuario:</label>
                 <input id="nombreUsuario" type="text" name="nombreUsuario" value="$nombreUsuario" />
@@ -34,6 +56,15 @@ class FormularioRegistro extends Formulario
                 {$erroresCampos['nombre']}
             </div>
             <div>
+<<<<<<< HEAD
+=======
+                <label for="email">Email:</label>
+                <input id="email" type="text" name="email" value="$email" />
+                {$erroresCampos['email']}
+            </div>
+
+            <div>
+>>>>>>> 0184f75da5a1c12fd62c9d877ff1ca3ca932e3f3
                 <label for="password">Password:</label>
                 <input id="password" type="password" name="password" />
                 {$erroresCampos['password']}
@@ -56,6 +87,12 @@ class FormularioRegistro extends Formulario
     {
         $this->errores = [];
 
+<<<<<<< HEAD
+=======
+        $rolUsuario = trim($datos['rolUsuario'] ?? '');
+       
+
+>>>>>>> 0184f75da5a1c12fd62c9d877ff1ca3ca932e3f3
         $nombreUsuario = trim($datos['nombreUsuario'] ?? '');
         $nombreUsuario = filter_var($nombreUsuario, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         if ( ! $nombreUsuario || mb_strlen($nombreUsuario) < 5) {
@@ -67,7 +104,15 @@ class FormularioRegistro extends Formulario
         if ( ! $nombre || mb_strlen($nombre) < 5) {
             $this->errores['nombre'] = 'El nombre tiene que tener una longitud de al menos 5 caracteres.';
         }
+<<<<<<< HEAD
 
+=======
+        $email = trim($datos['email'] ?? '');
+        $email = filter_var($email, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        if ( ! $email || mb_strlen($email) < 5) {
+            $this->errores['email'] = 'El email tiene que tener una longitud de al menos 5 caracteres.';
+        }
+>>>>>>> 0184f75da5a1c12fd62c9d877ff1ca3ca932e3f3
         $password = trim($datos['password'] ?? '');
         $password = filter_var($password, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         if ( ! $password || mb_strlen($password) < 5 ) {
@@ -86,7 +131,11 @@ class FormularioRegistro extends Formulario
             if ($usuario) {
                 $this->errores[] = "El usuario ya existe";
             } else {
+<<<<<<< HEAD
                 $usuario = Usuario::crea($nombreUsuario, $password, $nombre, Usuario::USER_ROLE);
+=======
+                $usuario = Usuario::crea($nombreUsuario, $password, $nombre,$email, $rolUsuario);
+>>>>>>> 0184f75da5a1c12fd62c9d877ff1ca3ca932e3f3
                 $app = Aplicacion::getInstance();
                 $app->login($usuario);
             }
