@@ -4,6 +4,7 @@ namespace es\ucm\fdi\aw\subastas;
 use es\ucm\fdi\aw\Aplicacion;
 use es\ucm\fdi\aw\Formulario;
 
+
 class ListadoSubastas extends Formulario
 {
     public function __construct() {
@@ -33,7 +34,7 @@ class ListadoSubastas extends Formulario
     static function listadoUnicaSubasta($id){
         $subasta = Subasta::buscaPorId($id);
         $titulosCol = mostrarTitulosTabla();
-
+        $app = Aplicacion::getInstance();
         $html = <<<EOF
                 {$titulosCol}
                 <th>pujar</th>
@@ -48,24 +49,37 @@ class ListadoSubastas extends Formulario
                         <td>{$subasta->getEstado()}</td>
                         <td>{$subasta->getImagen()}</td>
                         <td>{$subasta->getCategoria()}</td>
+     EOF;       
 
-                        <td><form method="POST" action="">
+          if ($app->tieneRol(\es\ucm\fdi\aw\usuarios\Usuario::USER_ROLE)||$app->tieneRol(\es\ucm\fdi\aw\usuarios\Usuario::BUSSINES_ROLE)) {
+    
+            $html .= <<<EOF
+                        " <td><form method="POST" action="">
                           
                         <textarea name="nuevoprecio">{$subasta->getPrecioActual()}</textarea>
                         <input type="hidden" name="idsubasta" value="{$subasta->getIdSubasta()}">
         
                          <button type="submit" name="subasta">pujar
                         </form>
-                        </td>
-    EOF;
+                        </td>  "
+            EOF;                 
+                        } else {
+                            $loginUrl = $app->resuelve('/login.php');
+                            $registroUrl = $app->resuelve('/registro.php');
+                            $html .= <<<EOF
+                            <td> <a href="{$loginUrl}">Login</a> <a href="{$registroUrl}">Registro</a></td> 
+                          EOF;
+                        }
+                        
+    
        $html .= "</table>";
         return $html;
     }
 
 
 
-    static function listadoPujar($busqueda){
-        $subastas = Subasta::listarSubastas($busqueda);
+    static function listadoPujar($busqueda,$buscar=null){
+        $subastas = Subasta::listarSubastas($busqueda,$buscar);
         $titulosCol = mostrarTitulosTabla();
 
         $html = <<<EOF

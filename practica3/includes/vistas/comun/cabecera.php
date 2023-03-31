@@ -9,6 +9,7 @@ $app = Aplicacion::getInstance();
 function mostrarSaludo()
 {
     $html = '';
+	$busqueda= '';
     $app = Aplicacion::getInstance();
     if ($app->usuarioLogueado()) {
         $nombreUsuario = $app->nombreUsuario();
@@ -41,9 +42,6 @@ function mostrarSaludo()
 			  <optgroup label="Opciones principales">
 				<option value="opcion1">Opción 1</option>
 				<option value="opcion2">Opción 2</option>
-				<option value="opcion3">Opción 3</option>
-			  </optgroup>
-			  <optgroup label="Opciones secundarias">
 				<option value="opcion4">Opción 4</option>
 				<option value="opcion5">Opción 5</option>
 			  </optgroup>
@@ -58,21 +56,21 @@ function mostrarSaludo()
 		<img src="\sw\practica2\includes\vistas\imagenes\logoTikTak.jpeg" width="50"><p>Tik Tak auction</p>
 		</div>
 		<div class="BarraBusq">
-		<form action="/search" method="post">
-		  <input type="text" name="barra" placeholder="Buscar cualquier artículo">
-		  <select>
+
+		
+
+<form action="<?= $app->resuelve('/vistaSubastaObjeto.php')?>"  method="get">
+		  <input type="text" name="barra" id="barra"  placeholder="Buscar cualquier artículo">
+		  <select  name="categoria" id="categoria" >
 			  <option value="">Buscar Categoría</option>
-			  <optgroup label="Opciones principales">
 				<option value="opcion1">Opción 1</option>
 				<option value="opcion2">Opción 2</option>
 				<option value="opcion3">Opción 3</option>
-			  </optgroup>
-			  <optgroup label="Opciones secundarias">
 				<option value="opcion4">Opción 4</option>
 				<option value="opcion5">Opción 5</option>
-			  </optgroup>
 		</select>  
-    <a href="<?= $app->resuelve('/vistaSubastaObjeto.php')?>"><button type="button">buscar</button></a>
+		<input type="submit" value="Submit">
+
 		</form>
 		</div>
     </div>

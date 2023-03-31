@@ -22,7 +22,8 @@ class Subasta
     }
     public static function buscaSubasta($tituloSubasta)
     {
-        $conn = Aplicacion::getInstance()->getConexionBd();
+        $app=Aplicacion::getInstance();
+        $conn = $app->getConexionBd();
         $query = sprintf("SELECT * FROM subastas S ", $conn->real_escape_string($tituloSubasta));
         $rs = $conn->query($query);
         $result = false;
@@ -56,29 +57,39 @@ class Subasta
     }
 
 
-    public static function listarSubastas($busqueda)
+    public static function listarSubastas($busqueda,$buscar=null)
     {
-        $conn = Aplicacion::getInstance()->getConexionBd();
+        $app=Aplicacion::getInstance();
+        $idusuario=$app->idUsuario();
+        $conn = $app->getConexionBd();
         $query =" ";
         if($busqueda=='ventas'){
             //listado general todas las subastas
-            $query = sprintf("SELECT * FROM subastas");
+            $query = sprintf("SELECT * FROM subastas S WHERE S.id_usuario= '%d'",  $idusuario);
 
            }else if($busqueda=='borrador'){
         //listado de subsatas que tengo en estado borrador
-            $query = sprintf("SELECT * FROM subastas S WHERE S.estado= '%s'", $conn->real_escape_string($busqueda));
+            $query = sprintf("SELECT * FROM subastas S WHERE S.estado= '%s'AND S.id_usuario= '%d'", $conn->real_escape_string($busqueda), $idusuario);
 
         }else if($busqueda=='programado'){
           //  listado de subastas que tengo en estado programadas
-          $query = sprintf("SELECT * FROM subastas S WHERE S.estado= '%s'", $conn->real_escape_string($busqueda));
+          $query = sprintf("SELECT * FROM subastas S WHERE S.estado= '%s'AND S.id_usuario= '%d'", $conn->real_escape_string($busqueda), $idusuario);
 
-        }else if($busqueda=='activo'){
+        }else if($busqueda=='activa'){
             //listado de subastas activas
-            $query = sprintf("SELECT * FROM subastas S WHERE S.estado= '%s'", $conn->real_escape_string($busqueda));
+            $query = sprintf("SELECT * FROM subastas S WHERE S.estado= '%s' AND S.id_usuario= '%d'", $conn->real_escape_string($busqueda), $idusuario);
             
         }else if($busqueda=='cerrada'){
             //listado de subastas cerradas 
-            $query = sprintf("SELECT * FROM subastas S WHERE S.estado= '%s'", $conn->real_escape_string($busqueda));
+            $query = sprintf("SELECT * FROM subastas S WHERE S.estado= '%s' AND S.id_usuario= '%d'", $conn->real_escape_string($busqueda), $idusuario);
+
+        }else if($busqueda=='busquedaTitulo'){
+            //listado de subastas buscadas por un titulo
+            $query = sprintf("SELECT * FROM subastas S WHERE S.titulo LIKE '%%%s%%'", $conn->real_escape_string($buscar));
+
+        }else if($busqueda=='categoria'){
+            //listado de subastas por categoria
+            $query = sprintf("SELECT * FROM subastas S WHERE S.categoria= '%s'", $conn->real_escape_string($buscar));
 
         }else{
             $query = sprintf("SELECT * FROM subastas");
