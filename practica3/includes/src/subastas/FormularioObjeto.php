@@ -85,7 +85,7 @@ class FormularioObjeto extends Formulario
               
                 <div><label for="tipo">Tipo almacén: $selectorTipoAlmacen</label>{$erroresCampos['tipo']}</div>
                 <div><label for="archivo">Archivo: <input type="file" name="archivo" id="archivo" /></label>{$erroresCampos['archivo']}</div>
-                <button type="submit">Subir</button>
+                
                  
            </div>
 
@@ -216,9 +216,11 @@ class FormularioObjeto extends Formulario
 
               }else{
                 $subasta = Subasta::crea($idUsuario, $titulo, $descripcion, $fechaInicio, $fechaFin, $precioInicial, $precioInicial, $categoria, $estadoproducto);
-               $tmp_name = $_FILES['archivo']['tmp_name'];
+                $subastaaux = Subasta::buscaSubasta($titulo);
+                $id_subasta=$subastaaux->getIdSubasta();
 
-               $imagen = Imagen::crea($nombre, $mimeType, $tipoAlmacen, '');
+                $tmp_name = $_FILES['archivo']['tmp_name'];
+               $imagen = Imagen::crea($id_subasta,$nombre, $mimeType, $tipoAlmacen, '');
                $imagen->guarda();
                $fichero = "{$imagen->id_imagen}.{$extension}";
                $imagen->setRuta($fichero);

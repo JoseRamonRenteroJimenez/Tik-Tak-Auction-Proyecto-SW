@@ -24,7 +24,7 @@ class Subasta
     {
         $app=Aplicacion::getInstance();
         $conn = $app->getConexionBd();
-        $query = sprintf("SELECT * FROM subastas S ", $conn->real_escape_string($tituloSubasta));
+        $query = sprintf("SELECT * FROM subastas S WHERE S.titulo LIKE '%%%s%%'", $conn->real_escape_string($tituloSubasta));
         $rs = $conn->query($query);
         $result = false;
         if ($rs) {

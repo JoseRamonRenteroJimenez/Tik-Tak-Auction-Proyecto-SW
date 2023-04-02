@@ -12,9 +12,9 @@ class Imagen
 
     const TIPOS_ACCESO = [self::PUBLICA, self::PRIVADA];
 
-    public static function crea($nombre, $mimeType, $tipoAcceso, $ruta)
+    public static function crea($id_subasta,$nombre, $mimeType, $tipoAcceso, $ruta)
     {
-        $imagen = new Imagen($ruta, $nombre, $mimeType, $tipoAcceso);
+        $imagen = new Imagen($id_subasta,$ruta, $nombre, $mimeType, $tipoAcceso);
         return $imagen;
     }
 
@@ -36,7 +36,7 @@ class Imagen
         $rs = $conn->query($query);
         if ($rs) {
             while ($fila = $rs->fetch_assoc()) {
-                $result[] = new Imagen($fila['ruta'], $fila['nombre'], $fila['mimeType'], $fila['tipoAcceso'], $fila['id_imagen']);
+                $result[] = new Imagen($fila['id_subasta'],$fila['ruta'], $fila['nombre'], $fila['mimeType'], $fila['tipoAcceso'], $fila['id_imagen']);
             }
             $rs->free();
         } else {
@@ -60,7 +60,7 @@ class Imagen
         $rs = $conn->query($query);
         if ($rs) {
             while ($fila = $rs->fetch_assoc()) {
-                $result = new Imagen($fila['ruta'], $fila['nombre'], $fila['mimeType'], $fila['tipoAcceso'], $fila['id_imagen']);
+                $result = new Imagen($fila['id_subasta'],$fila['ruta'], $fila['nombre'], $fila['mimeType'], $fila['tipoAcceso'], $fila['id_imagen']);
             }
             $rs->free();
         } else {
@@ -76,7 +76,8 @@ class Imagen
 
         $conn = Aplicacion::getInstance()->getConexionBd();
         $query = sprintf(
-            "INSERT INTO Imagenes (ruta, nombre, mimeType, tipoAcceso) VALUES ('%s', '%s', '%s', %d)",
+            "INSERT INTO Imagenes (id_subasta,ruta, nombre, mimeType, tipoAcceso) VALUES ( %d,'%s', '%s', '%s', %d)",
+            $imagen->id_subasta,
             $conn->real_escape_string($imagen->ruta),
             $conn->real_escape_string($imagen->nombre),
             $conn->real_escape_string($imagen->mimeType),
@@ -101,7 +102,8 @@ class Imagen
 
         $conn = Aplicacion::getInstance()->getConexionBd();
         $query = sprintf(
-            "UPDATE Imagenes I SET ruta = '%s', nombre = '%s', mimeType = '%s', tipoAcceso = %d WHERE I.id_imagen = %d",
+            "UPDATE Imagenes I SET id_subasta = %d ,ruta = '%s', nombre = '%s', mimeType = '%s', tipoAcceso = %d WHERE I.id_imagen = %d",
+            $imagen->id_subasta,
             $conn->real_escape_string($imagen->ruta),
             $conn->real_escape_string($imagen->nombre),
             $conn->real_escape_string($imagen->mimeType),
@@ -143,6 +145,8 @@ class Imagen
 
     private $id_imagen;
 
+    private $id_subasta;
+
     private $ruta;
 
     private $nombre;
@@ -151,8 +155,9 @@ class Imagen
 
     private $tipoAcceso;
 
-    private function __construct($ruta, $nombre, $mimeType, $tipoAcceso = self::PUBLICA,  $id_imagen = NULL)
+    private function __construct($id_subasta,$ruta, $nombre, $mimeType, $tipoAcceso = self::PUBLICA,  $id_imagen = NULL)
     {
+        $this->id_subasta = $id_subasta;
         $this->ruta = $ruta;
         $this->nombre = $nombre;
         $this->mimeType = $mimeType;
@@ -167,7 +172,10 @@ class Imagen
     {
         return $this->id_imagen;
     }
-
+    public function getid_subasta()
+    {
+        return $this->id_subasta;
+    }
     public function getRuta()
     {
         return $this->ruta;
@@ -177,7 +185,7 @@ class Imagen
     {
         $this->ruta = $nuevaRuta;
     }
-
+    
     public function getNombre()
     {
         return $this->nombre;
