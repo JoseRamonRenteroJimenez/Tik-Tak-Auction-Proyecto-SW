@@ -176,9 +176,25 @@ CREATE TABLE `valoraciones` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
+-- creacion de tabla imagenes
+--
+CREATE TABLE imagenes (
+  'id' int(11) NOT NULL AUTO_INCREMENT,
+  'id_subasta' int(11) NOT NULL,
+  'ruta' varchar(20) NOT NULL,
+  'nombre' varchar(20) NOT NULL,
+  'mimeType' varchar(30) NOT NULL,
+ 'tipoAcceso' tinyint(4) NOT NULL,
+  PRIMARY KEY ('id_subasta'),
+  CONSTRAINT 'fk_subasta' FOREIGN KEY ('id_subasta') REFERENCES 'subastas' ('id_subasta')
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+--
+-- modificacion de subastas para eliminar columna imagenes
+--
+ALTER TABLE `subastas` DROP COLUMN `imagen`;
+--
 -- Índices para tablas volcadas
 --
-
 --
 -- Indices de la tabla `chats`
 --

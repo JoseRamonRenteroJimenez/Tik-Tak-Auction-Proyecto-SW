@@ -17,7 +17,7 @@ define('RUTA_APP', '/sw/practica3/');
 define('RUTA_IMGS', RUTA_APP.'img/');
 define('RUTA_CSS', RUTA_APP.'css/');
 define('RUTA_JS', RUTA_APP.'js/');
-
+define('RUTA_ALMACEN', implode(DIRECTORY_SEPARATOR, [dirname(__DIR__), 'almacen']));
 
 
  // Parámetros de conexión a la BD produccion
