@@ -8,9 +8,9 @@ $formLogin = $formLogin->gestiona();
 
 $tituloPagina = 'Login';
 $contenidoPrincipal=<<<EOF
-  	<h1>Acceso al sistema</h1>
-    $formLogin
+$formLogin
 EOF;
+
 
 $params = ['tituloPagina' => $tituloPagina, 'contenidoPrincipal' => $contenidoPrincipal];
 $app->generaVista('/plantillas/plantillaLoginRegistro.php', $params);

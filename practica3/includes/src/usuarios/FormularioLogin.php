@@ -9,7 +9,7 @@ class FormularioLogin extends Formulario
     public function __construct() {
         parent::__construct('formLogin', ['urlRedireccion' => Aplicacion::getInstance()->resuelve('/index.php')]);
     }
-    
+
     protected function generaCamposFormulario(&$datos)
     {
         // Se reutiliza el nombre de usuario introducido previamente o se deja en blanco
@@ -22,22 +22,7 @@ class FormularioLogin extends Formulario
         // Se genera el HTML asociado a los campos del formulario y los mensajes de error.
         $html = <<<EOF
         $htmlErroresGlobales
-        <fieldset>
-            <legend>Usuario y contraseña</legend>
-            <div>
-                <label for="nombreUsuario">Nombre de usuario:</label>
-                <input id="nombreUsuario" type="text" name="nombreUsuario" value="$nombreUsuario" />
-                {$erroresCampos['nombreUsuario']}
-            </div>
-            <div>
-                <label for="password">Password:</label>
-                <input id="password" type="password" name="password" />
-                {$erroresCampos['password']}
-            </div>
-            <div>
-                <button type="submit" name="login">Entrar</button>
-            </div>
-        </fieldset>
+    
         EOF;
         return $html;
     }
@@ -68,4 +53,34 @@ class FormularioLogin extends Formulario
             }
         }
     }
+    
 }
+
+?>
+
+<!DOCTYPE html>
+        <html>
+        <link rel="stylesheet" href="/Tik-Tak-Auction-Proyecto-SW/practica3/estilo.css?v=<?php echo time(); ?>" />
+        <body>
+        <div class="center">
+        <h1>Hola</h1>
+        <form method="post">
+            <div class="txt_field">
+            <input type="text" required>
+            <span></span>
+            <label>Nombre Usuario</label>
+            </div>
+            <div class="txt_field">
+            <input type="password" required>
+            <span></span>
+            <label>Password</label>
+            </div>
+            <button type="submit" value="Login">Entrar</button>
+            <input name="conectado" type="checkbox" value="conectado" checked/> Seguir conectado
+            </div>
+        </form>
+     </div>
+
+    </body>
+
+</html>
