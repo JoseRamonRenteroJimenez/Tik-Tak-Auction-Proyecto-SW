@@ -23,9 +23,8 @@ class FormularioRegistro extends Formulario
 
         $html = <<<EOF
         $htmlErroresGlobales
-        <fieldset>
-            <legend>Datos para el registro</legend>
-            
+        <div class="center">
+        <h1>Crea una cuenta</h1>        
             <div>
             <label for="rolUsuario">Particular:</label>
             <input id="rolUsuario" type="radio" name="rolUsuario" value="2" />
@@ -35,28 +34,28 @@ class FormularioRegistro extends Formulario
             <input id="rolUsuario" type="radio" name="rolUsuario" value="3" />
             {$erroresCampos['rolUsuario']}
             </div>
-            <div>
-                <label for="nombreUsuario">Nombre de usuario:</label>
+            <div class="txt_field">
+                <label for="nombreUsuario">Nombre usuario</label>
                 <input id="nombreUsuario" type="text" name="nombreUsuario" value="$nombreUsuario" />
                 {$erroresCampos['nombreUsuario']}
             </div>
-            <div>
+            <div class="txt_field">
                 <label for="nombre">Nombre:</label>
                 <input id="nombre" type="text" name="nombre" value="$nombre" />
                 {$erroresCampos['nombre']}
             </div>
-            <div>
+            <div class="txt_field">
                 <label for="email">Email:</label>
                 <input id="email" type="text" name="email" value="$email" />
                 {$erroresCampos['email']}
             </div>
 
-            <div>
+            <div class="txt_field">
                 <label for="password">Password:</label>
                 <input id="password" type="password" name="password" />
                 {$erroresCampos['password']}
             </div>
-            <div>
+            <div class="txt_field">
                 <label for="password2">Reintroduce el password:</label>
                 <input id="password2" type="password" name="password2" />
                 {$erroresCampos['password2']}
@@ -64,7 +63,7 @@ class FormularioRegistro extends Formulario
             <div>
                 <button type="submit" name="registro">Registrar</button>
             </div>
-        </fieldset>
+        </div>
         EOF;
         return $html;
     }
