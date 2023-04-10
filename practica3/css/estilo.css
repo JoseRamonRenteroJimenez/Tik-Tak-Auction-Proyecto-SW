@@ -160,10 +160,29 @@ header {
 .BarraBusq {
 	display: flex;
 	flex-direction: row;
+	width: 70%;
 	align-items: center;
-	margin-left: 20px;
-}
+	margin-left: 25%;
+	margin-top: -1%;
+	padding: 0.2em;
 
+}
+.barra {
+	display: inline-block; /* Establecer display en inline-block */
+	width: 85%; /* Establecer el ancho de cada div */
+	height: 100%; /* Establecer la altura de cada div */
+	box-sizing: border-box; /* Incluir los bordes y padding en el cÃ¡lculo del ancho total */
+	border: 0.1em solid gray; /* AÃ±adir un borde para cada div */
+	padding: 10px;
+  }
+.boton {
+	display: inline-block; /* Establecer display en inline-block */
+	width: 10%; /* Establecer el ancho de cada div */
+	height: 100%; /* Establecer la altura de cada div */
+	box-sizing: border-box; /* Incluir los bordes y padding en el cÃ¡lculo del ancho total */
+	 /* AÃ±adir un borde para cada div */
+	padding: 10px;
+  }
 input[type=text], select {
 	padding: 6px 10px;
 	border: none;
@@ -188,7 +207,7 @@ input[type=submit] {
 	position: absolute;
 	top: 23%;
 	left: 0;
-	width: 200px; /* ajusta el valor según el tamaño deseado */
+	width: 200px; /* ajusta el valor segÃºn el tamaÃ±o deseado */
 	height: auto;
 	margin-top: -100px; /* ajusta el valor para centrar verticalmente */
 	margin-left: 20px; /* ajusta el valor para agregar margen izquierdo */
@@ -212,7 +231,7 @@ input[type=submit] {
   position: absolute;
   top: 20%;
   left: 0;
-  width: 200px; /* ajusta el valor según el tamaño deseado */
+  width: 200px; /* ajusta el valor segÃºn el tamaÃ±o deseado */
   height: auto;
   margin-top: -100px; /* ajusta el valor para centrar verticalmente */
   margin-left: 20px; /* ajusta el valor para agregar margen izquierdo */

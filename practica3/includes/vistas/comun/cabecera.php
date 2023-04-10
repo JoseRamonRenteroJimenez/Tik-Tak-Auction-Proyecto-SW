@@ -47,13 +47,14 @@ function mostrarSaludo()
    
       <div class="CabeceraInferior">
         <div class="Imagen">
-		<a href="index.php">	<img src= <?php echo RUTA_IMGS.'\logoTikTak.jpeg'; ?>	 alt="Logo TikTak"></a>
+		<a href="index.php"><img src= <?php echo RUTA_IMGS.'\logoTikTak.jpeg'; ?>	 alt="Logo TikTak"></a>
           
         </div>
         <div class="BarraBusq">
           <form action="<?= $app->resuelve('/vistaSubastaObjeto.php')?>"  method="get">
             <div class="BarraBusqContent">
-              <input type="text" name="barra" id="barra"  placeholder="Buscar cualquier artículo">
+              <div class="barra">
+				<input type="text" name="barra" id="barra"  placeholder="Buscar cualquier artículo">
               <select name="categoria" id="categoria">
                 <option value="">Buscar Categoría</option>
                 <option value="opcion1">Opción 1</option>
@@ -62,7 +63,8 @@ function mostrarSaludo()
                 <option value="opcion4">Opción 4</option>
                 <option value="opcion5">Opción 5</option>
               </select>
-            <input type="submit" value="Buscar">
+			  </div>
+			  <div class="boton"><input type="submit" value="Buscar"></div>
 		</div>
           </form>
         </div>
