@@ -23,48 +23,44 @@ class FormularioRegistro extends Formulario
 
         $html = <<<EOF
         $htmlErroresGlobales
-        <fieldset>
-            <legend>Datos para el registro</legend>
-            
-            <div>
-            <label for="rolUsuario">Particular:</label>
-            <input id="rolUsuario" type="radio" name="rolUsuario" value="2" />
-            {$erroresCampos['rolUsuario']}
+        <div class="center">
+        <h1>Crea una cuenta</h1>    
 
-            <label for="rolUsuario">Empresa:</label>
-            <input id="rolUsuario" type="radio" name="rolUsuario" value="3" />
+        <div class="radio-buttons">
+            <label for="rolParticular">Particular:</label>
+            <input id="rolParticular" type="radio" name="rolUsuario" value="2" />
             {$erroresCampos['rolUsuario']}
-            </div>
-            <div>
-                <label for="nombreUsuario">Nombre de usuario:</label>
-                <input id="nombreUsuario" type="text" name="nombreUsuario" value="$nombreUsuario" />
+            <label for="rolEmpresa">Empresa:</label>
+            <input id="rolEmpresa" type="radio" name="rolUsuario" value="3" />
+            {$erroresCampos['rolUsuario']}
+        </div>   
+            
+            <div class="txt_field">
+                <input id="nombreUsuario" type="text"  placeholder="Nombre usuario" name="nombreUsuario" value="$nombreUsuario" />
                 {$erroresCampos['nombreUsuario']}
             </div>
-            <div>
-                <label for="nombre">Nombre:</label>
-                <input id="nombre" type="text" name="nombre" value="$nombre" />
+            <div class="txt_field">
+              
+                <input id="nombre" type="text" name="nombre" placeholder="Nombre" value="$nombre" />
                 {$erroresCampos['nombre']}
             </div>
-            <div>
-                <label for="email">Email:</label>
-                <input id="email" type="text" name="email" value="$email" />
+            <div class="txt_field">
+                <input id="email" type="text" name="email" placeholder="Email" value="$email" />
                 {$erroresCampos['email']}
             </div>
 
-            <div>
-                <label for="password">Password:</label>
-                <input id="password" type="password" name="password" />
+            <div class="txt_field">
+                <input id="password" type="password" placeholder="Password" name="password" />
                 {$erroresCampos['password']}
             </div>
-            <div>
-                <label for="password2">Reintroduce el password:</label>
-                <input id="password2" type="password" name="password2" />
+            <div class="txt_field">
+                <input id="password2" type="password" placeholder="Reintroduce el password" name="password2" />
                 {$erroresCampos['password2']}
             </div>
             <div>
                 <button type="submit" name="registro">Registrar</button>
             </div>
-        </fieldset>
+        </div>
         EOF;
         return $html;
     }

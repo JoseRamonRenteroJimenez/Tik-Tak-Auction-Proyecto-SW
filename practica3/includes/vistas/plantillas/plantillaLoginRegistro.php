@@ -11,18 +11,15 @@ $mensajes = mensajesPeticionAnterior();
 <body>
 <?= $mensajes ?>
 <div id="contenedorinicio">
-<?php
-$params['app']->doInclude('/vistas/comun/cabecera.php');
-?>
+	<?= $params['app']->doInclude('/vistas/comun/cabeceraLoginRegistro.php') ?>
+
 	<main>
-        
+	
 		<article>
 			<?= $params['contenidoPrincipal'] ?>
 		</article>
 	</main>
-<?php
-$params['app']->doInclude('/vistas/comun/pie.php');
-?>
+
 </div>
 </body>
 </html>
