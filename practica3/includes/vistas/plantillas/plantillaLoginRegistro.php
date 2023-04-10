@@ -16,7 +16,7 @@ $mensajes = mensajesPeticionAnterior();
 	<main>
 	
 		<article>
-			<?= $params['contenidoPrincipal'] ?>
+		<?= $params['contenidoPrincipal'] ?>
 		</article>
 	</main>
 

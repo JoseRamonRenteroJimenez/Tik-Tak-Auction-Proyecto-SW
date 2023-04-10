@@ -11,24 +11,16 @@ function mostrarSaludo()
     $html = '';
 	$busqueda= '';
     $app = Aplicacion::getInstance();
-    if ($_SERVER['PHP_SELF'] == '/registro.php') {
-      $titulo = 'Página de inicio';
-  } elseif ($_SERVER['PHP_SELF'] == '/login.php') {
-      $titulo = 'Acerca de nosotros';
+    
+    if ($_SERVER['PHP_SELF'] == RUTA_APP.'/registro.php') {
+     $loginUrl = $app->resuelve('/login.php');
+     $html = <<<EOS
+      ¿Ya estas registrado? <a href="{$loginUrl}">Identificate</a> 
+     EOS;
+  } elseif ($_SERVER['PHP_SELF'] == RUTA_APP.'/login.php') {
+     
   }
-    if ($app->usuarioLogueado()) {
-        $nombreUsuario = $app->nombreUsuario();
-
-        $formLogout = new FormularioLogout();
-        $htmlLogout = $formLogout->gestiona();
-        $html = "Bienvenido, ${nombreUsuario}. $htmlLogout";
-    } else {
-        $loginUrl = $app->resuelve('/login.php');
-        $registroUrl = $app->resuelve('/registro.php');
-        $html = <<<EOS
-        Usuario desconocido. <a href="{$loginUrl}">Login</a> <a href="{$registroUrl}">Registro</a>
-      EOS;
-    }
+    
 
     return $html;
 }
@@ -40,16 +32,17 @@ function mostrarSaludo()
 <body>
 
 <header class="CabeceraPrincipal">
-<?php echo mostrarSaludo(); ?>
+
 	<div class="CabeceraSuperior">		
-	
+	<?php echo mostrarSaludo(); ?>
         
 
 	</div>
 
     <div class="CabeceraInferior">		
-		<div class="Imagen">			
-		<img src="\sw\practica2\includes\vistas\imagenes\logoTikTak.jpeg" width="50"><p>Tik Tak auction</p>
+		<div class="Imagen">		
+   
+		<img src= <?php echo RUTA_IMGS.'\logoTikTak.jpeg'; ?>	 >
 		</div>
 		
     </div>
