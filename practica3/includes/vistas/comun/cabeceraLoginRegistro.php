@@ -33,16 +33,16 @@ function mostrarSaludo()
 
 <header class="CabeceraPrincipal">
 
-	<div class="CabeceraSuperior">		
+	<div class="CabeceraSuperiorlogreg">		
 	<?php echo mostrarSaludo(); ?>
         
 
 	</div>
 
-    <div class="CabeceraInferior">		
+    <div class="CabeceraInferiorlogreg">		
 		<div class="Imagen">		
    
-		<img src= <?php echo RUTA_IMGS.'\logoTikTak.jpeg'; ?>	 >
+    <a href="index.php">	<img src= <?php echo RUTA_IMGS.'\logoTikTak.jpeg'; ?>	 alt="Logo TikTak"></a>
 		</div>
 		
     </div>
