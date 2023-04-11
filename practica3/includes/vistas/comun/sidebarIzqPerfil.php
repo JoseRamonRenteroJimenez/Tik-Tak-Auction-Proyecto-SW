@@ -14,7 +14,7 @@ $app = Aplicacion::getInstance();
 		<li><a href="<?= $app->resuelve('/contenidomiperfil.php?ventas=ventas')?>">Vista general</a></li> 
 		<li><a href="<?= $app->resuelve('/contenidomiperfil.php?ventas=borrador')?>">Borradores</a></li>
 		<li><a href="<?= $app->resuelve('/contenidomiperfil.php?ventas=programado')?>">Programados</a></li>
-		<li><a href="<?= $app->resuelve('/contenidomiperfil.php?ventas=activo')?>">Activos</a></li>
+		<li><a href="<?= $app->resuelve('/contenidomiperfil.php?ventas=activa')?>">Activos</a></li>
 		<li><a href="<?= $app->resuelve('/contenidomiperfil.php?ventas=cerrada')?>">Vendidos</a></li>
 		</ul>
 	</li>

@@ -10,26 +10,27 @@ class Subasta
 
    
     
-    public static function crea($idusuario, $titulo, $descripcion, $fechainicio, $fechafin, $precioinicial, $precioactual, $imagen, $categoria, $estadoproducto)
+    public static function crea($idusuario, $titulo, $descripcion, $fechainicio, $fechafin, $precioinicial, $precioactual, $categoria, $estadoproducto)
     {
-        $subasta = new subasta($idusuario, $titulo, $descripcion, $fechainicio, $fechafin, $precioinicial, $precioactual, $imagen, $categoria, $estadoproducto);
+        $subasta = new subasta($idusuario, $titulo, $descripcion, $fechainicio, $fechafin, $precioinicial, $precioactual, $categoria, $estadoproducto);
         return $subasta->guarda();
     }
-    public static function actualizaSubasta($idSubasta,$idusuario, $titulo, $descripcion, $fechainicio, $fechafin, $precioinicial, $precioactual, $imagen, $categoria, $estadoproducto,$idganador=null)
+    public static function actualizaSubasta($idSubasta,$idusuario, $titulo, $descripcion, $fechainicio, $fechafin, $precioinicial, $precioactual, $categoria, $estadoproducto,$idganador=null)
     {
-        $subasta = new subasta($idusuario, $titulo, $descripcion, $fechainicio, $fechafin, $precioinicial, $precioactual, $imagen, $categoria, $estadoproducto,$idSubasta,$idganador);
+        $subasta = new subasta($idusuario, $titulo, $descripcion, $fechainicio, $fechafin, $precioinicial, $precioactual, $categoria, $estadoproducto,$idSubasta,$idganador);
         return $subasta->guarda();
     }
     public static function buscaSubasta($tituloSubasta)
     {
-        $conn = Aplicacion::getInstance()->getConexionBd();
-        $query = sprintf("SELECT * FROM subastas S ", $conn->real_escape_string($tituloSubasta));
+        $app=Aplicacion::getInstance();
+        $conn = $app->getConexionBd();
+        $query = sprintf("SELECT * FROM subastas S WHERE S.titulo LIKE '%%%s%%'", $conn->real_escape_string($tituloSubasta));
         $rs = $conn->query($query);
         $result = false;
         if ($rs) {
             $fila = $rs->fetch_assoc();
             if ($fila) {
-                $result = new Subasta( $fila['id_usuario'],  $fila['titulo'],  $fila['descripcion'],  $fila['fecha_inicio'],  $fila['fecha_fin'],  $fila['precio_inicial'],  $fila['precio_actual'],$fila['imagen'],$fila['categoria'],$fila['estadoproducto'], $fila['id_subasta'], $fila['id_ganador'], $fila['estado']);            }
+                $result = new Subasta( $fila['id_usuario'],  $fila['titulo'],  $fila['descripcion'],  $fila['fecha_inicio'],  $fila['fecha_fin'],  $fila['precio_inicial'],  $fila['precio_actual'],$fila['categoria'],$fila['estadoproducto'], $fila['id_subasta'], $fila['id_ganador'], $fila['estado']);            }
             $rs->free();
         } else {
             error_log("Error BD ({$conn->errno}): {$conn->error}");
@@ -46,7 +47,7 @@ class Subasta
         if ($rs) {
             $fila = $rs->fetch_assoc();
             if ($fila) {
-                $result = new Subasta( $fila['id_usuario'],  $fila['titulo'],  $fila['descripcion'],  $fila['fecha_inicio'],  $fila['fecha_fin'],  $fila['precio_inicial'],  $fila['precio_actual'],$fila['imagen'],$fila['categoria'],$fila['estadoproducto'], $fila['id_subasta'], $fila['id_ganador'], $fila['estado']);            }
+                $result = new Subasta( $fila['id_usuario'],  $fila['titulo'],  $fila['descripcion'],  $fila['fecha_inicio'],  $fila['fecha_fin'],  $fila['precio_inicial'],  $fila['precio_actual'],$fila['categoria'],$fila['estadoproducto'], $fila['id_subasta'], $fila['id_ganador'], $fila['estado']);            }
             $rs->free();
         } else {
             error_log("Error BD ({$conn->errno}): {$conn->error}");
@@ -56,29 +57,39 @@ class Subasta
     }
 
 
-    public static function listarSubastas($busqueda)
+    public static function listarSubastas($busqueda,$buscar=null)
     {
-        $conn = Aplicacion::getInstance()->getConexionBd();
+        $app=Aplicacion::getInstance();
+        $idusuario=$app->idUsuario();
+        $conn = $app->getConexionBd();
         $query =" ";
         if($busqueda=='ventas'){
             //listado general todas las subastas
-            $query = sprintf("SELECT * FROM subastas");
+            $query = sprintf("SELECT * FROM subastas S WHERE S.id_usuario= '%d'",  $idusuario);
 
            }else if($busqueda=='borrador'){
         //listado de subsatas que tengo en estado borrador
-            $query = sprintf("SELECT * FROM subastas S WHERE S.estado= '%s'", $conn->real_escape_string($busqueda));
+            $query = sprintf("SELECT * FROM subastas S WHERE S.estado= '%s'AND S.id_usuario= '%d'", $conn->real_escape_string($busqueda), $idusuario);
 
         }else if($busqueda=='programado'){
           //  listado de subastas que tengo en estado programadas
-          $query = sprintf("SELECT * FROM subastas S WHERE S.estado= '%s'", $conn->real_escape_string($busqueda));
+          $query = sprintf("SELECT * FROM subastas S WHERE S.estado= '%s'AND S.id_usuario= '%d'", $conn->real_escape_string($busqueda), $idusuario);
 
-        }else if($busqueda=='activo'){
+        }else if($busqueda=='activa'){
             //listado de subastas activas
-            $query = sprintf("SELECT * FROM subastas S WHERE S.estado= '%s'", $conn->real_escape_string($busqueda));
+            $query = sprintf("SELECT * FROM subastas S WHERE S.estado= '%s' AND S.id_usuario= '%d'", $conn->real_escape_string($busqueda), $idusuario);
             
         }else if($busqueda=='cerrada'){
             //listado de subastas cerradas 
-            $query = sprintf("SELECT * FROM subastas S WHERE S.estado= '%s'", $conn->real_escape_string($busqueda));
+            $query = sprintf("SELECT * FROM subastas S WHERE S.estado= '%s' AND S.id_usuario= '%d'", $conn->real_escape_string($busqueda), $idusuario);
+
+        }else if($busqueda=='busquedaTitulo'){
+            //listado de subastas buscadas por un titulo
+            $query = sprintf("SELECT * FROM subastas S WHERE S.titulo LIKE '%%%s%%'", $conn->real_escape_string($buscar));
+
+        }else if($busqueda=='categoria'){
+            //listado de subastas por categoria
+            $query = sprintf("SELECT * FROM subastas S WHERE S.categoria= '%s'", $conn->real_escape_string($buscar));
 
         }else{
             $query = sprintf("SELECT * FROM subastas");
@@ -97,7 +108,6 @@ class Subasta
                     $fila['fecha_fin'],
                     $fila['precio_inicial'],
                     $fila['precio_actual'],
-                    $fila['imagen'],
                     $fila['categoria'],
                     $fila['estadoproducto'],
                     $fila['id_subasta'],
@@ -143,11 +153,11 @@ class Subasta
     }
     private static function inserta($subasta)
     {
-      //  echo($subasta->id_usuario.",".$subasta->titulo .",".$subasta->descripcion .",".$subasta->fecha_inicio.",". $subasta->fecha_fin .",".$subasta->precio_inicial.",". $subasta->precio_actual.",". $subasta->id_ganador .",".$subasta->estado .",".$subasta->imagen .",".$subasta->categoria.",". $subasta->estadoproducto.",". $subasta->obtenerEstadoSubasta($subasta->fecha_inicio,$subasta->fecha_fin));
+      //  echo($subasta->id_usuario.",".$subasta->titulo .",".$subasta->descripcion .",".$subasta->fecha_inicio.",". $subasta->fecha_fin .",".$subasta->precio_inicial.",". $subasta->precio_actual.",". $subasta->id_ganador .",".$subasta->estado .",".$subasta->categoria.",". $subasta->estadoproducto.",". $subasta->obtenerEstadoSubasta($subasta->fecha_inicio,$subasta->fecha_fin));
         $result = false;
         $conn = Aplicacion::getInstance()->getConexionBd();
         
-        $query=sprintf("INSERT INTO subastas(id_usuario, titulo, descripcion, fecha_inicio, fecha_fin, precio_inicial, precio_actual, id_ganador, estado, imagen, categoria, estadoproducto) VALUES ('%d', '%s', '%s', '%s','%s', '%f', '%f', NULL,'%s','%s', '%s', '%s')"
+        $query=sprintf("INSERT INTO subastas(id_usuario, titulo, descripcion, fecha_inicio, fecha_fin, precio_inicial, precio_actual, id_ganador, estado, categoria, estadoproducto) VALUES ('%d', '%s', '%s', '%s','%s', '%f', '%f', NULL,'%s', '%s', '%s')"
             , $subasta->idusuario
             , $conn->real_escape_string($subasta->titulo)
             , $conn->real_escape_string($subasta->descripcion)
@@ -156,7 +166,6 @@ class Subasta
             , $subasta->precioinicial
             , $subasta->precioactual
             , $conn->real_escape_string($subasta->obtenerEstadoSubasta($subasta->fechainicio,$subasta->fechafin))
-            , $conn->real_escape_string($subasta->imagen)
             , $conn->real_escape_string($subasta->categoria)
             , $conn->real_escape_string($subasta->estadoproducto)
             
@@ -184,7 +193,6 @@ class Subasta
         precio_actual = %f,
         id_ganador = %d,
         estado = '%s',
-        imagen = '%s',
         categoria = '%s',
         estadoproducto = '%s'
         WHERE S.id_subasta = %d",
@@ -196,7 +204,6 @@ class Subasta
         $subasta->precioactual,
         $subasta->idganador,
         $conn->real_escape_string($subasta->estado),
-        $conn->real_escape_string($subasta->imagen),
         $conn->real_escape_string($subasta->categoria),
         $conn->real_escape_string($subasta->estadoproducto),
         $subasta->idSubasta
@@ -254,13 +261,12 @@ class Subasta
 
     private $estado;
 
-    private $imagen;
 
     private $categoria;
 
     private $estadoproducto;
 
-    private function __construct($idusuario, $titulo, $descripcion, $fechainicio, $fechafin, $precioinicial, $precioactual,$imagen, $categoria, $estadoproducto,$idsubasta = null,$idganador = null, $estado = null)
+    private function __construct($idusuario, $titulo, $descripcion, $fechainicio, $fechafin, $precioinicial, $precioactual, $categoria, $estadoproducto,$idsubasta = null,$idganador = null, $estado = null)
     {
         $this->idsubasta = $idsubasta;
         $this->idusuario = $idusuario;
@@ -272,7 +278,6 @@ class Subasta
         $this->precioactual = $precioactual;
         $this->idganador = $idganador;
         $this->estado = $estado;
-        $this->imagen = $imagen;
         $this->categoria = $categoria;
         $this->estadoproducto = $estadoproducto;
     }
@@ -314,9 +319,6 @@ class Subasta
         return $this->estado;
     }
 
-    public function getImagen() {
-        return $this->imagen;
-    }
 
     public function getCategoria() {
         return $this->categoria;
