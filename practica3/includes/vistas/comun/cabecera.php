@@ -32,7 +32,7 @@ function mostrarcategorias()
 {
   $html = <<<EOF
           <select name="categoria" id="categoria">
-         
+          <option value=''>Elige categoria</option>"
 EOF;
       
       $categorias = es\ucm\fdi\aw\subastas\Categorias::listarCategorias();
@@ -48,7 +48,6 @@ EOF;
 
 return $html;
 }
-
 
 ?>
 

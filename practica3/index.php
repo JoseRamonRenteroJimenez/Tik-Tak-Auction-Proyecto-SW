@@ -72,8 +72,14 @@ $contenidoPrincipal .=<<<EOS
                 <img src="auction-1.jpg" alt="Subasta 1">
               </div>
               <div class="listasdestacadas-title">
-                <h3><a href="/sw/practica3/vistaSubastaObjeto.php?barra=&categoria={$subastas[$contador]->getIdSubasta()}">{$subastas[$contador]->getTitulo()}</a></h3>
-              </div>
+              
+              <form id="myForm" action="/sw/practica3/vistaUnicaSubasta.php" method="POST">
+              <input type="hidden" name="idsubasta" value="{$subastas[$contador]->getIdSubasta()}">
+              <button type="submit" class="button-link"><h3>{$subastas[$contador]->getTitulo()}</h3></button>
+            </form>
+
+                        
+             </div>
             </li>
       EOS;
     }
@@ -87,7 +93,13 @@ for($contador=0;$contador<7;$contador++) {
             <img src="Categoria-1.jpg" alt="Categorias">
           </div>
           <div class="listasdestacadas-title">
-            <h3><a href="/sw/practica3/vistaSubastaObjeto.php?barra=&categoria={$categorias[$contador]->getId()}">{$categorias[$contador]->getNombre()}</a></h3>
+
+          <form id="myForm" action="/sw/practica3/vistaSubastaObjeto.php" method="GET">
+          <input type="hidden" name="barra" value="">
+              <input type="hidden" name="categoria" value="{$categorias[$contador]->getId()}">
+              <button type="submit" class="button-link"><h3>{$categorias[$contador]->getNombre()}</h3></button>
+            </form>
+
           </div>
         </li>
   EOS;

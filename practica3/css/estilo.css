@@ -387,3 +387,20 @@ nav a {
 .listasdestacadas-title {
   font-size: 16px;
 }
+button[type="submit"].button-link   {
+        border: none;
+        background: none;
+        padding: 0;
+        text-decoration: none;
+        color: black;
+        cursor: pointer;
+		font-size: 1em;
+        font-weight: bold;
+    }
+
+button[type="submit"].button-link:hover  {
+         color: #2691d9;
+		text-decoration: underline;
+		transition:none;
+	   
+    }
