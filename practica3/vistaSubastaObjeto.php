@@ -15,5 +15,8 @@ if($categoria!=""){
 $contenidoPrincipal = \es\ucm\fdi\aw\subastas\ListadoSubastas::listadoPujar('busquedaTitulo',$busquedaTitulo);
 }
 
+
+
+
 $params = ['tituloPagina' => $tituloPagina, 'contenidoPrincipal' => $contenidoPrincipal];
 $app->generaVista('/plantillas/plantillaInicio.php', $params);

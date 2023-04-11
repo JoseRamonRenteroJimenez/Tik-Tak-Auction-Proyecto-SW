@@ -10,6 +10,7 @@ class Valoracion
 
    
     
+<<<<<<< HEAD
     public static function crea($idusuario, $idsubasta, $idproducto, $puntuacion, $comentario,$idvendedor)
     {
         $valoracion = new valoracion($idusuario,$idsubasta,$puntuacion, $comentario,$idvendedor,  $idproducto);
@@ -18,6 +19,16 @@ class Valoracion
     public static function actualizaSubasta($idvaloracion,$idusuario, $idsubasta, $idproducto, $puntuacion, $comentario,$idvendedor)
     {
         $valoracion = new valoracion($idusuario,$idsubasta,$puntuacion, $comentario,$idvendedor, $idproducto,$idvaloracion);
+=======
+    public static function crea($idusuario, $idsubasta, $tituloproducto, $puntuacion, $comentario,$idvendedor)
+    {
+        $valoracion = new valoracion($idusuario,$idsubasta,$tituloproducto,$puntuacion, $comentario,$idvendedor);
+        return $valoracion->guarda();
+    }
+    public static function actualizaValoracion($idvaloracion,$idusuario, $idsubasta, $tituloproducto, $puntuacion, $comentario,$idvendedor)
+    {
+        $valoracion = new valoracion($idusuario,$idsubasta,$tituloproducto,$puntuacion, $comentario,$idvendedor, $idvaloracion);
+>>>>>>> origin/Sergio-Branch
         return $valoracion->guarda();
     }
     
@@ -86,7 +97,11 @@ class Valoracion
         $query=sprintf("INSERT INTO subastas(id_usuario, id_subasta, id_producto,puntuacion,comentario,id_vendedor) VALUES ('%d', '%d', '%d', '%s','%s', '%d')"
             , $valoracion->idusuario
             , $valoracion->idsubasta
+<<<<<<< HEAD
             , $valoracion->idproducto
+=======
+            , $valoracion->tituloproducto
+>>>>>>> origin/Sergio-Branch
             , $conn->real_escape_string($valoracion->puntuacion)
             , $conn->real_escape_string($valoracion->comentario)
             , $valoracion->idvendedor       
@@ -151,7 +166,11 @@ class Valoracion
 
     private $idsubasta;
 
+<<<<<<< HEAD
     private $idproducto;
+=======
+    private $tituloproducto;
+>>>>>>> origin/Sergio-Branch
 
     private $puntuacion;
 
@@ -159,7 +178,11 @@ class Valoracion
 
     private $idvendedor;
     //Las valoraciones siempre estan relacionadas con un usuario
+<<<<<<< HEAD
     private function __construct($idusuario,$idsubasta,$puntuacion, $comentario,$idvendedor,$idproducto=null,$idvaloracion = null)
+=======
+    private function __construct($idusuario,$idsubasta,$tituloproducto,$puntuacion, $comentario,$idvendedor,$idvaloracion = null)
+>>>>>>> origin/Sergio-Branch
     {
         $this->idvaloracion = $idvaloracion;
         $this->idusuario = $idusuario;
@@ -181,8 +204,13 @@ class Valoracion
         return $this->idusuario;
     }
 
+<<<<<<< HEAD
     public function getIdProducto() {
         return $this->idproducto;
+=======
+    public function gettituloproducto() {
+        return $this->tituloproducto;
+>>>>>>> origin/Sergio-Branch
     }
 
     public function getPuntuacion() {
