@@ -356,12 +356,20 @@ nav a {
 }
 
 .listasdestacadas li {
-  width: 33.33%;
+  width: 14.2%;
   padding: 20px;
   box-sizing: border-box;
   text-align: center;
+  
 }
-
+.listasdestacadas a {
+  color: black;
+	text-decoration: none;
+}
+.listasdestacadas a:hover{
+  color: #2691d9;
+	text-decoration: underline;
+}
 .listasdestacadas-image {
   width: 100px;
   height: 100px;

@@ -58,7 +58,7 @@ return $html;
     <header class="CabeceraPrincipal">
       <div class="CabeceraSuperior">
         <div class="LoginLinks">
-		        <?php echo mostrarSaludo(); ?>
+		      <?php echo mostrarSaludo(); ?>
         </div>
         <div class="PerfilLinks">
           <a href="<?= $app->resuelve('/contenidomiperfil.php?ventas=ventas')?>">Mi perfil</a>
