@@ -4,6 +4,7 @@ require_once __DIR__.'/includes/src/subastas/ListadoSubastas.php';
 
 $tituloPagina = 'Mi perfil';
 $contenidoPrincipal='';
+<<<<<<< HEAD
 $contenido='ventas';
 
 $contenidoPrincipal = \es\ucm\fdi\aw\subastas\ListadoSubastas::listadoPujar($contenido);
@@ -24,5 +25,21 @@ if ($app->tieneRol(es\ucm\fdi\aw\usuarios\Usuario::USER_ROLE)||$app->tieneRol(es
   EOS;
 }
 
+=======
+$contenido='busquedaTitulo';
+$busquedaTitulo= $_GET["barra"];
+$categoria= $_GET["categoria"];
+
+if($categoria!=""){
+  $contenidoPrincipal = \es\ucm\fdi\aw\subastas\ListadoSubastas::listadoPujar('categoria',$categoria);
+
+}else{
+$contenidoPrincipal = \es\ucm\fdi\aw\subastas\ListadoSubastas::listadoPujar('busquedaTitulo',$busquedaTitulo);
+}
+
+
+
+
+>>>>>>> f8be654fffe5619bde51139daa8c1208168a212f
 $params = ['tituloPagina' => $tituloPagina, 'contenidoPrincipal' => $contenidoPrincipal];
 $app->generaVista('/plantillas/plantillaInicio.php', $params);

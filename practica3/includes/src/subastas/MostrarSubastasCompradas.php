@@ -5,7 +5,7 @@ use es\ucm\fdi\aw\Aplicacion;
 use es\ucm\fdi\aw\Formulario;
 
 
-class ModificarSubastas extends Formulario
+class MostrarSubastasCompradas extends Formulario
 {
     public function __construct() {     
         parent::__construct('formObjeto', ['urlRedireccion']);
@@ -14,15 +14,12 @@ class ModificarSubastas extends Formulario
     
     public function generaCamposFormulario(&$datos)
     {
-<<<<<<< HEAD
-=======
         //Llega hasta el metodo Subasta::public static function listarSubastas($busqueda)
->>>>>>> f8be654fffe5619bde51139daa8c1208168a212f
-        $resultadoTablaSubastas = ListadoSubastas::listadoActualizar("ventas");
+        $resultadoTablaSubastas = ListadoSubastas::listadoCompradas("compras");
         //Creamos aqui la parte fija del codigo HTML
         $html = <<<EOF
         <fieldset>
-            <legend>Subastas actuales</legend>
+            <legend>Subastas ganadas</legend>
             $resultadoTablaSubastas      
         </fieldset>
     EOF;

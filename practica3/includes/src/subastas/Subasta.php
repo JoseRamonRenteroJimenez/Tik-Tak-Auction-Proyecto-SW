@@ -59,6 +59,12 @@ class Subasta
     public static function listarSubastas($busqueda)
     {
         $conn = Aplicacion::getInstance()->getConexionBd();
+<<<<<<< HEAD
+=======
+        $app = Aplicacion::getInstance();
+        $idusuario=$app->idUsuario();
+        
+>>>>>>> f8be654fffe5619bde51139daa8c1208168a212f
         $query =" ";
         if($busqueda=='ventas'){
             //listado general todas las subastas
@@ -80,7 +86,16 @@ class Subasta
             //listado de subastas cerradas 
             $query = sprintf("SELECT * FROM subastas S WHERE S.estado= '%s'", $conn->real_escape_string($busqueda));
 
+<<<<<<< HEAD
         }else{
+=======
+        }else if($busqueda=='compras'){
+            //listado de subastas cerradas 
+            
+            $query = sprintf("SELECT * FROM subastas S WHERE S.id_ganador= '%s'", $conn->real_escape_string($idusuario));
+        }
+        else{
+>>>>>>> f8be654fffe5619bde51139daa8c1208168a212f
             $query = sprintf("SELECT * FROM subastas");
             //$query = sprintf("SELECT * FROM Subastas WHERE Subastas.titulo LIKE %'%s'%",$conn->real_escape_string($busqueda));
         }
@@ -341,4 +356,8 @@ class Subasta
         }
         return false;
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> f8be654fffe5619bde51139daa8c1208168a212f
