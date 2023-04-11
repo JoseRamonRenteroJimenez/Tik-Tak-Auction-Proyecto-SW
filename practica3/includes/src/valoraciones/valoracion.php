@@ -10,14 +10,14 @@ class Valoracion
 
    
     
-    public static function crea($idusuario, $idsubasta, $idproducto, $puntuacion, $comentario,$idvendedor)
+    public static function crea($idusuario, $idsubasta, $tituloproducto, $puntuacion, $comentario,$idvendedor)
     {
-        $valoracion = new valoracion($idusuario,$idsubasta,$puntuacion, $comentario,$idvendedor,  $idproducto);
+        $valoracion = new valoracion($idusuario,$idsubasta,$tituloproducto,$puntuacion, $comentario,$idvendedor);
         return $valoracion->guarda();
     }
-    public static function actualizaSubasta($idvaloracion,$idusuario, $idsubasta, $idproducto, $puntuacion, $comentario,$idvendedor)
+    public static function actualizaValoracion($idvaloracion,$idusuario, $idsubasta, $tituloproducto, $puntuacion, $comentario,$idvendedor)
     {
-        $valoracion = new valoracion($idusuario,$idsubasta,$puntuacion, $comentario,$idvendedor, $idproducto,$idvaloracion);
+        $valoracion = new valoracion($idusuario,$idsubasta,$tituloproducto,$puntuacion, $comentario,$idvendedor, $idvaloracion);
         return $valoracion->guarda();
     }
     
@@ -86,7 +86,7 @@ class Valoracion
         $query=sprintf("INSERT INTO subastas(id_usuario, id_subasta, id_producto,puntuacion,comentario,id_vendedor) VALUES ('%d', '%d', '%d', '%s','%s', '%d')"
             , $valoracion->idusuario
             , $valoracion->idsubasta
-            , $valoracion->idproducto
+            , $valoracion->tituloproducto
             , $conn->real_escape_string($valoracion->puntuacion)
             , $conn->real_escape_string($valoracion->comentario)
             , $valoracion->idvendedor       
@@ -151,7 +151,7 @@ class Valoracion
 
     private $idsubasta;
 
-    private $idproducto;
+    private $tituloproducto;
 
     private $puntuacion;
 
@@ -159,7 +159,7 @@ class Valoracion
 
     private $idvendedor;
     //Las valoraciones siempre estan relacionadas con un usuario
-    private function __construct($idusuario,$idsubasta,$puntuacion, $comentario,$idvendedor,$idproducto=null,$idvaloracion = null)
+    private function __construct($idusuario,$idsubasta,$tituloproducto,$puntuacion, $comentario,$idvendedor,$idvaloracion = null)
     {
         $this->idvaloracion = $idvaloracion;
         $this->idusuario = $idusuario;
@@ -181,8 +181,8 @@ class Valoracion
         return $this->idusuario;
     }
 
-    public function getIdProducto() {
-        return $this->idproducto;
+    public function gettituloproducto() {
+        return $this->tituloproducto;
     }
 
     public function getPuntuacion() {

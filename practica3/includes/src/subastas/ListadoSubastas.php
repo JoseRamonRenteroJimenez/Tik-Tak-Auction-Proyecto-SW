@@ -31,6 +31,24 @@ class ListadoSubastas extends Formulario
         return $html;
     }
 
+    static function listadoCompradas($busqueda){
+        $subastas = Subasta::listarSubastas($busqueda);
+ 
+        $html = mostrarTitulosTabla();
+        $html .="<th>Valorar</th>";
+        $html .="</tr>";   
+   
+    
+       foreach($subastas as $subasta) {
+          
+            $html .= visualizaSubasta($subasta,"compradas");
+          // echo($subasta);
+       }
+        
+       $html .= "</table>";
+        return $html;
+    }
+
     static function listadoUnicaSubasta($id){
         $subasta = Subasta::buscaPorId($id);
         $titulosCol = mostrarTitulosTabla();
@@ -265,7 +283,20 @@ function visualizaSubasta($subasta, $tipo=null) {
                     </form>
                 </td>
             EOF;
-            break;
+        break;
+        case 'compradas':
+            $html .= <<<EOF
+                <td>
+                    <form method="POST" action="addValoracion.php">
+                        <input type="hidden" name="valorar" value="valorarSubasta">
+                        <input type="hidden" name="idsubasta" value="{$subasta->getIdSubasta()}">
+                        <input type="hidden" name="idvendedor" value="{$subasta->getIdUsuario()}">
+                        <input type="hidden" name="idganador" value="{$subasta->getIdGanador()}">
+                        <button type="submit">Valorar</button>
+                    </form>
+                </td>
+            EOF;
+        break;
         default:
             // no hacer nada
     }

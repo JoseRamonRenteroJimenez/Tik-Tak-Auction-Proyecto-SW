@@ -59,6 +59,9 @@ class Subasta
     public static function listarSubastas($busqueda)
     {
         $conn = Aplicacion::getInstance()->getConexionBd();
+        $app = Aplicacion::getInstance();
+        $idusuario=$app->idUsuario();
+        
         $query =" ";
         if($busqueda=='ventas'){
             //listado general todas las subastas
@@ -80,7 +83,12 @@ class Subasta
             //listado de subastas cerradas 
             $query = sprintf("SELECT * FROM subastas S WHERE S.estado= '%s'", $conn->real_escape_string($busqueda));
 
-        }else{
+        }else if($busqueda=='compras'){
+            //listado de subastas cerradas 
+            
+            $query = sprintf("SELECT * FROM subastas S WHERE S.id_ganador= '%s'", $conn->real_escape_string($idusuario));
+        }
+        else{
             $query = sprintf("SELECT * FROM subastas");
             //$query = sprintf("SELECT * FROM Subastas WHERE Subastas.titulo LIKE %'%s'%",$conn->real_escape_string($busqueda));
         }
