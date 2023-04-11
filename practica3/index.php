@@ -3,24 +3,36 @@
 require_once __DIR__.'/includes/config.php';
 
 $tituloPagina = 'Portada';
+
 $contenidoPrincipal=<<<EOS
 
 <header>
   <nav>
     <ul>
-      <li><a href="#">Electrónica</a></li>
-      <li><a href="#">Hogar</a></li>
-      <li><a href="#">Moda</a></li>
-      <li><a href="#">...</a></li>
-      <li><a href="#">Categoría 10</a></li>
+EOS; 
+$contadorcategorias=0;
+$categorias = es\ucm\fdi\aw\subastas\Categorias::listarCategorias();
+
+/*foreach($categorias as $categoria2) { */ 
+  for($contadorcategorias;$contadorcategorias<10;$contadorcategorias++){
+$contenidoPrincipal .=<<<EOS
+     <li><a href="/sw/practica3/vistaSubastaObjeto.php?barra=&categoria={$categorias[$contadorcategorias]->getId()}">{$categorias[$contadorcategorias]->getNombre()}</a> </li>
+     EOS;
+  }
+$contenidoPrincipal .=<<<EOS
       <li class="dropdown">
         <a href="#">Más categorías</a>
         <ul class="dropdown-content">
-          <li><a href="#">Categoría 11</a></li>
-          <li><a href="#">Categoría 12</a></li>
-          <li><a href="#">Categoría 13</a></li>
-          <!-- Agregue más categorías aquí si es necesario -->
-        </ul>
+  EOS;  
+  for($contadorcategorias;$contadorcategorias<count($categorias);$contadorcategorias++){
+        $contenidoPrincipal .=<<<EOS
+        <li><a href="/sw/practica3/vistaSubastaObjeto.php?barra=&categoria={$categorias[$contadorcategorias]->getId()}">{$categorias[$contadorcategorias]->getNombre()}</a> </li>
+        EOS;
+  }       
+  
+
+$contenidoPrincipal .=<<<EOS
+              </ul>
       </li>
     </ul>
   </nav>

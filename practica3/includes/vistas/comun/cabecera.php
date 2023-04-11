@@ -16,7 +16,7 @@ function mostrarSaludo()
 
         $formLogout = new FormularioLogout();
         $htmlLogout = $formLogout->gestiona();
-        $html = "Bienvenido, ${nombreUsuario}.$htmlLogout";
+        $html = "Bienvenido, ${nombreUsuario}$htmlLogout";
     } else {
         $loginUrl = $app->resuelve('/login.php');
         $registroUrl = $app->resuelve('/registro.php');
@@ -28,6 +28,28 @@ function mostrarSaludo()
     return $html;
 }
 
+function mostrarcategorias()
+{
+  $html = <<<EOF
+          <select name="categoria" id="categoria">
+         
+EOF;
+      
+      $categorias = es\ucm\fdi\aw\subastas\Categorias::listarCategorias();
+      foreach($categorias as $categoria2) {  
+        
+      $html .= "<option value='{$categoria2->getId()}'>{$categoria2->getNombre()}</option>";
+      }
+$html .=<<<EOF
+       
+      </select>
+      
+EOF;
+
+return $html;
+}
+
+
 ?>
 
 <html>
@@ -36,7 +58,7 @@ function mostrarSaludo()
     <header class="CabeceraPrincipal">
       <div class="CabeceraSuperior">
         <div class="LoginLinks">
-		<?php echo mostrarSaludo(); ?>
+		        <?php echo mostrarSaludo(); ?>
         </div>
         <div class="PerfilLinks">
           <a href="<?= $app->resuelve('/contenidomiperfil.php?ventas=ventas')?>">Mi perfil</a>
@@ -55,14 +77,7 @@ function mostrarSaludo()
             <div class="BarraBusqContent">
               <div class="barra">
 				<input type="text" name="barra" id="barra"  placeholder="Buscar cualquier artículo">
-              <select name="categoria" id="categoria">
-                <option value="">Buscar Categoría</option>
-                <option value="opcion1">Opción 1</option>
-                <option value="opcion2">Opción 2</option>
-                <option value="opcion3">Opción 3</option>
-                <option value="opcion4">Opción 4</option>
-                <option value="opcion5">Opción 5</option>
-              </select>
+        <?php echo mostrarcategorias(); ?>
 			  </div>
 			  <div class="boton"><input type="submit" value="Buscar"></div>
 		</div>

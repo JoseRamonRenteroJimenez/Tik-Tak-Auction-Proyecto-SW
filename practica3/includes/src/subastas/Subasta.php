@@ -89,7 +89,7 @@ class Subasta
 
         }else if($busqueda=='categoria'){
             //listado de subastas por categoria
-            $query = sprintf("SELECT * FROM subastas S WHERE S.categoria= '%s'", $conn->real_escape_string($buscar));
+            $query = sprintf("SELECT * FROM subastas S  WHERE S.categoria= '%s'", $conn->real_escape_string($buscar));
 
         }else{
             $query = sprintf("SELECT * FROM subastas");

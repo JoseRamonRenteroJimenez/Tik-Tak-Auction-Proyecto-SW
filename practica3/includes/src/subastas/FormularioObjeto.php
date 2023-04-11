@@ -51,34 +51,46 @@ class FormularioObjeto extends Formulario
         $selectorTipoAlmacen = self::generaSelectorTipoAlmacen('tipo', $tipoAlmacenSeleccionado, 'tipo');
 
         $html = <<<EOF
-        $htmlErroresGlobales
-        <fieldset>
-            <legend>Datos para el registro de una subasta</legend>
-            <input type="hidden" name="idSubasta" value="$idSubasta" />
-            <input type="hidden" name="precioactual" value="$precioactual" />
-            <input type="hidden" name="idganador" value="$idganador" />
-            <div >
-                <label>Título:</label> <input type="text" name="titulo" value="$titulo" />
-                $erroresCampos[titulo]
-            </div>
-            <div >
-                <label>Descripción:</label> <textarea name="descripcion">$descripcion</textarea>
-                $erroresCampos[descripcion]
-            </div>
-            <div >
-                <label>Fecha de inicio:</label> <input type="datetime-local" name="fechaInicio" value="$fechaInicio" />
-                $erroresCampos[fechaInicio]
-            </div>
-            <div >
-                <label>Fecha de fin:</label> <input type="datetime-local" name="fechaFin" value="$fechaFin" />
-                $erroresCampos[fechaFin]
-            </div>
-            <div >
-                <label>Precio inicial:</label> <input type="number" name="precioInicial" value="$precioInicial" />
-                $erroresCampos[precioInicial]
-            </div>
-            <div >
-                <label>Categoría:</label> <input type="text" name="categoria" value="$categoria" />
+            $htmlErroresGlobales
+            <fieldset>
+                <legend>Datos para el registro de una subasta</legend>
+                <input type="hidden" name="idSubasta" value="$idSubasta" />
+                <input type="hidden" name="precioactual" value="$precioactual" />
+                <input type="hidden" name="idganador" value="$idganador" />
+                <div >
+                    <label>Título:</label> <input type="text" name="titulo" value="$titulo" />
+                    $erroresCampos[titulo]
+                </div>
+                <div >
+                    <label>Descripción:</label> <textarea name="descripcion">$descripcion</textarea>
+                    $erroresCampos[descripcion]
+                </div>
+                <div >
+                    <label>Fecha de inicio:</label> <input type="datetime-local" name="fechaInicio" value="$fechaInicio" />
+                    $erroresCampos[fechaInicio]
+                </div>
+                <div >
+                    <label>Fecha de fin:</label> <input type="datetime-local" name="fechaFin" value="$fechaFin" />
+                    $erroresCampos[fechaFin]
+                </div>
+                <div >
+                    <label>Precio inicial:</label> <input type="number" name="precioInicial" value="$precioInicial" />
+                    $erroresCampos[precioInicial]
+                </div>
+                <div >
+                <label>Categoría:</label>
+                    <select name="categoria" id="categoria">
+                   
+         EOF;
+                
+                $categorias = Categorias::listarCategorias();
+                foreach($categorias as $categoria2) {  
+                  
+                $html .= "<option value='{$categoria2->getId()}'>{$categoria2->getNombre()}</option>";
+                }
+        $html .=<<<EOF
+                 
+                </select>
                 $erroresCampos[categoria]
             </div>
             <div>

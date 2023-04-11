@@ -131,7 +131,12 @@ header {
 	border-bottom: 0.1em solid gray; /* Agregar borde inferior */
 
 }
-
+.LoginLinks form{
+	position: absolute;
+  left: 10em;
+  top: 1.2em;
+	
+}
 .LinksIzquierda, .LinksDerecha {
 	display: flex;
 	flex-direction: row;
