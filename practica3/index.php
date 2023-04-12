@@ -1,6 +1,7 @@
 <?php
 
 require_once __DIR__.'/includes/config.php';
+require_once __DIR__.'/includes/src/subastas/ListadoCategorias.php';
 
 $tituloPagina = 'Portada';
 
@@ -10,27 +11,8 @@ $contenidoPrincipal=<<<EOS
   <nav>
     <ul>
 EOS; 
-$contadorcategorias=0;
-$categorias = es\ucm\fdi\aw\subastas\Categorias::listarCategorias();
-$subastas= es\ucm\fdi\aw\subastas\Subasta::listarSubastas("");
 
-/*foreach($categorias as $categoria2) { */ 
-  for($contadorcategorias;$contadorcategorias<10;$contadorcategorias++){
-$contenidoPrincipal .=<<<EOS
-     <li><a href="/sw/practica3/vistaSubastaObjeto.php?barra=&categoria={$categorias[$contadorcategorias]->getId()}">{$categorias[$contadorcategorias]->getNombre()}</a> </li>
-     EOS;
-  }
-$contenidoPrincipal .=<<<EOS
-      <li class="dropdown">
-        <a href="#">Más categorías</a>
-        <ul class="dropdown-content">
-  EOS;  
-  for($contadorcategorias;$contadorcategorias<count($categorias);$contadorcategorias++){
-        $contenidoPrincipal .=<<<EOS
-        <li><a href="/sw/practica3/vistaSubastaObjeto.php?barra=&categoria={$categorias[$contadorcategorias]->getId()}">{$categorias[$contadorcategorias]->getNombre()}</a> </li>
-        EOS;
-  }       
-  
+$contenidoPrincipal .= \es\ucm\fdi\aw\subastas\ListadoCategorias::menuCategorias(10);
 
 $contenidoPrincipal .=<<<EOS
                   </ul>
@@ -64,46 +46,13 @@ $contenidoPrincipal .=<<<EOS
       <ul class="listasdestacadas">
 
   EOS;
-      for($contador=0;$contador<7;$contador++) {  
+  $contenidoPrincipal .= \es\ucm\fdi\aw\subastas\ListadoSubastas::formularioSubastas(7);
 
-        $contenidoPrincipal .=<<<EOS
-            <li>
-              <div class="listasdestacadas-image">
-                <img src="auction-1.jpg" alt="Subasta 1">
-              </div>
-              <div class="listasdestacadas-title">
-              
-              <form id="myForm" action="/sw/practica3/vistaUnicaSubasta.php" method="POST">
-              <input type="hidden" name="idsubasta" value="{$subastas[$contador]->getIdSubasta()}">
-              <button type="submit" class="button-link"><h3>{$subastas[$contador]->getTitulo()}</h3></button>
-            </form>
-
-                        
-             </div>
-            </li>
-      EOS;
-    }
   $contenidoPrincipal .="  </ul></section> <section>  <h2>Categorias destacadas</h2> <ul class='listasdestacadas'>";
+ 
+  $contenidoPrincipal .= \es\ucm\fdi\aw\subastas\ListadoCategorias::formularioCategorias(7);
 
-for($contador=0;$contador<7;$contador++) {  
 
-    $contenidoPrincipal .=<<<EOS
-        <li>
-          <div class="listasdestacadas-image">
-            <img src="Categoria-1.jpg" alt="Categorias">
-          </div>
-          <div class="listasdestacadas-title">
-
-          <form id="myForm" action="/sw/practica3/vistaSubastaObjeto.php" method="GET">
-          <input type="hidden" name="barra" value="">
-              <input type="hidden" name="categoria" value="{$categorias[$contador]->getId()}">
-              <button type="submit" class="button-link"><h3>{$categorias[$contador]->getNombre()}</h3></button>
-            </form>
-
-          </div>
-        </li>
-  EOS;
-}
       $contenidoPrincipal .= "</ul> </section>";
     
 

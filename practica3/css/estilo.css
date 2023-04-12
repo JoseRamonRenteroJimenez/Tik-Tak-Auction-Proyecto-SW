@@ -404,3 +404,80 @@ button[type="submit"].button-link:hover  {
 		transition:none;
 	   
     }
+fieldset {
+			background-color: #f0f0f0;
+			margin-top:1em;
+		}
+.seccion {
+			background-color: #ffffff;
+			padding: 2em;
+			margin: 2em;
+		}
+#boton-publicar {
+			background-color: #4285f4;
+			color: #ffffff;
+			padding: 10px 20px;
+			border-radius: 5px;
+			display: block;
+			margin: 20px auto;
+			text-align: center;
+		}
+label {
+ 		display: block;
+		margin-bottom: 2em;
+		margin-top: 1em;
+		}
+		#campotitulo {
+			border: 0.1em solid black;
+			width: 85%;
+			height: 1em;
+		margin-left:3em;
+				  }
+	#campodescripcion {
+			border: 0.15em solid black;
+			width: 90%;
+			height: 20em;
+		margin-left:3em;
+			  }
+
+.containervendedorproducto {
+  display: flex;
+  justify-content: space-between;
+}
+
+.product-info {
+  display: flex;
+  height: 100%;
+  width: 75%;
+}
+
+.product-image {
+  width: 60%;
+}
+
+.product-details {
+  width: 40%;
+  padding: 2em;
+  box-sizing: border-box;
+}
+
+.product-title {
+  font-size: 2em;
+  margin-bottom: 0.5em;
+}
+
+.bid-button {
+  background-color: #007bff;
+  color: white;
+  font-size: 1em;
+  border: none;
+  padding: 0.5em 1em;
+  cursor: pointer;
+}
+
+.seller-info {
+  border: 1px solid #e5e5e5;
+  padding: 2em;
+margin:auto;
+  text-align: center;
+}

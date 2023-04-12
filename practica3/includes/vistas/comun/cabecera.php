@@ -28,26 +28,6 @@ function mostrarSaludo()
     return $html;
 }
 
-function mostrarcategorias()
-{
-  $html = <<<EOF
-          <select name="categoria" id="categoria">
-          <option value=''>Elige categoria</option>"
-EOF;
-      
-      $categorias = es\ucm\fdi\aw\subastas\Categorias::listarCategorias();
-      foreach($categorias as $categoria2) {  
-        
-      $html .= "<option value='{$categoria2->getId()}'>{$categoria2->getNombre()}</option>";
-      }
-$html .=<<<EOF
-       
-      </select>
-      
-EOF;
-
-return $html;
-}
 
 ?>
 
@@ -76,7 +56,7 @@ return $html;
             <div class="BarraBusqContent">
               <div class="barra">
 				<input type="text" name="barra" id="barra"  placeholder="Buscar cualquier artículo">
-        <?php echo mostrarcategorias(); ?>
+        <?php echo \es\ucm\fdi\aw\subastas\ListadoCategorias::desplegableCategorias(); ?>
 			  </div>
 			  <div class="boton"><input type="submit" value="Buscar"></div>
 		</div>

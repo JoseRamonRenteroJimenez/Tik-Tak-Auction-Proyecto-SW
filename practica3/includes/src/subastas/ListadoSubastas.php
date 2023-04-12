@@ -3,7 +3,7 @@ namespace es\ucm\fdi\aw\subastas;
 
 use es\ucm\fdi\aw\Aplicacion;
 use es\ucm\fdi\aw\Formulario;
-
+use DateTime;
 
 class ListadoSubastas extends Formulario
 {
@@ -30,48 +30,79 @@ class ListadoSubastas extends Formulario
        $html .= "</table>";
         return $html;
     }
-
+protected function resta($fin){
+    $horaActual = date('H:i:s');
+   
+    return $fin-$horaActual;
+}
     static function listadoUnicaSubasta($id){
         $subasta = Subasta::buscaPorId($id);
         $titulosCol = mostrarTitulosTabla();
+        $fecha_actual = new DateTime();
+        $fecha_dada = new DateTime($subasta->getFechaFin());
+        $intervalo = $fecha_dada->diff($fecha_actual);
+        $fechafin=$intervalo->format('%d D:%H H:%I M:%S S');
+
         $app = Aplicacion::getInstance();
         $html = <<<EOF
-                {$titulosCol}
-                <th>pujar</th>
-            </tr> 
-                        <td>{$subasta->getTitulo()}</td>
-                        <td>{$subasta->getDescripcion()}</td>
-                        <td>{$subasta->getFechaInicio()}</td>
-                        <td>{$subasta->getFechaFin()}</td>
-                        <td>{$subasta->getPrecioInicial()}</td>
-                        <td>{$subasta->getPrecioActual()}</td>
-                        <td>{$subasta->getIdGanador()}</td>
-                        <td>{$subasta->getEstado()}</td>
-                        <td>{$subasta->getCategoria()}</td>
-     EOF;       
+                    <div class="containervendedorproducto">
+                    <div class="product-info">
+                    <div class="product-image">
+                    <img src="ruta-de-la-imagen" alt="Producto">
+                    </div>
+                    <div class="product-details">
+                    <div class="product-title">
+                        <h1>{$subasta->getTitulo()}</h1>
+                    </div>
+                    <div class="product-status">
+                        <p>Estado: {$subasta->getEstado()}</p>
+                        <p>Categoría: {$subasta->getCategoria()}</p>
+                        <p>Tiempo Restante: {$fechafin }</p>
+                        <p class="current-bid">Puja Actual: {$subasta->getPrecioActual()}€</p>
+                    </div>
 
-          if ($app->tieneRol(\es\ucm\fdi\aw\usuarios\Usuario::USER_ROLE)||$app->tieneRol(\es\ucm\fdi\aw\usuarios\Usuario::BUSSINES_ROLE)) {
-    
-            $html .= <<<EOF
-                        " <td><form method="POST" action="">
-                          
-                        <textarea name="nuevoprecio">{$subasta->getPrecioActual()}</textarea>
-                        <input type="hidden" name="idsubasta" value="{$subasta->getIdSubasta()}">
-        
-                         <button type="submit" name="subasta">pujar
-                        </form>
-                        </td>  "
-            EOF;                 
-                        } else {
-                            $loginUrl = $app->resuelve('/login.php');
-                            $registroUrl = $app->resuelve('/registro.php');
-                            $html .= <<<EOF
-                            <td> <a href="{$loginUrl}">Login</a> <a href="{$registroUrl}">Registro</a></td> 
-                          EOF;
-                        }
+                    EOF;       
+
+                    if ($app->tieneRol(\es\ucm\fdi\aw\usuarios\Usuario::USER_ROLE)||$app->tieneRol(\es\ucm\fdi\aw\usuarios\Usuario::BUSSINES_ROLE)) {
+                        
+                      $html .= <<<EOF
+                                  
+                                  <form class="bid-form" method="POST" action="">
+                                    
+                                  <input type="text" name="nuevoprecio" id="bid-amount" value="{$subasta->getPrecioActual()}"></input>
+                                  <input type="hidden" name="idsubasta" value="{$subasta->getIdSubasta()}">
+                                  <p>Puja Mínima: {$subasta->getPrecioActual()}</p>
+                                  <button type="submit">Pujar</button>
+                             
+                                  </form>
+                                   
+                      EOF;                 
+                                  } else {
+                                      $loginUrl = $app->resuelve('/login.php');
+                                      $registroUrl = $app->resuelve('/registro.php');
+                                      $html .= <<<EOF
+                                      <td> <a href="{$loginUrl}">Login</a> <a href="{$registroUrl}">Registro</a></td> 
+                                    EOF;
+                                  }
+                                  
+              
+                 $html .=<<<EOF
+
+                    </div>
+                </div>
+                
+                <div class="seller-info">
+                    <h2>Información del Vendedor</h2>
+                    <p>Nombre de Usuario: vendedor123</p>
+                    <a href="#">Ver más Artículos</a>
+                    <a href="#">Contactar al Vendedor</a>
+                </div>
+                </div>
+                
+     EOF;       
                         
     
-       $html .= "</table>";
+       
         return $html;
     }
 
@@ -96,6 +127,15 @@ class ListadoSubastas extends Formulario
        $html .= "</table>";
         return $html;
     }
+
+    static function formularioSubastas($Subastasvisibles){
+        $subastas= \es\ucm\fdi\aw\subastas\Subasta::listarSubastas("");
+         $contenidoPrincipal="";
+            for($contador=0;$contador<$Subastasvisibles;$contador++) {  
+                $contenidoPrincipal .=  parent::formulariosvisiblesindex("subasta-1.jpg","idsubasta","/sw/practica3/vistaUnicaSubasta.php","POST",$subastas[$contador]->getIdSubasta(),$subastas[$contador]->getTitulo());
+            }
+            return $contenidoPrincipal;
+        }
 
     protected function generaCamposFormulario(&$datos)
     {
