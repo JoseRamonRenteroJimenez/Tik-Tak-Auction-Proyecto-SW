@@ -282,6 +282,15 @@ function visualizaSubasta($subasta, $tipo=null) {
                         <button type="submit">Actualizar</button>
                     </form>
                 </td>
+                <td>
+                    <form method="POST" action="addValoracion.php">
+                        <input type="hidden" name="valorar" value="valorarSubasta">
+                        <input type="hidden" name="idsubasta" value="{$subasta->getIdSubasta()}">
+                        <input type="hidden" name="idvendedor" value="{$subasta->getIdUsuario()}">
+                        <input type="hidden" name="idganador" value="{$subasta->getIdGanador()}">
+                        <button type="submit">Valorar</button>
+                    </form>
+                </td>
             EOF;
         break;
         case 'compradas':

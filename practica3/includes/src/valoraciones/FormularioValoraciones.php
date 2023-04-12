@@ -6,8 +6,7 @@ use es\ucm\fdi\aw\Formulario;
 
 class FormularioValoraciones extends Formulario
 {
-    const EXTENSIONES_PERMITIDAS = array('gif', 'jpg', 'jpe', 'jpeg', 'png', 'webp', 'avif');
-    const TIPO_ALMACEN = [Imagen::PUBLICA => 'Publico', Imagen::PRIVADA =>'Privado'];
+    
 
     public function __construct() {
         parent::__construct('formObjeto', ['enctype' => 'multipart/form-data', 'urlRedireccion' => Aplicacion::getInstance()->resuelve('/index.php')]);
@@ -26,13 +25,13 @@ class FormularioValoraciones extends Formulario
         $idvendedor = $datos['idvendedor'] ?? '';
 
         if(isset($_POST['idsubasta'])){
-            $idvaloracion= $_POST['idvaloracion'];
+            //$idvaloracion= $_POST['idvaloracion'];
             $idSubasta= $_POST['idsubasta'];
             $idvendedor= $_POST['idvendedor'];
             
             $valoracion = Valoracion::buscaPorId($idvaloracion);
-            $puntuacion = $valoracion->getPuntuacion();
-            $comentario =$valoracion->getComentario();          
+            //$puntuacion = $valoracion->getPuntuacion();
+            //$comentario =$valoracion->getComentario();          
        }
 
 

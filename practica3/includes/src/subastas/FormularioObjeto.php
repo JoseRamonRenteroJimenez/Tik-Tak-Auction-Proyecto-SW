@@ -212,10 +212,10 @@ class FormularioObjeto extends Formulario
                 $app = Aplicacion::getInstance();
                 $idUsuario = $app->idUsuario();
               if($idSubasta!=""){
-                $subasta = Subasta::actualizaSubasta($idSubasta,$idUsuario, $titulo, $descripcion, $fechaInicio, $fechaFin, $precioInicial, $precioactual, $categoria, $estadoproducto,$idganador);  
+                $subasta = Subasta::actualizaSubasta($idSubasta,$idUsuario, $titulo, $descripcion, $fechaInicio, $fechaFin, $precioInicial, $precioactual, $imagen,$categoria, $estadoproducto,$idganador);  
 
               }else{
-                $subasta = Subasta::crea($idUsuario, $titulo, $descripcion, $fechaInicio, $fechaFin, $precioInicial, $precioInicial, $categoria, $estadoproducto);
+                $subasta = Subasta::crea($idUsuario, $titulo, $descripcion, $fechaInicio, $fechaFin, $precioInicial, $precioInicial, $imagen,$categoria, $estadoproducto);
                 $subastaaux = Subasta::buscaSubasta($titulo);
                 $id_subasta=$subastaaux->getIdSubasta();
 
