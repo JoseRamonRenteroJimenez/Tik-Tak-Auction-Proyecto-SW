@@ -6,8 +6,6 @@ use es\ucm\fdi\aw\Formulario;
 
 class FormularioValoraciones extends Formulario
 {
-    const EXTENSIONES_PERMITIDAS = array('gif', 'jpg', 'jpe', 'jpeg', 'png', 'webp', 'avif');
-    const TIPO_ALMACEN = [Imagen::PUBLICA => 'Publico', Imagen::PRIVADA =>'Privado'];
 
     public function __construct() {
         parent::__construct('formObjeto', ['enctype' => 'multipart/form-data', 'urlRedireccion' => Aplicacion::getInstance()->resuelve('/index.php')]);
@@ -15,7 +13,9 @@ class FormularioValoraciones extends Formulario
     
     protected function generaCamposFormulario(&$datos)
     {
-       
+        $app=Aplicacion::getInstance();
+        $idusuario=$app->idUsuario();
+
         $idvaloracion= '';
         $idsubasta= '';
         $tituloproducto= '';
@@ -26,13 +26,19 @@ class FormularioValoraciones extends Formulario
         $idvendedor = $datos['idvendedor'] ?? '';
 
         if(isset($_POST['idsubasta'])){
-            $idvaloracion= $_POST['idvaloracion'];
+           // $idvaloracion= $_POST['idvaloracion'];
             $idSubasta= $_POST['idsubasta'];
             $idvendedor= $_POST['idvendedor'];
-            
-            $valoracion = Valoracion::buscaPorId($idvaloracion);
-            $puntuacion = $valoracion->getPuntuacion();
-            $comentario =$valoracion->getComentario();          
+            $idganador= $_POST['idganador'];
+            $tituloproducto= $_POST['tituloproducto'];
+
+
+           $valoracion = Valoracion::buscarValoracionExistente($idvendedor,$idusuario);
+           if($valoracion != false){
+                $idvaloracion= $valoracion->getIdValoracion();
+                $puntuacion = $valoracion->getPuntuacion();
+                $comentario =$valoracion->getComentario();  
+           }               
        }
 
 
@@ -47,12 +53,11 @@ class FormularioValoraciones extends Formulario
             <legend>Evaluacion de vendedor</legend>
             <input type="hidden" name="idvaloracion" value="$idvaloracion" />
             <input type="hidden" name="idSubasta" value="$idSubasta" />
-            <input type="hidden" name="tituloproducto" value="$tituloproducto" />
             <div >
-                <label>Vendedor:</label> <input type="text" name="idvendedor" value="$idvendedor" />
+                <label>Vendedor:</label> <input type="text" name="idvendedor" readonly value="$idvendedor" />
             </div>
             <div >
-                <label>Producto:</label> <input type="text" name="tituloproducto">$tituloproducto</textarea>
+                <label>Producto:</label> <input type="text" name="tituloproducto" readonly value="$tituloproducto"/>
             </div>
             <div >
                 <label>Evalua al vendedor:</label> <input type="number" name="puntuacion" value="$puntuacion" />
@@ -96,12 +101,12 @@ class FormularioValoraciones extends Formulario
           //  $subasta = Subasta::buscaSubasta($tituloSubasta);
 	
                 $app = Aplicacion::getInstance();
-                $idUsuario = $app->idUsuario();
+                $idusuario = $app->idUsuario();
               if($idvaloracion!=""){
-                $valoracion = Valoracion::actualizaValoracion($idvaloracion,$idusuario, $idsubasta, $tituloproducto, $puntuacion, $comentario,$idvendedor);  
+                $valoracion = Valoracion::actualizaValoracion($idvaloracion,$idusuario, $idSubasta, $tituloproducto, $puntuacion, $comentario,$idvendedor);  
 
               }else{
-                $valoracion = Valoracion::crea($idusuario, $idsubasta, $tituloproducto, $puntuacion, $comentario,$idvendedor);               
+                $valoracion = Valoracion::crea($idusuario, $idSubasta, $tituloproducto, $puntuacion, $comentario,$idvendedor);               
          }
                 
         }
