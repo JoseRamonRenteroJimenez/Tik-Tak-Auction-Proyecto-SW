@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 17-03-2023 a las 20:43:41
+-- Tiempo de generación: 12-04-2023 a las 00:07:42
 -- Versión del servidor: 10.4.27-MariaDB
 -- Versión de PHP: 8.2.0
 
@@ -131,7 +131,6 @@ CREATE TABLE `subastas` (
 --
 
 INSERT INTO `subastas` (`id_subasta`, `id_usuario`, `titulo`, `descripcion`, `fecha_inicio`, `fecha_fin`, `precio_inicial`, `precio_actual`, `id_ganador`, `estado`, `imagen`, `categoria`, `estadoproducto`) VALUES
-(8, 2, 'Mesa de cocina', 'Mesa de madera de alta calidad para seis personas', '2023-03-18 15:00:00', '2023-03-25 15:00:00', '300.00', '350.00', 2, '', '', 'Muebles', 'nuevo'),
 (9, 2, 'Mesa de coche', 'Mesa de madera de alta calidad para seis personas', '2023-03-18 15:00:00', '2023-03-25 15:00:00', '300.00', '300.00', NULL, 'borrador', '', 'Muebles', 'nuevo'),
 (10, 2, 'Pepe Viyuela', 'asfdf', '2123-12-18 04:21:00', '2023-04-27 21:31:00', '2312.00', '888888.00', 2, '', '', 'elPepe', 'usado'),
 (11, 2, 'Prueba insertado', 'dwpdwowdo', '2023-03-18 03:11:00', '2023-03-25 02:11:00', '1009.00', '1009.00', NULL, 'borrador', '', 'prueba', 'usado');
@@ -170,31 +169,16 @@ CREATE TABLE `valoraciones` (
   `id_valoracion` int(11) NOT NULL,
   `id_usuario` int(11) NOT NULL,
   `id_subasta` int(11) DEFAULT NULL,
-  `id_producto` int(11) DEFAULT NULL,
+  `titulo_producto` varchar(255) DEFAULT NULL,
   `puntuacion` int(11) NOT NULL,
-  `comentario` text DEFAULT NULL
+  `comentario` text DEFAULT NULL,
+  `id_vendedor` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- creacion de tabla imagenes
---
-CREATE TABLE imagenes (
-  'id' int(11) NOT NULL AUTO_INCREMENT,
-  'id_subasta' int(11) NOT NULL,
-  'ruta' varchar(20) NOT NULL,
-  'nombre' varchar(20) NOT NULL,
-  'mimeType' varchar(30) NOT NULL,
- 'tipoAcceso' tinyint(4) NOT NULL,
-  PRIMARY KEY ('id_subasta'),
-  CONSTRAINT 'fk_subasta' FOREIGN KEY ('id_subasta') REFERENCES 'subastas' ('id_subasta')
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
---
--- modificacion de subastas para eliminar columna imagenes
---
-ALTER TABLE `subastas` DROP COLUMN `imagen`;
---
 -- Índices para tablas volcadas
 --
+
 --
 -- Indices de la tabla `chats`
 --
@@ -248,15 +232,6 @@ ALTER TABLE `usuarios`
   ADD UNIQUE KEY `nombreUsuario` (`nombreUsuario`);
 
 --
--- Indices de la tabla `valoraciones`
---
-ALTER TABLE `valoraciones`
-  ADD PRIMARY KEY (`id_valoracion`),
-  ADD KEY `id_usuario` (`id_usuario`),
-  ADD KEY `id_subasta` (`id_subasta`),
-  ADD KEY `id_producto` (`id_producto`);
-
---
 -- AUTO_INCREMENT de las tablas volcadas
 --
 
@@ -291,12 +266,6 @@ ALTER TABLE `usuarios`
   MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT de la tabla `valoraciones`
---
-ALTER TABLE `valoraciones`
-  MODIFY `id_valoracion` int(11) NOT NULL AUTO_INCREMENT;
-
---
 -- Restricciones para tablas volcadas
 --
 
@@ -328,14 +297,6 @@ ALTER TABLE `notificaciones`
 --
 ALTER TABLE `rolesusuario`
   ADD CONSTRAINT `rolesusuario_ibfk_1` FOREIGN KEY (`rol`) REFERENCES `roles` (`id_rol`);
-
---
--- Filtros para la tabla `valoraciones`
---
-ALTER TABLE `valoraciones`
-  ADD CONSTRAINT `valoraciones_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id_usuario`),
-  ADD CONSTRAINT `valoraciones_ibfk_2` FOREIGN KEY (`id_subasta`) REFERENCES `subastas` (`id_subasta`),
-  ADD CONSTRAINT `valoraciones_ibfk_3` FOREIGN KEY (`id_producto`) REFERENCES `subastas` (`id_subasta`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
