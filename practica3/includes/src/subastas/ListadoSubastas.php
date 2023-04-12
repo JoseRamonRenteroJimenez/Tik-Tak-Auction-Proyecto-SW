@@ -85,7 +85,7 @@ protected function resta($fin){
                                     EOF;
                                   }
                                   
-              
+                                 $vendedor= \es\ucm\fdi\aw\usuarios\Usuario::buscaPorId($subasta->getIdUsuario());
                  $html .=<<<EOF
 
                     </div>
@@ -93,7 +93,7 @@ protected function resta($fin){
                 
                 <div class="seller-info">
                     <h2>Información del Vendedor</h2>
-                    <p>Nombre de Usuario: vendedor123</p>
+                    <p>Nombre de Usuario: {$vendedor->getNombreUsuario()}</p>
                     <a href="#">Ver más Artículos</a>
                     <a href="#">Contactar al Vendedor</a>
                 </div>
