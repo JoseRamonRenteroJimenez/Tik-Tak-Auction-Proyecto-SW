@@ -7,10 +7,10 @@ $formRegistroObjeto = $formRegistroObjeto->gestiona();
 
 $tituloPagina = 'Registro';
 $contenidoPrincipal=<<<EOF
-  
+  	<h1>Registro de subasta</h1>
     $formRegistroObjeto
    
 EOF;
 
 $params = ['tituloPagina' => $tituloPagina, 'contenidoPrincipal' => $contenidoPrincipal];
-$app->generaVista('/plantillas/plantillaLoginRegistro.php', $params);
+$app->generaVista('/plantillas/plantilla.php', $params);

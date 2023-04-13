@@ -14,6 +14,7 @@ class ModificarSubastas extends Formulario
     
     public function generaCamposFormulario(&$datos)
     {
+        //Llega hasta el metodo Subasta::public static function listarSubastas($busqueda)
         $resultadoTablaSubastas = ListadoSubastas::listadoActualizar("ventas");
         //Creamos aqui la parte fija del codigo HTML
         $html = <<<EOF

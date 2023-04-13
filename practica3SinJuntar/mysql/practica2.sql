@@ -174,30 +174,7 @@ CREATE TABLE `valoraciones` (
   `puntuacion` int(11) NOT NULL,
   `comentario` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
---
--- creacion de tabla categorias
---
-CREATE TABLE categorias (
-  `id` INT PRIMARY KEY AUTO_INCREMENT,
-  `nombre` VARCHAR(50) NOT NULL
-);
 
-INSERT INTO categorias (nombre) VALUES
-  ('Arte y antigüedades'),
-  ('Automóviles y motocicletas'),
-  ('Electrónica y tecnología'),
-  ('Moda y accesorios'),
-  ('Joyería y relojes'),
-  ('Juguetes y juegos'),
-  ('Muebles y decoración del hogar'),
-  ('Instrumentos musicales'),
-  ('Artículos deportivos y de recreación'),
-  ('Herramientas y equipos industriales'),
-  ('Productos de belleza y cuidado personal'),
-  ('Productos para mascotas'),
-  ('Libros y cómics'),
-  ('Equipos de cocina y electrodomésticos'),
-  ('Otros');
 --
 -- creacion de tabla imagenes
 --

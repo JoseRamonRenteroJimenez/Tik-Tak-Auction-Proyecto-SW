@@ -51,58 +51,60 @@ class FormularioObjeto extends Formulario
         $selectorTipoAlmacen = self::generaSelectorTipoAlmacen('tipo', $tipoAlmacenSeleccionado, 'tipo');
 
         $html = <<<EOF
-                    $htmlErroresGlobales
-                    <fieldset>
+        $htmlErroresGlobales
+        <fieldset>
+            <legend>Datos para el registro de una subasta</legend>
+            <input type="hidden" name="idSubasta" value="$idSubasta" />
+            <input type="hidden" name="precioactual" value="$precioactual" />
+            <input type="hidden" name="idganador" value="$idganador" />
+            <div >
+                <label>Título:</label> <input type="text" name="titulo" value="$titulo" />
+                $erroresCampos[titulo]
+            </div>
+            <div >
+                <label>Descripción:</label> <textarea name="descripcion">$descripcion</textarea>
+                $erroresCampos[descripcion]
+            </div>
+            <div >
+                <label>Fecha de inicio:</label> <input type="datetime-local" name="fechaInicio" value="$fechaInicio" />
+                $erroresCampos[fechaInicio]
+            </div>
+            <div >
+                <label>Fecha de fin:</label> <input type="datetime-local" name="fechaFin" value="$fechaFin" />
+                $erroresCampos[fechaFin]
+            </div>
+            <div >
+                <label>Precio inicial:</label> <input type="number" name="precioInicial" value="$precioInicial" />
+                $erroresCampos[precioInicial]
+            </div>
+            <div >
+                <label>Categoría:</label> <input type="text" name="categoria" value="$categoria" />
+                $erroresCampos[categoria]
+            </div>
+            <div>
+              
+                <div><label for="tipo">Tipo almacén: $selectorTipoAlmacen</label>{$erroresCampos['tipo']}</div>
+                <div><label for="archivo">Archivo: <input type="file" name="archivo" id="archivo" /></label>{$erroresCampos['archivo']}</div>
+                
+                 
+           </div>
 
-                    <input type="hidden" name="idSubasta" value="$idSubasta" />
-                    <input type="hidden" name="precioactual" value="$precioactual" />
-                    <input type="hidden" name="idganador" value="$idganador" />
-                    <div class="seccion">
-                        <label for="titulo">Título:</label> 
-                        <input type="text" name="titulo" id="campotitulo" value="$titulo" />
-                        $erroresCampos[titulo]
-                    </div>
-                    <div class="seccion">
-                        <label for="descripcion">Descripción:</label> 
-                        <textarea name="descripcion" id="campodescripcion">$descripcion</textarea>
-                        $erroresCampos[descripcion]
-                        <label for="categoria">Categoría:</label> 
+            <div >
+                <label>Estado del producto:</label> 
+                <select name="estadoProducto">
+                    <option value="nuevo">Nuevo</option>
+                    <option value="usado" >Usado</option>
+                    <option value="para piezas" >Para piezas</option>
+                </select>
+                $erroresCampos[estadoProducto]
+            </div>
+            
+            <div >
+                <button type="submit" name="subasta">Crear
+            <div>
+
+        </fieldset>
         EOF;
-                $html .=\es\ucm\fdi\aw\subastas\ListadoCategorias::desplegableCategorias();
-                $html .=<<<EOF
-                        $erroresCampos[categoria]
-                        <label for="estadoProducto">Estado del producto:</label> 
-                        <select name="estadoProducto" id="estadoProducto">
-                            <option value="nuevo">Nuevo</option>
-                            <option value="usado">Usado</option>
-                            <option value="para piezas">Para piezas</option>
-                        </select>
-                        $erroresCampos[estadoProducto]
-                    </div>
-                    <div class="seccion">
-                        <label for="archivo">Subida de imágenes:</label> 
-                        <input type="file" name="archivo" id="archivo" />
-                        $erroresCampos[archivo]
-                    </div>
-                    <div class="seccion">
-                        <label for="precio">Precio inicial:</label> 
-                        <input type="number" name="precioInicial" id="precioInicial" value="$precioInicial" />
-                        $erroresCampos[precioInicial]
-                    </div>
-                    <div class="seccion">
-                        <label for="fechainicio">Fecha de inicio:</label> 
-                        <input type="datetime-local" name="fechainicio" id="fechainicio" value="$fechaInicio" />
-                        $erroresCampos[fechaInicio]
-                        <label for="fechafin">Fecha de fin:</label> 
-                        <input type="datetime-local" name="fechafin" id="fechafin" value="$fechaFin" />
-                        $erroresCampos[fechaFin]
-                    </div>
-                    <button type="submit" name="subasta" id="boton-publicar">Publicar</button>
-
-                
-             </fieldset>      
-    EOF;
-                
         return $html;
     }
     private static function generaSelectorTipoAlmacen($name, $tipoSeleccionado=null, $id_imagen=null)
@@ -151,19 +153,19 @@ class FormularioObjeto extends Formulario
         }
         $fechaInicio = trim($datos['fechaInicio'] ?? '');
         $fechaInicio = filter_var($fechaInicio, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-        
+        if ( ! $fechaInicio ) {
+            $this->errores['fechaInicio'] = 'El fechaInicio tiene que tener una longitud de al menos 5 caracteres.';
+        }
         $fechaFin = trim($datos['fechaFin'] ?? '');
         $fechaFin = filter_var($fechaFin, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-        
-        if ( $fechaInicio > $fechaFin) {
-            $this->errores['fechaInicio'] = 'La fecha de inicio no puede ser posterior a la fecha de finalizacion';
-            $this->errores['fechaFin'] = 'La fecha de finalizacion debe ser posterior a la fecha de inicio';
+        if ( ! $fechaFin  ) {
+            $this->errores['fechaFin'] = 'El fechaFin tiene que tener una longitud de al menos 5 caracteres.';
         }
-        
+
         $precioInicial = trim($datos['precioInicial'] ?? '');
         $precioInicial = filter_var($precioInicial, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         if ( ! $precioInicial  ) {
-            $this->errores['precioInicial'] = 'Precio no valido';
+            $this->errores['precioInicial'] = 'Los passwords deben coincidir';
         }
 
         $categoria = trim($datos['categoria'] ?? '');

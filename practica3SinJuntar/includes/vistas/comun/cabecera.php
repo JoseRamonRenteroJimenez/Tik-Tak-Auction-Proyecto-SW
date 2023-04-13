@@ -16,7 +16,7 @@ function mostrarSaludo()
 
         $formLogout = new FormularioLogout();
         $htmlLogout = $formLogout->gestiona();
-        $html = "Bienvenido, ${nombreUsuario}$htmlLogout";
+        $html = "Bienvenido, ${nombreUsuario}.$htmlLogout";
     } else {
         $loginUrl = $app->resuelve('/login.php');
         $registroUrl = $app->resuelve('/registro.php');
@@ -28,7 +28,6 @@ function mostrarSaludo()
     return $html;
 }
 
-
 ?>
 
 <html>
@@ -37,12 +36,12 @@ function mostrarSaludo()
     <header class="CabeceraPrincipal">
       <div class="CabeceraSuperior">
         <div class="LoginLinks">
-		      <?php echo mostrarSaludo(); ?>
+		<?php echo mostrarSaludo(); ?>
         </div>
         <div class="PerfilLinks">
           <a href="<?= $app->resuelve('/contenidomiperfil.php?ventas=ventas')?>">Mi perfil</a>
-          <a href="ruta_notificaciones"><img src= <?php echo RUTA_IMGS.'\campana.png'; ?> width="20"></a>
-          <a href="ruta o despegable_de_carrito"><img src=<?php echo RUTA_IMGS.'\carrito.png'; ?> width="20"></a>
+          <a href="ruta_notificaciones"><img src="\sw\practica2\includes\vistas\imagenes\campana.png" width="20"></a>
+          <a href="ruta o despegable_de_carrito"><img src="\sw\practica2\includes\vistas\imagenes\carrito.png" width="20"></a>
         </div>
       </div>
    
@@ -56,7 +55,14 @@ function mostrarSaludo()
             <div class="BarraBusqContent">
               <div class="barra">
 				<input type="text" name="barra" id="barra"  placeholder="Buscar cualquier artículo">
-        <?php echo \es\ucm\fdi\aw\subastas\ListadoCategorias::desplegableCategorias(); ?>
+              <select name="categoria" id="categoria">
+                <option value="">Buscar Categoría</option>
+                <option value="opcion1">Opción 1</option>
+                <option value="opcion2">Opción 2</option>
+                <option value="opcion3">Opción 3</option>
+                <option value="opcion4">Opción 4</option>
+                <option value="opcion5">Opción 5</option>
+              </select>
 			  </div>
 			  <div class="boton"><input type="submit" value="Buscar"></div>
 		</div>
