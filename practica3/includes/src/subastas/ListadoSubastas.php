@@ -11,7 +11,6 @@ class ListadoSubastas extends Formulario
         parent::__construct('formObjeto', ['urlRedireccion' => Aplicacion::getInstance()->resuelve('/index.php')]);
     }
     
-    
     static function listadoActualizar($busqueda){
         $subastas = Subasta::listarSubastas($busqueda);
  
@@ -20,9 +19,7 @@ class ListadoSubastas extends Formulario
         $html .="<th>Actualizar</th>";
         $html .="</tr>";   
    
-    
-       foreach($subastas as $subasta) {
-          
+       foreach($subastas as $subasta) {       
             $html .= visualizaSubasta($subasta,"actualizar");
           // echo($subasta);
        }
@@ -38,7 +35,6 @@ class ListadoSubastas extends Formulario
         $html .="<th>Valorar</th>";
         $html .="</tr>";   
    
-    
        foreach($subastas as $subasta) {
           
             $html .= visualizaSubasta($subasta,"compradas");
@@ -54,46 +50,44 @@ class ListadoSubastas extends Formulario
         $titulosCol = mostrarTitulosTabla();
         $app = Aplicacion::getInstance();
         $html = <<<EOF
-                {$titulosCol}
-                <th>pujar</th>
-            </tr> 
-                        <td>{$subasta->getTitulo()}</td>
-                        <td>{$subasta->getDescripcion()}</td>
-                        <td>{$subasta->getFechaInicio()}</td>
-                        <td>{$subasta->getFechaFin()}</td>
-                        <td>{$subasta->getPrecioInicial()}</td>
-                        <td>{$subasta->getPrecioActual()}</td>
-                        <td>{$subasta->getIdGanador()}</td>
-                        <td>{$subasta->getEstado()}</td>
-                        <td>{$subasta->getCategoria()}</td>
-     EOF;       
-
-          if ($app->tieneRol(\es\ucm\fdi\aw\usuarios\Usuario::USER_ROLE)||$app->tieneRol(\es\ucm\fdi\aw\usuarios\Usuario::BUSSINES_ROLE)) {
+                
+            {$titulosCol}
+            <th>Pujar</th>
+            </tr>
+            
+            <td>{$subasta->getTitulo()}</td>
+            <td>{$subasta->getDescripcion()}</td>
+            <td>{$subasta->getFechaInicio()}</td>
+            <td>{$subasta->getFechaFin()}</td>
+            <td>{$subasta->getPrecioInicial()}</td>
+            <td>{$subasta->getPrecioActual()}</td>
+            <td>{$subasta->getIdGanador()}</td>
+            <td>{$subasta->getEstado()}</td>
+            <td>{$subasta->getCategoria()}</td>
+        EOF;       
+          
+        if ($app->tieneRol(\es\ucm\fdi\aw\usuarios\Usuario::USER_ROLE)||$app->tieneRol(\es\ucm\fdi\aw\usuarios\Usuario::BUSSINES_ROLE)) {
     
             $html .= <<<EOF
-                        " <td><form method="POST" action="">
-                          
-                        <textarea name="nuevoprecio">{$subasta->getPrecioActual()}</textarea>
-                        <input type="hidden" name="idsubasta" value="{$subasta->getIdSubasta()}">
-        
-                         <button type="submit" name="subasta">pujar
-                        </form>
-                        </td>  "
+                " <td><form method="POST" action="">
+                <textarea name="nuevoprecio">{$subasta->getPrecioActual()}</textarea>
+                <input type="hidden" name="idsubasta" value="{$subasta->getIdSubasta()}">
+                <button type="submit" name="subasta">Pujar
+                </form>
+                </td>  "
             EOF;                 
-                        } else {
-                            $loginUrl = $app->resuelve('/login.php');
-                            $registroUrl = $app->resuelve('/registro.php');
-                            $html .= <<<EOF
-                            <td> <a href="{$loginUrl}">Login</a> <a href="{$registroUrl}">Registro</a></td> 
-                          EOF;
-                        }
-                        
-    
+                    
+        } else {
+            
+            $loginUrl = $app->resuelve('/login.php');
+            $registroUrl = $app->resuelve('/registro.php');
+            $html .= <<<EOF
+                <td> <a href="{$loginUrl}">Login</a> <a href="{$registroUrl}">Registro</a></td> 
+            EOF;
+        }
        $html .= "</table>";
         return $html;
     }
-
-
 
     static function listadoPujar($busqueda,$buscar=null){
         $subastas = Subasta::listarSubastas($busqueda,$buscar);
@@ -101,15 +95,15 @@ class ListadoSubastas extends Formulario
 
         $html = <<<EOF
                 {$titulosCol}
-                <th>pujar</th>
+                <th>Pujar</th>
             </tr>
-    EOF;
+        EOF;
     
        foreach($subastas as $subasta) {
           
             $html .= visualizaSubasta($subasta,"pujar");
           // echo($subasta);
-       }
+        }
         
        $html .= "</table>";
         return $html;
@@ -117,7 +111,6 @@ class ListadoSubastas extends Formulario
 
     protected function generaCamposFormulario(&$datos)
     {
-       
         $tipo = $datos['TipoSubasta'] ?? '';
         $estado = $datos['Estado'] ?? '';
         $relevancia = $datos['Relevancia'] ?? '';
@@ -158,21 +151,15 @@ class ListadoSubastas extends Formulario
         return $html;
     }
 
-    
-
     protected function procesaFormulario(&$datos)
     {
-       
         $tipo = $datos['TipoSubasta'] ?? '';
         $estado = $datos['Estado'] ?? '';
         $relevancia = $datos['Relevancia'] ?? '';
 
-
-
         $app = Aplicacion::getInstance();
         $idUsuario = $app->idUsuario();
-        
-      
+              
         $subastas = array(); // Declarar $subastas como un array vacío
         $resultados = Subasta::buscaSubasta("");
         echo ($resultados->getEstado());
@@ -200,11 +187,13 @@ class ListadoSubastas extends Formulario
         echo "</table>";      
     }
 }
+
 function mostrarTitulosTabla()
 {
     $html = <<<EOF
     <table>
         <tr>
+            <th>Imagen</th>
             <th>Titulo</th>
             <th>Descripcion</th>
             <th>Fecha de inicio</th>
@@ -214,29 +203,23 @@ function mostrarTitulosTabla()
             <th>ID ganador</th>
             <th>Estado</th>
             <th>Categoria</th>                           
-EOF;
+    EOF;
     return $html;
-
 }
 
 function listasubastas($busqueda)
 {
-   
-    
     $subastas = Subasta::listarSubastas($busqueda);
     $titulosCol = mostrarTitulosTabla();
 
- 
     $html = <<<EOF
         {$titulosCol}
         </tr>
-EOF;
+    EOF;
 
-   foreach($subastas as $subasta) {
-      
+   foreach($subastas as $subasta) {      
         $html .= visualizaSubasta($subasta);
-      
-   }
+    }
     
    $html .= "</table>";
     return $html;
@@ -244,6 +227,8 @@ EOF;
 
 function visualizaSubasta($subasta, $tipo=null) {
     $html = <<<EOF
+        <div class = "Subasta container">
+        <td>{$subasta->getImagen()}</td>
         <td>{$subasta->getTitulo()}</td>
         <td>{$subasta->getDescripcion()}</td>
         <td>{$subasta->getFechaInicio()}</td>
@@ -253,6 +238,7 @@ function visualizaSubasta($subasta, $tipo=null) {
         <td>{$subasta->getIdGanador()}</td>
         <td>{$subasta->getEstado()}</td>
         <td>{$subasta->getCategoria()}</td>
+        </div>
     EOF;
 
     switch ($tipo) {
@@ -260,7 +246,7 @@ function visualizaSubasta($subasta, $tipo=null) {
             $html .= <<<EOF
                 <form method="POST" action="vistaUnicaSubasta.php">
                     <input type="hidden" name="idsubasta" value="{$subasta->getIdSubasta()}">
-                    <td><button type="submit" name="subasta">pujar</td>
+                    <td><button type="submit" name="subasta">Pujar</td>
                 </form>
             EOF;
             break;
@@ -284,11 +270,12 @@ function visualizaSubasta($subasta, $tipo=null) {
                 </td>
                 <td>
                     <form method="POST" action="addValoracion.php">
-                        <input type="hidden" name="valorar" value="valorarSubasta">
-                        <input type="hidden" name="idsubasta" value="{$subasta->getIdSubasta()}">
-                        <input type="hidden" name="idvendedor" value="{$subasta->getIdUsuario()}">
-                        <input type="hidden" name="idganador" value="{$subasta->getIdGanador()}">
-                        <button type="submit">Valorar</button>
+                    <input type="hidden" name="valorar" value="valorarSubasta">
+                    <input type="hidden" name="idsubasta" value="{$subasta->getIdSubasta()}">
+                    <input type="hidden" name="idvendedor" value="{$subasta->getIdUsuario()}">
+                    <input type="hidden" name="idganador" value="{$subasta->getIdGanador()}">
+                    <input type="hidden" name="tituloproducto" value="{$subasta->getTitulo()}">
+                    <button type="submit">Valorar</button>
                     </form>
                 </td>
             EOF;
@@ -309,10 +296,7 @@ function visualizaSubasta($subasta, $tipo=null) {
         default:
             // no hacer nada
     }
-
     $html .= "</tr>";
-
     return $html;
 }
-
 ?>

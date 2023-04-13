@@ -10,20 +10,24 @@ $mensajes = mensajesPeticionAnterior();
 	<link rel="stylesheet" type="text/css" href="<?= $params['app']->resuelve('/css/estilo.css') ?>" /></head>
 <body>
 <?= $mensajes ?>
-<div id="contenedor">
+<div id="contenedorperfilusuario">
 <?php
 $params['app']->doInclude('/vistas/comun/cabecera.php');
-$params['app']->doInclude('/vistas/comun/sidebarIzqSubastas.php');
+//$params['app']->doInclude('/vistas/comun/sidebarIzqPerfil.php');
 ?>
 	<main>
 		<article>
+		<?= $params['app']->doInclude('/vistas/comun/cabeceraPerfilusuario.php') ?>
+		<?= $params['app']->doInclude('/vistas/comun/sidebarIzqSubastas.php') ?>
+		<div>
 			<?= $params['contenidoPrincipal'] ?>
+		</div>
 		</article>
 	</main>
-<?php
-$params['app']->doInclude('/vistas/comun/sidebarDer.php');
-$params['app']->doInclude('/vistas/comun/pie.php');
-?>
+
 </div>
 </body>
+<?php
+$params['app']->doInclude('/vistas/comun/pie.php');
+?>
 </html>

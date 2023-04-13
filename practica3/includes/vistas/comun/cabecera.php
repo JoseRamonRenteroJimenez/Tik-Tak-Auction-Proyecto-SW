@@ -40,8 +40,8 @@ function mostrarSaludo()
         </div>
         <div class="PerfilLinks">
           <a href="<?= $app->resuelve('/contenidomiperfil.php?ventas=ventas')?>">Mi perfil</a>
-          <a href="ruta_notificaciones"><img src="\sw\practica2\includes\vistas\imagenes\campana.png" width="20"></a>
-          <a href="ruta o despegable_de_carrito"><img src="\sw\practica2\includes\vistas\imagenes\carrito.png" width="20"></a>
+          <a href="ruta_notificaciones"><img src=<?php echo RUTA_IMGS.'\campana.png'; ?> width="20"></a>
+          <a href="ruta o despegable_de_carrito"><img src=<?php echo RUTA_IMGS.'\carrito.png'; ?> width="20"></a>
         </div>
       </div>
    
