@@ -91,6 +91,10 @@ class Subasta
             //listado de subastas por categoria
             $query = sprintf("SELECT * FROM subastas S  WHERE S.categoria= '%s'", $conn->real_escape_string($buscar));
 
+        }else if($busqueda=='compras'){
+            //listado de subastas cerradas 
+            
+            $query = sprintf("SELECT * FROM subastas S WHERE S.id_ganador= '%s'", $conn->real_escape_string($idusuario));
         }else{
             $query = sprintf("SELECT * FROM subastas");
             //$query = sprintf("SELECT * FROM Subastas WHERE Subastas.titulo LIKE %'%s'%",$conn->real_escape_string($busqueda));
