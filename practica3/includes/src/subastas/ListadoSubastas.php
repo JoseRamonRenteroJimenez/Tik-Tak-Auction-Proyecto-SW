@@ -50,20 +50,23 @@ static function listadoCompradas($busqueda){
 
     static function listadoUnicaSubasta($id){
         $subasta = Subasta::buscaPorId($id);
-        
-        
+        $imagen=Imagen::buscaPorsubasta($id);
+
         $hacerpuja= new \es\ucm\fdi\aw\subastas\HacerPuja();
         $fecha_actual = new DateTime();
         $fecha_dada = new DateTime($subasta->getFechaFin());
         $intervalo = $fecha_dada->diff($fecha_actual);
         $fechafin=$intervalo->format('%d D:%H H:%I M:%S S');
-
+        $rutaimagen="";
+        if($imagen!=false){
+        $rutaimagen=RUTA_ALMACEN_BAJADA.$imagen->getRuta();
+        }
         $app = Aplicacion::getInstance();
         $html = <<<EOF
                     <div class="containervendedorproducto">
                     <div class="product-info">
                     <div class="product-image">
-                    <img src="ruta-de-la-imagen" alt="Producto">
+                    <img src="{$rutaimagen}" alt="Producto">
                     </div>
                     <div class="product-details">
                     <div class="product-title">
@@ -106,11 +109,11 @@ static function listadoCompradas($busqueda){
         $subastas = Subasta::listarSubastas($busqueda,$buscar);
         $titulosCol = mostrarTitulosTabla();
 
-       
+        $html ="";
     
        foreach($subastas as $subasta) {
           
-            $html = visualizaSubasta($subasta,"pujar");
+            $html .= visualizaSubasta($subasta,"pujar");
           // echo($subasta);
        }
         
@@ -120,9 +123,15 @@ static function listadoCompradas($busqueda){
 
     static function formularioSubastas($Subastasvisibles){
         $subastas= \es\ucm\fdi\aw\subastas\Subasta::listarSubastas("");
+        
          $contenidoPrincipal="";
+         $rutaimagen="";
             for($contador=0;$contador<$Subastasvisibles;$contador++) {  
-                $contenidoPrincipal .=  parent::formulariosvisiblesindex("\sw\practica3\almacen\10.jpg","idsubasta", RUTA_APP.'\vistaUnicaSubasta.php',"GET",$subastas[$contador]->getIdSubasta(),$subastas[$contador]->getTitulo());
+                $imagen=Imagen::buscaPorsubasta($contador);
+        if($imagen!=false){
+            $rutaimagen=RUTA_ALMACEN_BAJADA.$imagen->getRuta();
+            }
+                $contenidoPrincipal .=  parent::formulariosvisiblesindex("$rutaimagen","idsubasta", RUTA_APP.'\vistaUnicaSubasta.php',"GET",$subastas[$contador]->getIdSubasta(),$subastas[$contador]->getTitulo());
             }
             return $contenidoPrincipal;
         }
@@ -256,10 +265,16 @@ EOF;
 }
 
 function visualizaSubasta($subasta, $tipo=null) {
+    $rutaimagen="";
+    $imagen=Imagen::buscaPorsubasta($subasta->getIdSubasta());
+    if($imagen!=false){
+        $rutaimagen=RUTA_ALMACEN_BAJADA.$imagen->getRuta();
+        }
+
     $html = <<<EOF
             <div class="item">
         <div class="image">
-                <img src="http://placehold.it/100x100" alt="Producto 1">
+                <img src="{$rutaimagen}" alt="Producto 1">
             </div>
             <div class="details">
                 <div class="title"> <a href="vistaUnicaSubasta.php?idsubasta={$subasta->getIdSubasta()}">{$subasta->getTitulo()}</a></div>

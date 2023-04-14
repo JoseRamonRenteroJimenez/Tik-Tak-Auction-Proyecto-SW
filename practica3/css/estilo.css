@@ -453,8 +453,17 @@ label {
 
 .product-image {
   width: 60%;
+	height: auto;
+	 display: flex; 
+  align-items: center; 
+  justify-content: center; 
+	
 }
-
+.product-image img{
+  max-width: 100%; /* La imagen se ajusta al ancho del contenedor */
+  height: auto;
+  
+}
 .product-details {
   width: 40%;
   padding: 2em;

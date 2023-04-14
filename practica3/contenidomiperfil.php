@@ -19,7 +19,7 @@ if ($app->tieneRol(es\ucm\fdi\aw\usuarios\Usuario::USER_ROLE)||$app->tieneRol(es
               <span class="number">12</span> anuncios activos
             </div>
             <div class="datos">
-              <span class="number">25</span> anuncios vendidos
+              <span class="number">25</span> ventas
             </div>
             <div class="datos">
               <span class="number">1250</span> € ganados
