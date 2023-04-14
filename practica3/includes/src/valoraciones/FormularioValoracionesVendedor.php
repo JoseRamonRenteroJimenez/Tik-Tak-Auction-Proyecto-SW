@@ -4,7 +4,7 @@ namespace es\ucm\fdi\aw\valoraciones;
 use es\ucm\fdi\aw\Aplicacion;
 use es\ucm\fdi\aw\Formulario;
 
-class FormularioValoraciones extends Formulario
+class FormularioValoracionesVendedor extends Formulario
 {
 
     public function __construct() {
@@ -25,21 +25,20 @@ class FormularioValoraciones extends Formulario
 
         $idvendedor = $datos['idvendedor'] ?? '';
 
-        if(isset($_POST['idsubasta'])){
-           // $idvaloracion= $_POST['idvaloracion'];
-            $idSubasta= $_POST['idsubasta'];
+        if(isset($_POST['idvendedor'])){
+            $idsubasta= $_POST['idsubasta'];
             $idvendedor= $_POST['idvendedor'];
             $idganador= $_POST['idganador'];
             $tituloproducto= $_POST['tituloproducto'];
-
-
-           $valoracion = Valoracion::buscarValoracionExistente($idvendedor,$idusuario);
-           if($valoracion != false){
+        
+            $valoracion = Valoracionvendedor::buscarValoracionExistente($idvendedor,$idusuario);
+        
+            if($valoracion != false){
                 $idvaloracion= $valoracion->getIdValoracion();
                 $puntuacion = $valoracion->getPuntuacion();
                 $comentario =$valoracion->getComentario();  
-           }               
-       }
+            }               
+        }
 
 
         // Se generan los mensajes de error si existen.
@@ -52,7 +51,7 @@ class FormularioValoraciones extends Formulario
         <fieldset>
             <legend>Evaluacion de vendedor</legend>
             <input type="hidden" name="idvaloracion" value="$idvaloracion" />
-            <input type="hidden" name="idSubasta" value="$idSubasta" />
+            <input type="hidden" name="idsubasta" value="$idsubasta" />
             <div >
                 <label>Vendedor:</label> <input type="text" name="idvendedor" readonly value="$idvendedor" />
             </div>
@@ -103,10 +102,10 @@ class FormularioValoraciones extends Formulario
                 $app = Aplicacion::getInstance();
                 $idusuario = $app->idUsuario();
               if($idvaloracion!=""){
-                $valoracion = Valoracion::actualizaValoracion($idvaloracion,$idusuario, $idSubasta, $tituloproducto, $puntuacion, $comentario,$idvendedor);  
+                $valoracion = Valoracionvendedor::actualizaValoracion($idvaloracion,$idusuario, $puntuacion, $comentario,$idvendedor);  
 
               }else{
-                $valoracion = Valoracion::crea($idusuario, $idSubasta, $tituloproducto, $puntuacion, $comentario,$idvendedor);               
+                $valoracion = Valoracionvendedor::crea($idusuario, $puntuacion, $comentario,$idvendedor);               
          }
                 
         }

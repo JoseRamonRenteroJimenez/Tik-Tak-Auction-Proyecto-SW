@@ -34,7 +34,8 @@ static function listadoCompradas($busqueda){
         $subastas = Subasta::listarSubastas($busqueda);
  
         $html = mostrarTitulosTabla();
-        $html .="<th>Valorar</th>";
+        $html .="<th>Valorar producto</th>";
+        $html .="<th>Valorar vendedor</th>";
         $html .="</tr>";   
    
     
@@ -321,30 +322,34 @@ function visualizaSubasta($subasta, $tipo=null) {
                         <button type="submit">Actualizar</button>
                     </form>
                 </td>
-                <td>
-                    <form method="POST" action="addValoracion.php">
-                        <input type="hidden" name="valorar" value="valorarSubasta">
-                        <input type="hidden" name="idsubasta" value="{$subasta->getIdSubasta()}">
-                        <input type="hidden" name="idvendedor" value="{$subasta->getIdUsuario()}">
-                        <input type="hidden" name="idganador" value="{$subasta->getIdGanador()}">
-                        <input type="hidden" name="tituloproducto" value="{$subasta->getTitulo()}">
-                        <button type="submit">Valorar</button>
-                    </form>
-                </td>
             EOF;
         break;
         case 'compradas':
             $html .= <<<EOF
-                <td>
-                    <form method="POST" action="addValoracion.php">
-                        <input type="hidden" name="valorar" value="valorarSubasta">
-                        <input type="hidden" name="idsubasta" value="{$subasta->getIdSubasta()}">
-                        <input type="hidden" name="idvendedor" value="{$subasta->getIdUsuario()}">
-                        <input type="hidden" name="idganador" value="{$subasta->getIdGanador()}">
-                        <input type="hidden" name="tituloproducto" value="{$subasta->getTitulo()}">
-                        <button type="submit">Valorar</button>
+            
+                    <form method="POST" action="addSubasta.php">                        
                     </form>
-                </td>
+                
+            <td>
+                <form method="POST" action="addValoracionProducto.php">
+                    <input type="hidden" name="valorar" value="valorarSubasta">
+                    <input type="hidden" name="idsubasta" value="{$subasta->getIdSubasta()}">
+                    <input type="hidden" name="idvendedor" value="{$subasta->getIdUsuario()}">
+                    <input type="hidden" name="idganador" value="{$subasta->getIdGanador()}">
+                    <input type="hidden" name="tituloproducto" value="{$subasta->getTitulo()}">
+                    <button type="submit">Valorar producto</button>
+                </form>
+            </td>
+            <td>
+                <form method="POST" action="addValoracionVendedor.php">
+                    <input type="hidden" name="valorar" value="valorarSubasta">
+                    <input type="hidden" name="idsubasta" value="{$subasta->getIdSubasta()}">
+                    <input type="hidden" name="idvendedor" value="{$subasta->getIdUsuario()}">
+                    <input type="hidden" name="idganador" value="{$subasta->getIdGanador()}">
+                    <input type="hidden" name="tituloproducto" value="{$subasta->getTitulo()}">
+                    <button type="submit">Valorar vendedor</button>
+                </form>
+            </td>             
             EOF;
         break;
         default:
