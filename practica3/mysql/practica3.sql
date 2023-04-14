@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 13-04-2023 a las 16:38:12
+-- Tiempo de generación: 14-04-2023 a las 19:27:05
 -- Versión del servidor: 10.4.27-MariaDB
 -- Versión de PHP: 8.2.0
 
@@ -88,7 +88,8 @@ CREATE TABLE `imagenes` (
 
 INSERT INTO `imagenes` (`id_imagen`, `id_subasta`, `ruta`, `nombre`, `mimeType`, `tipoAcceso`) VALUES
 (1, 12, '', 'WhatsApp-Image-2021-', 'image/png', 0),
-(2, 12, '2.png', 'WhatsApp-Image-2021-', 'image/png', 0);
+(2, 12, '2.png', 'WhatsApp-Image-2021-', 'image/png', 0),
+(3, 14, '3.png', 'WhatsApp-Image-2021-', 'image/png', 0);
 
 -- --------------------------------------------------------
 
@@ -190,7 +191,8 @@ INSERT INTO `subastas` (`id_subasta`, `id_usuario`, `titulo`, `descripcion`, `fe
 (10, 2, 'Pepe Viyuela', 'asfdf', '2123-12-18 04:21:00', '2023-04-27 21:31:00', '2312.00', '888888.00', 2, '', 'elPepe', 'usado'),
 (11, 2, 'Prueba insertado', 'dwpdwowdo', '2023-03-18 03:11:00', '2023-03-25 02:11:00', '1009.00', '1009.00', NULL, 'borrador', 'prueba', 'usado'),
 (12, 2, 'Comprobacion', 'sefserfs', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '233.00', '233.00', NULL, 'cerrada', '3', 'usado'),
-(13, 2, 'Comprobacion', 'sefserfs', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '233.00', '233.00', NULL, 'cerrada', '3', 'usado');
+(13, 2, 'Comprobacion', 'sefserfs', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '233.00', '233.00', NULL, 'cerrada', '3', 'usado'),
+(14, 2, 'Prueba foto', 'aaasdasd', '2023-04-07 19:06:00', '2023-04-21 19:07:00', '2323.00', '235564.00', 2, '', '10', 'nuevo');
 
 -- --------------------------------------------------------
 
@@ -219,7 +221,7 @@ INSERT INTO `usuarios` (`id_usuario`, `nombreUsuario`, `nombre`, `email`, `passw
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `valoraciones`
+-- Estructura de tabla para la tabla `valoracionesproducto`
 --
 
 CREATE TABLE `valoracionesproducto` (
@@ -229,19 +231,37 @@ CREATE TABLE `valoracionesproducto` (
   `titulo_producto` varchar(255) DEFAULT NULL,
   `puntuacion` int(11) NOT NULL,
   `comentario` text DEFAULT NULL,
+  `id_vendedor` int(11) DEFAULT NULL,
+  `titulo_valoracion` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `valoracionesproducto`
+--
+
+INSERT INTO `valoracionesproducto` (`id_valoracion`, `id_usuario`, `id_subasta`, `titulo_producto`, `puntuacion`, `comentario`, `id_vendedor`, `titulo_valoracion`) VALUES
+(3, 2, 8, 'Mesa de cocina', 222, 'aaaaa', 2, 'prueba de titulo');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `valoracionesvendedor`
+--
+
+CREATE TABLE `valoracionesvendedor` (
+  `id_valoracion` int(11) NOT NULL,
+  `id_usuario` int(11) NOT NULL,
+  `puntuacion` int(11) NOT NULL,
+  `comentario` text DEFAULT NULL,
   `id_vendedor` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Volcado de datos para la tabla `valoracionesvendedor`
+--
 
-ALTER TABLE `valoraciones`
-  ADD PRIMARY KEY (`id_valoracion`),
-  ADD CONSTRAINT `valoraciones_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id_usuario`),
-  ADD CONSTRAINT `valoraciones_ibfk_2` FOREIGN KEY (`id_vendedor`) REFERENCES `usuarios` (`id_usuario`);
-
-ALTER TABLE `valoraciones`
-  MODIFY `id_valoracion` int(11) NOT NULL AUTO_INCREMENT;
-
-
+INSERT INTO `valoracionesvendedor` (`id_valoracion`, `id_usuario`, `puntuacion`, `comentario`, `id_vendedor`) VALUES
+(4, 2, 455, 'ss', 2);
 
 --
 -- Índices para tablas volcadas
@@ -313,13 +333,21 @@ ALTER TABLE `usuarios`
   ADD UNIQUE KEY `nombreUsuario` (`nombreUsuario`);
 
 --
--- Indices de la tabla `valoraciones`
+-- Indices de la tabla `valoracionesproducto`
 --
-ALTER TABLE `valoraciones`
+ALTER TABLE `valoracionesproducto`
   ADD PRIMARY KEY (`id_valoracion`),
   ADD KEY `id_usuario` (`id_usuario`),
   ADD KEY `id_subasta` (`id_subasta`),
   ADD KEY `id_vendedor` (`id_vendedor`);
+
+--
+-- Indices de la tabla `valoracionesvendedor`
+--
+ALTER TABLE `valoracionesvendedor`
+  ADD PRIMARY KEY (`id_valoracion`),
+  ADD KEY `valoraciones_ibfk_1` (`id_usuario`),
+  ADD KEY `valoraciones_ibfk_2` (`id_vendedor`);
 
 --
 -- AUTO_INCREMENT de las tablas volcadas
@@ -341,7 +369,7 @@ ALTER TABLE `chats`
 -- AUTO_INCREMENT de la tabla `imagenes`
 --
 ALTER TABLE `imagenes`
-  MODIFY `id_imagen` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_imagen` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `mensajes`
@@ -359,13 +387,25 @@ ALTER TABLE `notificaciones`
 -- AUTO_INCREMENT de la tabla `subastas`
 --
 ALTER TABLE `subastas`
-  MODIFY `id_subasta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id_subasta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
   MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT de la tabla `valoracionesproducto`
+--
+ALTER TABLE `valoracionesproducto`
+  MODIFY `id_valoracion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT de la tabla `valoracionesvendedor`
+--
+ALTER TABLE `valoracionesvendedor`
+  MODIFY `id_valoracion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Restricciones para tablas volcadas
@@ -406,11 +446,19 @@ ALTER TABLE `notificaciones`
 ALTER TABLE `rolesusuario`
   ADD CONSTRAINT `rolesusuario_ibfk_1` FOREIGN KEY (`rol`) REFERENCES `roles` (`id_rol`);
 
-ALTER TABLE `valoraciones`
+--
+-- Filtros para la tabla `valoracionesproducto`
+--
+ALTER TABLE `valoracionesproducto`
+  ADD CONSTRAINT `valoracionesproducto_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id_usuario`),
+  ADD CONSTRAINT `valoracionesproducto_ibfk_2` FOREIGN KEY (`id_vendedor`) REFERENCES `usuarios` (`id_usuario`);
+
+--
+-- Filtros para la tabla `valoracionesvendedor`
+--
+ALTER TABLE `valoracionesvendedor`
   ADD CONSTRAINT `valoraciones_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id_usuario`),
   ADD CONSTRAINT `valoraciones_ibfk_2` FOREIGN KEY (`id_vendedor`) REFERENCES `usuarios` (`id_usuario`);
-  ALTER TABLE `usuarios`
-  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
