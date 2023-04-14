@@ -6,17 +6,32 @@ $tituloPagina = 'Mi perfil';
 $contenidoPrincipal='';
 $contenido='ventas';
 
-$idpuja=$_POST["idsubasta"];
+$idpuja=$_GET["idsubasta"];
+
 
 $hacerpuja= new \es\ucm\fdi\aw\subastas\HacerPuja();
 $hacerpuja = $hacerpuja->gestiona();
 
- 
+if ($_POST != null){
+    unset($_POST);
+    unset($hacerpuja);
+    $hacerpuja= new \es\ucm\fdi\aw\subastas\HacerPuja();
+    $hacerpuja = $hacerpuja->gestiona();
+}
+
+
+$resultadoTablaSubastas = \es\ucm\fdi\aw\subastas\ListadoSubastas::listadoUnicaSubasta($idpuja);
+
 $tituloPagina = 'Subasta';
 $contenidoPrincipal=<<<EOF
-  	<h1>Subasta a pujar</h1>
+  	
+      <fieldset>
+      <legend>Subastas actuales</legend>
+      <div>
+      $resultadoTablaSubastas
       $hacerpuja
-    
+      <div>
+      </fieldset>
 EOF;
 
 $params = ['tituloPagina' => $tituloPagina, 'contenidoPrincipal' => $contenidoPrincipal];

@@ -91,6 +91,10 @@ class Subasta
             //listado de subastas por categoria
             $query = sprintf("SELECT * FROM subastas S  WHERE S.categoria= '%s'", $conn->real_escape_string($buscar));
 
+        }else if($busqueda=='compras'){
+            //listado de subastas cerradas 
+            
+            $query = sprintf("SELECT * FROM subastas S WHERE S.id_ganador= '%s'", $conn->real_escape_string($idusuario));
         }else{
             $query = sprintf("SELECT * FROM subastas");
             //$query = sprintf("SELECT * FROM Subastas WHERE Subastas.titulo LIKE %'%s'%",$conn->real_escape_string($busqueda));
@@ -156,7 +160,7 @@ class Subasta
       //  echo($subasta->id_usuario.",".$subasta->titulo .",".$subasta->descripcion .",".$subasta->fecha_inicio.",". $subasta->fecha_fin .",".$subasta->precio_inicial.",". $subasta->precio_actual.",". $subasta->id_ganador .",".$subasta->estado .",".$subasta->categoria.",". $subasta->estadoproducto.",". $subasta->obtenerEstadoSubasta($subasta->fecha_inicio,$subasta->fecha_fin));
         $result = false;
         $conn = Aplicacion::getInstance()->getConexionBd();
-        
+                                            
         $query=sprintf("INSERT INTO subastas(id_usuario, titulo, descripcion, fecha_inicio, fecha_fin, precio_inicial, precio_actual, id_ganador, estado, categoria, estadoproducto) VALUES ('%d', '%s', '%s', '%s','%s', '%f', '%f', NULL,'%s', '%s', '%s')"
             , $subasta->idusuario
             , $conn->real_escape_string($subasta->titulo)
@@ -239,7 +243,27 @@ class Subasta
         return true;
     }
 
-   
+    public static function numeroSubastas()
+    {
+        $app=Aplicacion::getInstance();
+        $conn = $app->getConexionBd();
+        $query = sprintf("SELECT COUNT(*) FROM subastas");
+        $rs = $conn->query($query);
+        $result = false;
+        if ($rs) {
+            $row = $rs->fetch_row();
+            $result = $row[0];
+            $rs->free();
+        } else {
+            error_log("Error BD ({$conn->errno}): {$conn->error}");
+        }
+       if($result<7){
+        return $result;
+       }else{
+        return 7;
+       }
+        
+    }
 
     private $idsubasta;
 

@@ -46,11 +46,13 @@ $contenidoPrincipal .=<<<EOS
       <ul class="listasdestacadas">
 
   EOS;
-  $contenidoPrincipal .= \es\ucm\fdi\aw\subastas\ListadoSubastas::formularioSubastas(7);
+  $nSubastas = \es\ucm\fdi\aw\subastas\Subasta::numeroSubastas();
+  $contenidoPrincipal .= \es\ucm\fdi\aw\subastas\ListadoSubastas::formularioSubastas($nSubastas);
 
   $contenidoPrincipal .="  </ul></section> <section>  <h2>Categorias destacadas</h2> <ul class='listasdestacadas'>";
- 
-  $contenidoPrincipal .= \es\ucm\fdi\aw\subastas\ListadoCategorias::formularioCategorias(7);
+
+  $nCategorias = \es\ucm\fdi\aw\subastas\Categorias::numeroCategorias();
+  $contenidoPrincipal .= \es\ucm\fdi\aw\subastas\ListadoCategorias::formularioCategorias($nCategorias);
 
 
       $contenidoPrincipal .= "</ul> </section>";

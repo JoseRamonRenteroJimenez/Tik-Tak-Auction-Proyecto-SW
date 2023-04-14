@@ -86,15 +86,15 @@ class FormularioObjeto extends Formulario
                     </div>
                     <div class="seccion">
                         <label for="precio">Precio inicial:</label> 
-                        <input type="number" name="precio" id="precio" value="$precioInicial" />
+                        <input type="number" name="precioInicial" id="precioInicial" value="$precioInicial" />
                         $erroresCampos[precioInicial]
                     </div>
                     <div class="seccion">
                         <label for="fechainicio">Fecha de inicio:</label> 
-                        <input type="datetime-local" name="fechainicio" id="fechainicio" value="$fechaInicio" />
+                       <input type="datetime-local" name="fechaInicio" value="$fechaInicio" />
                         $erroresCampos[fechaInicio]
                         <label for="fechafin">Fecha de fin:</label> 
-                        <input type="datetime-local" name="fechafin" id="fechafin" value="$fechaFin" />
+                        <input type="datetime-local" name="fechaFin" value="$fechaFin" />
                         $erroresCampos[fechaFin]
                     </div>
                     <button type="submit" name="subasta" id="boton-publicar">Publicar</button>
@@ -151,19 +151,19 @@ class FormularioObjeto extends Formulario
         }
         $fechaInicio = trim($datos['fechaInicio'] ?? '');
         $fechaInicio = filter_var($fechaInicio, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-        if ( ! $fechaInicio ) {
-            $this->errores['fechaInicio'] = 'El fechaInicio tiene que tener una longitud de al menos 5 caracteres.';
-        }
+        
         $fechaFin = trim($datos['fechaFin'] ?? '');
         $fechaFin = filter_var($fechaFin, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-        if ( ! $fechaFin  ) {
-            $this->errores['fechaFin'] = 'El fechaFin tiene que tener una longitud de al menos 5 caracteres.';
+        
+        if ( $fechaInicio > $fechaFin) {
+            $this->errores['fechaInicio'] = 'La fecha de inicio no puede ser posterior a la fecha de finalizacion';
+            $this->errores['fechaFin'] = 'La fecha de finalizacion debe ser posterior a la fecha de inicio';
         }
-
+        
         $precioInicial = trim($datos['precioInicial'] ?? '');
         $precioInicial = filter_var($precioInicial, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         if ( ! $precioInicial  ) {
-            $this->errores['precioInicial'] = 'Los passwords deben coincidir';
+            $this->errores['precioInicial'] = 'Precio no valido';
         }
 
         $categoria = trim($datos['categoria'] ?? '');

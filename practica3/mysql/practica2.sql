@@ -202,14 +202,13 @@ INSERT INTO categorias (nombre) VALUES
 -- creacion de tabla imagenes
 --
 CREATE TABLE imagenes (
-  'id' int(11) NOT NULL AUTO_INCREMENT,
-  'id_subasta' int(11) NOT NULL,
-  'ruta' varchar(20) NOT NULL,
-  'nombre' varchar(20) NOT NULL,
-  'mimeType' varchar(30) NOT NULL,
- 'tipoAcceso' tinyint(4) NOT NULL,
-  PRIMARY KEY ('id_subasta'),
-  CONSTRAINT 'fk_subasta' FOREIGN KEY ('id_subasta') REFERENCES 'subastas' ('id_subasta')
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_subasta` int(11) NOT NULL,
+  `ruta` varchar(20) NOT NULL,
+  `nombre` varchar(20) NOT NULL,
+  `mimeType` varchar(30) NOT NULL,
+  `tipoAcceso` tinyint(4) NOT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 --
 -- modificacion de subastas para eliminar columna imagenes
@@ -359,7 +358,11 @@ ALTER TABLE `valoraciones`
   ADD CONSTRAINT `valoraciones_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id_usuario`),
   ADD CONSTRAINT `valoraciones_ibfk_2` FOREIGN KEY (`id_subasta`) REFERENCES `subastas` (`id_subasta`),
   ADD CONSTRAINT `valoraciones_ibfk_3` FOREIGN KEY (`id_producto`) REFERENCES `subastas` (`id_subasta`);
-COMMIT;
+  
+ALTER TABLE `imagenes`
+ADD CONSTRAINT `fk_subasta` FOREIGN KEY (`id_subasta`) REFERENCES `subastas` (`id_subasta`) 
+  
+
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

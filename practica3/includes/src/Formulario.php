@@ -198,6 +198,7 @@ abstract class Formulario
     public function gestiona()
     {
         $datos = &$_POST;
+       
         if (strcasecmp('GET', $this->method) == 0) {
             $datos = &$_GET;
         }
@@ -213,7 +214,7 @@ abstract class Formulario
         if (! $esValido ) {
             return $this->generaFormulario($datos);
         }
-
+       
         if ($this->urlRedireccion !== null) {
             header("Location: {$this->urlRedireccion}");
             exit();
@@ -295,7 +296,6 @@ abstract class Formulario
                       <div class="listasdestacadas-title">
             
                       <form id="myForm" action="{$rutadestino}" method="{$metodo}">
-                      <input type="hidden" name="barra" value="">
                           <input type="hidden" name="{$hiddenname}" value="{$id}">
                           <button type="submit" class="button-link"><h3>{$nombre}</h3></button>
                         </form>

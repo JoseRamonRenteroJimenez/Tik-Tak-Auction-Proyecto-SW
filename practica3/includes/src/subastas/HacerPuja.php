@@ -8,21 +8,41 @@ use es\ucm\fdi\aw\Formulario;
 class HacerPuja extends Formulario
 {
     public function __construct() {     
-        parent::__construct('formObjeto', ['urlRedireccion']);
+        parent::__construct('formPuja', ['urlRedireccion']);
   
     }
     
     public function generaCamposFormulario(&$datos)
     {
-        $idpuja=$_POST["idsubasta"];
-        $resultadoTablaSubastas = ListadoSubastas::listadoUnicaSubasta($idpuja);
+        $idpuja=$_GET["idsubasta"];
+        $app = Aplicacion::getInstance();
+        $subasta = Subasta::buscaPorId($idpuja);
+        /*$resultadoTablaSubastas = ListadoSubastas::listadoUnicaSubasta($idpuja);*/
         //Creamos aqui la parte fija del codigo HTML
+           
+        
+    if ($app->tieneRol(\es\ucm\fdi\aw\usuarios\Usuario::USER_ROLE)||$app->tieneRol(\es\ucm\fdi\aw\usuarios\Usuario::BUSSINES_ROLE)) {
+                        
         $html = <<<EOF
-        <fieldset>
-            <legend>Subastas actuales</legend>
-            $resultadoTablaSubastas      
-        </fieldset>
-    EOF;
+                    
+                    
+                      
+                    <input type="text" name="nuevoprecio" id="bid-amount" value="{$subasta->getPrecioActual()}"></input>
+                    <input type="hidden" name="idsubasta" value="{$subasta->getIdSubasta()}">
+                    <input type="hidden" name="refresco" value="true">
+                    <p>Puja Mínima: {$subasta->getPrecioActual()}</p>
+                    <button type="submit" id="bid-button">Pujar</button>
+               
+                    
+                     
+        EOF;                 
+                    } else {
+                        $loginUrl = $app->resuelve('/login.php');
+                        $registroUrl = $app->resuelve('/registro.php');
+                        $html = <<<EOF
+                         <td> <a href="{$loginUrl}">Login</a> <a href="{$registroUrl}">Registro</a></td> 
+                      EOF;
+                    }
     return $html;
     }
     
@@ -30,13 +50,14 @@ class HacerPuja extends Formulario
     protected function procesaFormulario(&$datos)
     {
        $app=Aplicacion::getInstance();
-            $idSubasta = $_POST['idsubasta'];
-            $nuevoprecio=$_POST['nuevoprecio'];
+            $idSubasta = $datos['idsubasta'];
+            $nuevoprecio=$datos['nuevoprecio'];
+         
             $subasta = Subasta::buscaPorId($idSubasta);
             $idganador=$app->idUsuario();
             if($subasta) {
                 $subasta = Subasta::actualizaSubasta($idSubasta,$subasta->getIdUsuario(), $subasta->getTitulo(), $subasta->getDescripcion(), $subasta->getFechaInicio(), $subasta->getFechaFin(), $subasta->getPrecioInicial(), $nuevoprecio, $subasta->getCategoria(), $subasta->getEstadoProducto(),$idganador);
-                
+               
             } else {
                 echo "<p>Error al hacer la puja</p>";
             }

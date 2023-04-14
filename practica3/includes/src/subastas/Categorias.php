@@ -120,7 +120,27 @@ class Categorias
         return $result;
     }
    */
-    
+  public static function numeroCategorias()
+  {
+      $app=Aplicacion::getInstance();
+      $conn = $app->getConexionBd();
+      $query = sprintf("SELECT COUNT(*) FROM categorias");
+      $rs = $conn->query($query);
+      $result = false;
+      if ($rs) {
+          $row = $rs->fetch_row();
+          $result = $row[0];
+          $rs->free();
+      } else {
+          error_log("Error BD ({$conn->errno}): {$conn->error}");
+      }
+      if($result<7){
+        return $result;
+       }else{
+        return 7;
+       }
+      
+  }
     private static function borra($Categoria)
     {
         return self::borraPorId($Categoria->id);
