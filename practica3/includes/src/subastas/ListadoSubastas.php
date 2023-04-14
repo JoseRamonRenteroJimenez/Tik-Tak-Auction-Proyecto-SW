@@ -49,7 +49,7 @@ static function listadoCompradas($busqueda){
     static function listadoUnicaSubasta($id){
         $subasta = Subasta::buscaPorId($id);
         $imagen=Imagen::buscaPorsubasta($id);
-
+//
         $hacerpuja= new \es\ucm\fdi\aw\subastas\HacerPuja();
         $fecha_actual = new DateTime();
         $fecha_dada = new DateTime($subasta->getFechaFin());
