@@ -38,6 +38,7 @@ class FormularioValoracionesProducto extends Formulario
                 $idvaloracion= $valoracion->getIdValoracion();
                 $puntuacion = $valoracion->getPuntuacion();
                 $comentario =$valoracion->getComentario();  
+                $titulovaloracion= $valoracion->getitulovaloracion();
             }               
         }
 
@@ -64,7 +65,7 @@ class FormularioValoracionesProducto extends Formulario
                             $erroresCampos[titulovaloracion]
             
             <div >
-                <label>Evalua al vendedor:</label> <input type="number" name="puntuacion" value="$puntuacion" />
+                <label>Evalua al vendedor:</label> <input type="number" min="0" max="10" name="puntuacion" value="$puntuacion" />
             </div>
             <div >
                 <label>Descripción:</label> <textarea name="comentario">$comentario</textarea>

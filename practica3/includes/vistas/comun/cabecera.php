@@ -48,7 +48,7 @@ function mostrarSaludo()
    
       <div class="CabeceraInferior">
         <div class="Imagen">
-		<a href="index.php"><img src= <?php echo RUTA_IMGS.'\logoTikTak.jpeg'; ?>	 alt="Logo TikTak"></a>
+        <a href="index.php"><img src= <?php echo RUTA_IMGS.'\logoTikTak.jpeg'; ?>	 alt="Logo TikTak"></a>
           
         </div>
         <div class="BarraBusq">

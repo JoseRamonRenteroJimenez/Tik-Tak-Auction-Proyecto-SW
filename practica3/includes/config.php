@@ -27,15 +27,17 @@ define('BD_HOST', 'vm16.db.swarm.test');
 define('BD_NAME', 'practica2');
 define('BD_USER', 'practica2');
 define('BD_PASS', 'practica2');
-*/
+
 
 //Parámetros de configuración utilizados para generar las URLs y las rutas a ficheros en la aplicación produccion
-/*
+
 define('RAIZ_APP', __DIR__);
 define('RUTA_APP', '');
-define('RUTA_IMGS', RUTA_APP.'img/');
+define('RUTA_IMGS', RUTA_APP.'includes\vistas\Imagenes');
 define('RUTA_CSS', RUTA_APP.'css/');
 define('RUTA_JS', RUTA_APP.'js/');
+define('RUTA_ALMACEN', implode(DIRECTORY_SEPARATOR, [dirname(__DIR__), 'almacen']));
+define('RUTA_ALMACEN_BAJADA', RUTA_APP.'almacen/');
 */
 
 /**
