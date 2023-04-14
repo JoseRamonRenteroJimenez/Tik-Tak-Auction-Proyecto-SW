@@ -45,7 +45,24 @@ class Imagen
 
         return $result;
     }
-    
+    public static function buscaPorsubasta($idSubasta)
+    {
+        $conn = Aplicacion::getInstance()->getConexionBd();
+        $query = sprintf("SELECT * FROM imagenes I WHERE I.id_subasta='%d' ", $idSubasta );
+        $rs = $conn->query($query);
+        $result = false;
+        if ($rs) {
+            $fila = $rs->fetch_assoc();
+            if ($fila) {
+                $result = new Imagen($fila['id_subasta'],$fila['ruta'], $fila['nombre'], $fila['mimeType'], $fila['tipoAcceso'], $fila['id_imagen']);
+            }
+            $rs->free();
+        } else {
+            error_log("Error BD ({$conn->errno}): {$conn->error}");
+        }
+       
+        return $result;
+    }
     public static function buscaPorTipoAcceso($tipoAcceso = self::PUBLICA)
     {
         return self::getImagenes($tipoAcceso);

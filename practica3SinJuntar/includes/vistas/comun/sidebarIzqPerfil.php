@@ -7,7 +7,7 @@ $app = Aplicacion::getInstance();
 	<h3>Navegación</h3>
 	<ul>
 		<li><a href="<?= $app->resuelve('/resumenPerfil.php')?>">Resumen</a></li>
-		<li><a href="<?= $app->resuelve('/comprasPerfil.php')?>">Compras</a></li>
+		<li><a href="comprasPerfil.php">Compras</a></li>
 		<li><a href="<?= $app->resuelve('/guardadosPerfil.php')?>">Guardados</a></li>
         <li><a href="<?= $app->resuelve('/ventasPerfil.php')?>">Ventas</a>
 		<ul>

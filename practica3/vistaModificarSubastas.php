@@ -8,7 +8,7 @@ $ModificarSubastas = $ModificarSubastas->gestiona();
  
 $tituloPagina = 'Borrar';
 $contenidoPrincipal=<<<EOF
-  	<h1>Listado de subasta</h1>
+  
       $ModificarSubastas
     
 EOF;

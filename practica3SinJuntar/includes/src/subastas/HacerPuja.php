@@ -35,8 +35,8 @@ class HacerPuja extends Formulario
             $subasta = Subasta::buscaPorId($idSubasta);
             $idganador=$app->idUsuario();
             if($subasta) {
-                $subasta = Subasta::actualizaSubasta($idSubasta,$subasta->getIdUsuario(), $subasta->getTitulo(), $subasta->getDescripcion(), $subasta->getFechaInicio(), $subasta->getFechaFin(), $subasta->getPrecioInicial(), $nuevoprecio,$subasta->getImagen(), $subasta->getCategoria(), $subasta->getEstadoProducto(),$idganador);
-                echo "<p>Puja registrada.</p>";
+                $subasta = Subasta::actualizaSubasta($idSubasta,$subasta->getIdUsuario(), $subasta->getTitulo(), $subasta->getDescripcion(), $subasta->getFechaInicio(), $subasta->getFechaFin(), $subasta->getPrecioInicial(), $nuevoprecio, $subasta->getCategoria(), $subasta->getEstadoProducto(),$idganador);
+                
             } else {
                 echo "<p>Error al hacer la puja</p>";
             }

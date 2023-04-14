@@ -198,6 +198,7 @@ abstract class Formulario
     public function gestiona()
     {
         $datos = &$_POST;
+       
         if (strcasecmp('GET', $this->method) == 0) {
             $datos = &$_GET;
         }
@@ -213,7 +214,7 @@ abstract class Formulario
         if (! $esValido ) {
             return $this->generaFormulario($datos);
         }
-
+       
         if ($this->urlRedireccion !== null) {
             header("Location: {$this->urlRedireccion}");
             exit();

@@ -12,18 +12,32 @@ if ($app->tieneRol(es\ucm\fdi\aw\usuarios\Usuario::USER_ROLE)||$app->tieneRol(es
     
   $contenidoPrincipal=<<<EOS
 
-                            <div>
-                          
-                            <a href="{$addsubastaUrl}">subir subasta</a>
-                            <a href="{$modificarsubastaUrl}">modificar subastas</a>
-                            </div>
+                            
+          <div class="top-bar">
+          <div class="stats">
+            <div class="datos">
+              <span class="number">12</span> anuncios activos
+            </div>
+            <div class="datos">
+              <span class="number">25</span> ventas
+            </div>
+            <div class="datos">
+              <span class="number">1250</span> € ganados
+            </div>
+          </div>
+          <div class="actions">
+            <a href="{$addsubastaUrl}" class="btn">Subir anuncios</a>
+            <a href="{$modificarsubastaUrl}" class="btn">Modificar anuncios</a>
+          </div>
+        </div>
+
 
     
   EOS;
   $contenido=$_GET["ventas"];
 
 $contenidoPrincipal .= \es\ucm\fdi\aw\subastas\listasubastas($contenido);
- 
+$contenidoPrincipal .= "</div>";
 } else {
   $contenidoPrincipal=<<<EOS
     <h1>Usuario no registrado!</h1>

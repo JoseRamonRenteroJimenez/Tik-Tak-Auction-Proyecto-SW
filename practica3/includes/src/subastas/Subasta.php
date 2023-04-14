@@ -160,7 +160,7 @@ class Subasta
       //  echo($subasta->id_usuario.",".$subasta->titulo .",".$subasta->descripcion .",".$subasta->fecha_inicio.",". $subasta->fecha_fin .",".$subasta->precio_inicial.",". $subasta->precio_actual.",". $subasta->id_ganador .",".$subasta->estado .",".$subasta->categoria.",". $subasta->estadoproducto.",". $subasta->obtenerEstadoSubasta($subasta->fecha_inicio,$subasta->fecha_fin));
         $result = false;
         $conn = Aplicacion::getInstance()->getConexionBd();
-        
+                                            
         $query=sprintf("INSERT INTO subastas(id_usuario, titulo, descripcion, fecha_inicio, fecha_fin, precio_inicial, precio_actual, id_ganador, estado, categoria, estadoproducto) VALUES ('%d', '%s', '%s', '%s','%s', '%f', '%f', NULL,'%s', '%s', '%s')"
             , $subasta->idusuario
             , $conn->real_escape_string($subasta->titulo)
@@ -257,8 +257,12 @@ class Subasta
         } else {
             error_log("Error BD ({$conn->errno}): {$conn->error}");
         }
-       
+       if($result<7){
         return $result;
+       }else{
+        return 7;
+       }
+        
     }
 
     private $idsubasta;

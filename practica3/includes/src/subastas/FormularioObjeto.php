@@ -91,10 +91,10 @@ class FormularioObjeto extends Formulario
                     </div>
                     <div class="seccion">
                         <label for="fechainicio">Fecha de inicio:</label> 
-                        <input type="datetime-local" name="fechainicio" id="fechainicio" value="$fechaInicio" />
+                       <input type="datetime-local" name="fechaInicio" value="$fechaInicio" />
                         $erroresCampos[fechaInicio]
                         <label for="fechafin">Fecha de fin:</label> 
-                        <input type="datetime-local" name="fechafin" id="fechafin" value="$fechaFin" />
+                        <input type="datetime-local" name="fechaFin" value="$fechaFin" />
                         $erroresCampos[fechaFin]
                     </div>
                     <button type="submit" name="subasta" id="boton-publicar">Publicar</button>
@@ -233,20 +233,7 @@ class FormularioObjeto extends Formulario
         }
     }
 
-    private function subirImagen(){
-    $tmp_name = $_FILES['archivo']['tmp_name'];
-
-        $imagen = Imagen::crea($nombre, $mimeType, $tipoAlmacen, '');
-        $imagen->guarda();
-        $fichero = "{$imagen->id_imagen}.{$extension}";
-        $imagen->setRuta($fichero);
-        $imagen->guarda();
-        $ruta = implode(DIRECTORY_SEPARATOR, [RUTA_ALMACEN, $fichero]);
-        
-        if (!move_uploaded_file($tmp_name, $ruta)) {
-            $this->errores['archivo'] = 'Error al mover el archivo';
-        }
-    }
+   
      /**
      * Check $_FILES[][name]
      *
