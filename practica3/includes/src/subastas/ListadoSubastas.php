@@ -265,6 +265,10 @@ EOF;
 }
 
 function visualizaSubasta($subasta, $tipo=null) {
+    $fecha_actual = new DateTime();
+    $fecha_dada = new DateTime($subasta->getFechaFin());
+    $intervalo = $fecha_dada->diff($fecha_actual);
+    $fechafin=$intervalo->format('%d D:%H H:%I M:%S S');
     $rutaimagen="";
     $imagen=Imagen::buscaPorsubasta($subasta->getIdSubasta());
     if($imagen!=false){
@@ -283,7 +287,7 @@ function visualizaSubasta($subasta, $tipo=null) {
                 <div class="price">{$subasta->getPrecioActual()}€</div>
                 <div class="bid-info">
                 <span class="bids">x pujas</span>
-                <span class="time">2 días restantes</span>
+                <span class="time">{$fechafin} días restantes</span>
                 </div>
                 </div>
                 <div class="buttons-container">
