@@ -296,6 +296,7 @@ abstract class Formulario
                       <div class="listasdestacadas-title">
             
                       <form id="myForm" action="{$rutadestino}" method="{$metodo}">
+                      <input type="hidden" name="barra" value="">
                           <input type="hidden" name="{$hiddenname}" value="{$id}">
                           <button type="submit" class="button-link"><h3>{$nombre}</h3></button>
                         </form>

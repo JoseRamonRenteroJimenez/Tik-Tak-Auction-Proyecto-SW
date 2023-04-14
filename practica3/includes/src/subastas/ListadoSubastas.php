@@ -15,10 +15,8 @@ class ListadoSubastas extends Formulario
     static function listadoActualizar($busqueda){
         $subastas = Subasta::listarSubastas($busqueda);
  
-        $html = mostrarTitulosTabla();
-        $html .="<th>Eliminar</th>";
-        $html .="<th>Actualizar</th>";
-        $html .="</tr>";   
+       
+        $html ="";
    
     
        foreach($subastas as $subasta) {
@@ -27,9 +25,11 @@ class ListadoSubastas extends Formulario
           // echo($subasta);
        }
         
-       $html .= "</table>";
+       
         return $html;
     }
+
+
 static function listadoCompradas($busqueda){
         $subastas = Subasta::listarSubastas($busqueda);
  
@@ -106,19 +106,15 @@ static function listadoCompradas($busqueda){
         $subastas = Subasta::listarSubastas($busqueda,$buscar);
         $titulosCol = mostrarTitulosTabla();
 
-        $html = <<<EOF
-                {$titulosCol}
-                <th>pujar</th>
-            </tr>
-    EOF;
+       
     
        foreach($subastas as $subasta) {
           
-            $html .= visualizaSubasta($subasta,"pujar");
+            $html = visualizaSubasta($subasta,"pujar");
           // echo($subasta);
        }
         
-       $html .= "</table>";
+       
         return $html;
     }
 
@@ -126,7 +122,7 @@ static function listadoCompradas($busqueda){
         $subastas= \es\ucm\fdi\aw\subastas\Subasta::listarSubastas("");
          $contenidoPrincipal="";
             for($contador=0;$contador<$Subastasvisibles;$contador++) {  
-                $contenidoPrincipal .=  parent::formulariosvisiblesindex("subasta-1.jpg","idsubasta", RUTA_APP.'\vistaUnicaSubasta.php',"GET",$subastas[$contador]->getIdSubasta(),$subastas[$contador]->getTitulo());
+                $contenidoPrincipal .=  parent::formulariosvisiblesindex("\sw\practica3\almacen\10.jpg","idsubasta", RUTA_APP.'\vistaUnicaSubasta.php',"GET",$subastas[$contador]->getIdSubasta(),$subastas[$contador]->getTitulo());
             }
             return $contenidoPrincipal;
         }
@@ -266,7 +262,7 @@ function visualizaSubasta($subasta, $tipo=null) {
                 <img src="http://placehold.it/100x100" alt="Producto 1">
             </div>
             <div class="details">
-                <div class="title">{$subasta->getTitulo()}</div>
+                <div class="title"> <a href="vistaUnicaSubasta.php?idsubasta={$subasta->getIdSubasta()}">{$subasta->getTitulo()}</a></div>
                 <div class="status">Estado: {$subasta->getEstado()}</div>
                 <div class="seller">Vendedor: Nombre del vendedor</div>
                 <div class="price">{$subasta->getPrecioActual()}€</div>
@@ -274,20 +270,13 @@ function visualizaSubasta($subasta, $tipo=null) {
                 <span class="bids">x pujas</span>
                 <span class="time">2 días restantes</span>
                 </div>
-            </div>
-           
+                </div>
+                <div class="buttons-container">
         
     EOF;
 
     switch ($tipo) {
-        case 'pujar':
-            $html .= <<<EOF
-                <form method="GET" action="vistaUnicaSubasta.php">
-                    <input type="hidden" name="idsubasta" value="{$subasta->getIdSubasta()}">
-                    <td><button type="submit" name="subasta">pujar</td>
-                </form>
-            EOF;
-            break;
+        
         case 'actualizar':
             $html .= <<<EOF
                 <td>
@@ -306,16 +295,7 @@ function visualizaSubasta($subasta, $tipo=null) {
                         <button type="submit">Actualizar</button>
                     </form>
                 </td>
-                <td>
-                    <form method="POST" action="addValoracion.php">
-                        <input type="hidden" name="valorar" value="valorarSubasta">
-                        <input type="hidden" name="idsubasta" value="{$subasta->getIdSubasta()}">
-                        <input type="hidden" name="idvendedor" value="{$subasta->getIdUsuario()}">
-                        <input type="hidden" name="idganador" value="{$subasta->getIdGanador()}">
-                        <input type="hidden" name="tituloproducto" value="{$subasta->getTitulo()}">
-                        <button type="submit">Valorar</button>
-                    </form>
-                </td>
+                
             EOF;
         break;
         case 'compradas':
@@ -336,7 +316,7 @@ function visualizaSubasta($subasta, $tipo=null) {
             // no hacer nada
     }
 
-    $html .= " </div>";
+    $html .= "  </div></div>";
 
     return $html;
 }

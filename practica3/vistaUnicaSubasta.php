@@ -26,7 +26,7 @@ $tituloPagina = 'Subasta';
 $contenidoPrincipal=<<<EOF
   	
       <fieldset>
-      <legend>Subastas actuales</legend>
+    
       <div>
       $resultadoTablaSubastas
       $hacerpuja

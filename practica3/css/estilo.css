@@ -573,41 +573,7 @@ margin:auto;
   display: grid;
 }
 
-.item {
-  width: 88%;
-  height:12em;
-  margin: 1em;
-  background-color: #f2f2f2;
-  padding: 10px;
-  border-radius: 5px;
-}
 
-.image {
-  width: 20%;
-  height: 100%;
-  overflow: hidden;
-  border-radius: 5px;
-  margin-right: 10px;
-  float: left;
-}
-
-.image img {
-  width: 100%;
-  height: auto;
-}
-
-.details {
-  overflow: hidden;
-  margin-top:1em;
-	margin-left:15em;
-  padding-top: 1em;
-}
-
-.title {
-  font-weight: bold;
-  font-size: 2em;
-  margin-bottom: 0.2em;
-}
 
 .status, .seller {
   font-size: 1em;
@@ -654,4 +620,51 @@ margin:auto;
 
 #formPuja p {
   margin-left: 3em;
+}
+.item {
+  display: flex;
+   border: 1px solid silver;
+	margin: 2em;
+	margin-bottom:0;
+	padding: 1em;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.details {
+  display: flex;
+  flex-direction: column;
+  align-items: right;
+  justify-content: center;
+}
+
+.details .title {
+  font-weight: bold;
+  font-size: 1.2em;
+  margin-bottom: 10px;
+}
+
+.details .price {
+  font-weight: bold;
+  font-size: 1.5em;
+  color: black;
+  margin-bottom: 10px;
+}
+
+.buttons-container {
+  margin-top:2%;
+	margin-right:2%;
+}
+.item .image {
+  width: 15%;
+  height: 60%;
+  overflow: hidden;
+  border-radius: 5px;
+  margin-right: 10px;
+  float: left;
+}
+
+.item .image img {
+  width: 100%;
+  height: auto;
 }
