@@ -198,6 +198,7 @@ abstract class Formulario
     public function gestiona()
     {
         $datos = &$_POST;
+       
         if (strcasecmp('GET', $this->method) == 0) {
             $datos = &$_GET;
         }
@@ -213,7 +214,7 @@ abstract class Formulario
         if (! $esValido ) {
             return $this->generaFormulario($datos);
         }
-
+       
         if ($this->urlRedireccion !== null) {
             header("Location: {$this->urlRedireccion}");
             exit();
@@ -283,4 +284,27 @@ abstract class Formulario
         EOS;
         return $htmlForm;
     }
+
+    
+   static function formulariosvisiblesindex($imagen,$hiddenname,$rutadestino,$metodo,$id,$nombre){
+    
+                $contenidoPrincipal =<<<EOS
+                    <li>
+                      <div class="listasdestacadas-image">
+                        <img src="{$imagen}" alt="Categorias">
+                      </div>
+                      <div class="listasdestacadas-title">
+            
+                      <form id="myForm" action="{$rutadestino}" method="{$metodo}">
+                      <input type="hidden" name="barra" value="">
+                          <input type="hidden" name="{$hiddenname}" value="{$id}">
+                          <button type="submit" class="button-link"><h3>{$nombre}</h3></button>
+                        </form>
+            
+                      </div>
+                    </li>
+              EOS;
+            
+            return $contenidoPrincipal;
+        }
 }

@@ -51,60 +51,58 @@ class FormularioObjeto extends Formulario
         $selectorTipoAlmacen = self::generaSelectorTipoAlmacen('tipo', $tipoAlmacenSeleccionado, 'tipo');
 
         $html = <<<EOF
-        $htmlErroresGlobales
-        <fieldset>
-            <legend>Datos para el registro de una subasta</legend>
-            <input type="hidden" name="idSubasta" value="$idSubasta" />
-            <input type="hidden" name="precioactual" value="$precioactual" />
-            <input type="hidden" name="idganador" value="$idganador" />
-            <div >
-                <label>Título:</label> <input type="text" name="titulo" value="$titulo" />
-                $erroresCampos[titulo]
-            </div>
-            <div >
-                <label>Descripción:</label> <textarea name="descripcion">$descripcion</textarea>
-                $erroresCampos[descripcion]
-            </div>
-            <div >
-                <label>Fecha de inicio:</label> <input type="datetime-local" name="fechaInicio" value="$fechaInicio" />
-                $erroresCampos[fechaInicio]
-            </div>
-            <div >
-                <label>Fecha de fin:</label> <input type="datetime-local" name="fechaFin" value="$fechaFin" />
-                $erroresCampos[fechaFin]
-            </div>
-            <div >
-                <label>Precio inicial:</label> <input type="number" name="precioInicial" value="$precioInicial" />
-                $erroresCampos[precioInicial]
-            </div>
-            <div >
-                <label>Categoría:</label> <input type="text" name="categoria" value="$categoria" />
-                $erroresCampos[categoria]
-            </div>
-            <div>
-              
-                <div><label for="tipo">Tipo almacén: $selectorTipoAlmacen</label>{$erroresCampos['tipo']}</div>
-                <div><label for="archivo">Archivo: <input type="file" name="archivo" id="archivo" /></label>{$erroresCampos['archivo']}</div>
-                
-                 
-           </div>
+                    $htmlErroresGlobales
+                    <fieldset>
 
-            <div >
-                <label>Estado del producto:</label> 
-                <select name="estadoProducto">
-                    <option value="nuevo">Nuevo</option>
-                    <option value="usado" >Usado</option>
-                    <option value="para piezas" >Para piezas</option>
-                </select>
-                $erroresCampos[estadoProducto]
-            </div>
-            
-            <div >
-                <button type="submit" name="subasta">Crear
-            <div>
-
-        </fieldset>
+                    <input type="hidden" name="idSubasta" value="$idSubasta" />
+                    <input type="hidden" name="precioactual" value="$precioactual" />
+                    <input type="hidden" name="idganador" value="$idganador" />
+                    <div class="seccion">
+                        <label for="titulo">Título:</label> 
+                        <input type="text" name="titulo" id="campotitulo" value="$titulo" />
+                        $erroresCampos[titulo]
+                    </div>
+                    <div class="seccion">
+                        <label for="descripcion">Descripción:</label> 
+                        <textarea name="descripcion" id="campodescripcion">$descripcion</textarea>
+                        $erroresCampos[descripcion]
+                        <label for="categoria">Categoría:</label> 
         EOF;
+                $html .=\es\ucm\fdi\aw\subastas\ListadoCategorias::desplegableCategorias();
+                $html .=<<<EOF
+                        $erroresCampos[categoria]
+                        <label for="estadoProducto">Estado del producto:</label> 
+                        <select name="estadoProducto" id="estadoProducto">
+                            <option value="nuevo">Nuevo</option>
+                            <option value="usado">Usado</option>
+                            <option value="para piezas">Para piezas</option>
+                        </select>
+                        $erroresCampos[estadoProducto]
+                    </div>
+                    <div class="seccion">
+                        <label for="archivo">Subida de imágenes:</label> 
+                        <input type="file" name="archivo" id="archivo" />
+                        $erroresCampos[archivo]
+                    </div>
+                    <div class="seccion">
+                        <label for="precio">Precio inicial:</label> 
+                        <input type="number" name="precioInicial" id="precioInicial" value="$precioInicial" />
+                        $erroresCampos[precioInicial]
+                    </div>
+                    <div class="seccion">
+                        <label for="fechainicio">Fecha de inicio:</label> 
+                       <input type="datetime-local" name="fechaInicio" value="$fechaInicio" />
+                        $erroresCampos[fechaInicio]
+                        <label for="fechafin">Fecha de fin:</label> 
+                        <input type="datetime-local" name="fechaFin" value="$fechaFin" />
+                        $erroresCampos[fechaFin]
+                    </div>
+                    <button type="submit" name="subasta" id="boton-publicar">Publicar</button>
+
+                
+             </fieldset>      
+    EOF;
+                
         return $html;
     }
     private static function generaSelectorTipoAlmacen($name, $tipoSeleccionado=null, $id_imagen=null)
@@ -153,19 +151,19 @@ class FormularioObjeto extends Formulario
         }
         $fechaInicio = trim($datos['fechaInicio'] ?? '');
         $fechaInicio = filter_var($fechaInicio, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-        if ( ! $fechaInicio ) {
-            $this->errores['fechaInicio'] = 'El fechaInicio tiene que tener una longitud de al menos 5 caracteres.';
-        }
+        
         $fechaFin = trim($datos['fechaFin'] ?? '');
         $fechaFin = filter_var($fechaFin, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-        if ( ! $fechaFin  ) {
-            $this->errores['fechaFin'] = 'El fechaFin tiene que tener una longitud de al menos 5 caracteres.';
+        
+        if ( $fechaInicio > $fechaFin) {
+            $this->errores['fechaInicio'] = 'La fecha de inicio no puede ser posterior a la fecha de finalizacion';
+            $this->errores['fechaFin'] = 'La fecha de finalizacion debe ser posterior a la fecha de inicio';
         }
-
+        
         $precioInicial = trim($datos['precioInicial'] ?? '');
         $precioInicial = filter_var($precioInicial, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         if ( ! $precioInicial  ) {
-            $this->errores['precioInicial'] = 'Los passwords deben coincidir';
+            $this->errores['precioInicial'] = 'Precio no valido';
         }
 
         $categoria = trim($datos['categoria'] ?? '');
@@ -212,10 +210,10 @@ class FormularioObjeto extends Formulario
                 $app = Aplicacion::getInstance();
                 $idUsuario = $app->idUsuario();
               if($idSubasta!=""){
-                $subasta = Subasta::actualizaSubasta($idSubasta,$idUsuario, $titulo, $descripcion, $fechaInicio, $fechaFin, $precioInicial, $precioactual, $imagen,$categoria, $estadoproducto,$idganador);  
+                $subasta = Subasta::actualizaSubasta($idSubasta,$idUsuario, $titulo, $descripcion, $fechaInicio, $fechaFin, $precioInicial, $precioactual, $categoria, $estadoproducto,$idganador);  
 
               }else{
-                $subasta = Subasta::crea($idUsuario, $titulo, $descripcion, $fechaInicio, $fechaFin, $precioInicial, $precioInicial, $imagen,$categoria, $estadoproducto);
+                $subasta = Subasta::crea($idUsuario, $titulo, $descripcion, $fechaInicio, $fechaFin, $precioInicial, $precioInicial, $categoria, $estadoproducto);
                 $subastaaux = Subasta::buscaSubasta($titulo);
                 $id_subasta=$subastaaux->getIdSubasta();
 
@@ -235,20 +233,7 @@ class FormularioObjeto extends Formulario
         }
     }
 
-    private function subirImagen(){
-    $tmp_name = $_FILES['archivo']['tmp_name'];
-
-        $imagen = Imagen::crea($nombre, $mimeType, $tipoAlmacen, '');
-        $imagen->guarda();
-        $fichero = "{$imagen->id_imagen}.{$extension}";
-        $imagen->setRuta($fichero);
-        $imagen->guarda();
-        $ruta = implode(DIRECTORY_SEPARATOR, [RUTA_ALMACEN, $fichero]);
-        
-        if (!move_uploaded_file($tmp_name, $ruta)) {
-            $this->errores['archivo'] = 'Error al mover el archivo';
-        }
-    }
+   
      /**
      * Check $_FILES[][name]
      *

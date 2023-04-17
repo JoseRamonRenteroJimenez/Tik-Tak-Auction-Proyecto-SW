@@ -13,11 +13,12 @@ define('BD_PASS', 'practica2');
  * Parámetros de configuración utilizados para generar las URLs y las rutas a ficheros en la aplicación
  */
 define('RAIZ_APP', __DIR__);
-define('RUTA_APP', '/Tik-Tak-Auction-Proyecto-SW/practica3');
-define('RUTA_IMGS', RUTA_APP.'\includes\vistas\imagenes');
+define('RUTA_APP', '/Archivos_GIT/practica3/');
+define('RUTA_IMGS', RUTA_APP.'\includes\vistas\Imagenes');
 define('RUTA_CSS', RUTA_APP.'css/');
 define('RUTA_JS', RUTA_APP.'js/');
 define('RUTA_ALMACEN', implode(DIRECTORY_SEPARATOR, [dirname(__DIR__), 'almacen']));
+define('RUTA_ALMACEN_BAJADA', RUTA_APP.'almacen/');
 
 
  // Parámetros de conexión a la BD produccion

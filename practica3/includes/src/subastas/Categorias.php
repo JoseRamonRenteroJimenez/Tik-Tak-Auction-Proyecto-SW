@@ -134,8 +134,12 @@ class Categorias
       } else {
           error_log("Error BD ({$conn->errno}): {$conn->error}");
       }
-     
-      return $result;
+      if($result<7){
+        return $result;
+       }else{
+        return 7;
+       }
+      
   }
     private static function borra($Categoria)
     {

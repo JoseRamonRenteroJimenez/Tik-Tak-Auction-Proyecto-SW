@@ -222,7 +222,7 @@ INSERT INTO `usuarios` (`id_usuario`, `nombreUsuario`, `nombre`, `email`, `passw
 -- Estructura de tabla para la tabla `valoraciones`
 --
 
-CREATE TABLE `valoraciones` (
+CREATE TABLE `valoracionesproducto` (
   `id_valoracion` int(11) NOT NULL,
   `id_usuario` int(11) NOT NULL,
   `id_subasta` int(11) DEFAULT NULL,
@@ -231,6 +231,17 @@ CREATE TABLE `valoraciones` (
   `comentario` text DEFAULT NULL,
   `id_vendedor` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+
+ALTER TABLE `valoraciones`
+  ADD PRIMARY KEY (`id_valoracion`),
+  ADD CONSTRAINT `valoraciones_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id_usuario`),
+  ADD CONSTRAINT `valoraciones_ibfk_2` FOREIGN KEY (`id_vendedor`) REFERENCES `usuarios` (`id_usuario`);
+
+ALTER TABLE `valoraciones`
+  MODIFY `id_valoracion` int(11) NOT NULL AUTO_INCREMENT;
+
+
 
 --
 -- Índices para tablas volcadas
@@ -394,6 +405,12 @@ ALTER TABLE `notificaciones`
 --
 ALTER TABLE `rolesusuario`
   ADD CONSTRAINT `rolesusuario_ibfk_1` FOREIGN KEY (`rol`) REFERENCES `roles` (`id_rol`);
+
+ALTER TABLE `valoraciones`
+  ADD CONSTRAINT `valoraciones_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id_usuario`),
+  ADD CONSTRAINT `valoraciones_ibfk_2` FOREIGN KEY (`id_vendedor`) REFERENCES `usuarios` (`id_usuario`);
+  ALTER TABLE `usuarios`
+  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

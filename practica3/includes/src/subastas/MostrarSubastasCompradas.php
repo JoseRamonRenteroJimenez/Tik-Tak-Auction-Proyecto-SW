@@ -30,16 +30,7 @@ class MostrarSubastasCompradas extends Formulario
     protected function procesaFormulario(&$datos)
     {
        
-        if(isset($_POST['borrar']) && $_POST['borrar'] === 'borrarSubasta') {
-            $idSubasta = $_POST['parametro'];
-            $subasta = Subasta::buscaPorId($idSubasta);
-            if($subasta) {
-                $subasta->borrate();
-                echo "<p>Subasta borrada correctamente.</p>";
-            } else {
-                echo "<p>No se ha encontrado la subasta que se quiere borrar.</p>";
-            }
-        }
+       
     }
 }
 ?>
