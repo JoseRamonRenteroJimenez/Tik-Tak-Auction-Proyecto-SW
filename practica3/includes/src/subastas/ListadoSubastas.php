@@ -33,9 +33,7 @@ class ListadoSubastas extends Formulario
 static function listadoCompradas($busqueda){
         $subastas = Subasta::listarSubastas($busqueda);
  
-        $html = mostrarTitulosTabla();
-        $html .="<th>Valorar</th>";
-        $html .="</tr>";   
+        $html ="";   
    
     
        foreach($subastas as $subasta) {
