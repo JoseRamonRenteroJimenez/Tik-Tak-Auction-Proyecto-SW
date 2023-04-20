@@ -18,9 +18,10 @@ $params['app']->doInclude('/vistas/comun/cabecera.php');
 	<main>
 		<article>
 		<?= $params['app']->doInclude('/vistas/comun/cabeceraPerfilusuario.php') ?>
-		<div>
-			<?= $params['contenidoPrincipal'] ?>
+		<div class="estructuraperfil">
+			
 			<?= $params['app']->doInclude('/vistas/comun/sidebarIzqPerfil.php') ?>
+			<?= $params['contenidoPrincipal'] ?>
 		</div>
 		</article>
 	</main>

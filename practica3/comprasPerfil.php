@@ -2,14 +2,14 @@
 
 require_once __DIR__.'/includes/config.php';
 
-$ModificarSubastas = new \es\ucm\fdi\aw\subastas\ModificarSubastas();
-$ModificarSubastas = $ModificarSubastas->gestiona();
+$SubastasCompradas = new \es\ucm\fdi\aw\subastas\MostrarSubastasCompradas();
+$SubastasCompradas = $SubastasCompradas->gestiona();
 
  
-$tituloPagina = 'Borrar';
+$tituloPagina = 'Compras';
 $contenidoPrincipal=<<<EOF
-  
-      $ModificarSubastas
+  	<h1>Listado de subastas compradas</h1>
+      $SubastasCompradas
     
 EOF;
 
