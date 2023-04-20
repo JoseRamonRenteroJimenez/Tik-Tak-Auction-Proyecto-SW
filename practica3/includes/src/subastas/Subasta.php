@@ -233,7 +233,7 @@ class Subasta
         if (!$idSubasta) {
             return false;
         } 
-       
+        Imagen::borraPorIdSubasta($idSubasta);
         $conn = Aplicacion::getInstance()->getConexionBd();
         $query = sprintf("DELETE FROM subastas WHERE id_subasta = %d" , $idSubasta);
         if ( ! $conn->query($query) ) {

@@ -24,7 +24,7 @@ class Valoracionvendedor
     public static function buscaPorId($idvaloracion)
     {
         $conn = Aplicacion::getInstance()->getConexionBd();
-        $query = sprintf("SELECT * FROM valoracionesVendedor V WHERE V.id_valoracion='%d' ", $idvaloracion );
+        $query = sprintf("SELECT * FROM valoracionesvendedor V WHERE V.id_valoracion='%d' ", $idvaloracion );
         $rs = $conn->query($query);
         $result = false;
         if ($rs) {
@@ -43,7 +43,11 @@ class Valoracionvendedor
     public static function buscarValoracionExistente($idvendedor,$idusuario)
     {
         $conn = Aplicacion::getInstance()->getConexionBd();
+<<<<<<< HEAD
         $query = sprintf("SELECT * FROM valoracionesVendedor V WHERE V.id_vendedor='%d' AND V.id_usuario='%d'" , $idvendedor ,$idusuario);
+=======
+        $query = sprintf("SELECT * FROM valoracionesvendedor V WHERE V.id_vendedor='%d' AND V.id_usuario='%d'" , $idvendedor ,$idusuario);
+>>>>>>> main
         $rs = $conn->query($query);
         $result = false;
         if ($rs) {
@@ -67,10 +71,17 @@ class Valoracionvendedor
 
         if($busqueda=='usuario'){
             //listado general todas las valoraciones
+<<<<<<< HEAD
             $query = sprintf("SELECT * FROM valoracionesVendedor V WHERE V.id_usuario= '%d'",  $idusuario);
            }       
         else if($busqueda=='vendedor'){
             $query = sprintf("SELECT * FROM valoracionesVendedor V WHERE V.id_vendedor= '%d'",  $conn->real_escape_string($buscar));
+=======
+            $query = sprintf("SELECT * FROM valoracionesvendedor V WHERE V.id_usuario= '%d'",  $idusuario);
+           }       
+        else if($busqueda=='vendedor'){
+            $query = sprintf("SELECT * FROM valoracionesvendedor V WHERE V.id_vendedor= '%d'",  $conn->real_escape_string($buscar));
+>>>>>>> main
         }
         $rs = $conn->query($query);
         $valoraciones = array(); 
@@ -96,7 +107,11 @@ class Valoracionvendedor
         $result = false;
         $conn = Aplicacion::getInstance()->getConexionBd();
         
+<<<<<<< HEAD
         $query=sprintf("INSERT INTO valoracionesVendedor(id_usuario,puntuacion,comentario,id_vendedor) VALUES ('%d', '%s','%s', '%d')"
+=======
+        $query=sprintf("INSERT INTO valoracionesvendedor(id_usuario,puntuacion,comentario,id_vendedor) VALUES ('%d', '%s','%s', '%d')"
+>>>>>>> main
             , $valoracion->idusuario
             , $conn->real_escape_string($valoracion->puntuacion)
             , $conn->real_escape_string($valoracion->comentario)
@@ -116,7 +131,11 @@ class Valoracionvendedor
     {
         $result = false;
         $conn = Aplicacion::getInstance()->getConexionBd();
+<<<<<<< HEAD
         $query = sprintf("UPDATE valoracionesVendedor V SET 
+=======
+        $query = sprintf("UPDATE valoracionesvendedor V SET 
+>>>>>>> main
         puntuacion = '%s',
         comentario = '%s'
         WHERE V.id_valoracion = %d",
@@ -147,7 +166,11 @@ class Valoracionvendedor
         } 
        
         $conn = Aplicacion::getInstance()->getConexionBd();
+<<<<<<< HEAD
         $query = sprintf("DELETE FROM valoracionesVendedor WHERE id_valoracion = %d" , $idvaloracion);
+=======
+        $query = sprintf("DELETE FROM valoracionesvendedor WHERE id_valoracion = %d" , $idvaloracion);
+>>>>>>> main
         if ( ! $conn->query($query) ) {
             error_log("Error BD ({$conn->errno}): {$conn->error}");
             return false;

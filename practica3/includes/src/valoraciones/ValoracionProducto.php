@@ -24,7 +24,7 @@ class Valoracionproducto
     public static function buscaPorId($idvaloracion)
     {
         $conn = Aplicacion::getInstance()->getConexionBd();
-        $query = sprintf("SELECT * FROM valoraciones V WHERE V.id_valoracion='%d' ", $idvaloracion );
+        $query = sprintf("SELECT * FROM valoracionesproducto V WHERE V.id_valoracion='%d' ", $idvaloracion );
         $rs = $conn->query($query);
         $result = false;
         if ($rs) {
@@ -49,7 +49,7 @@ class Valoracionproducto
         if ($rs) {
             $fila = $rs->fetch_assoc();
             if ($fila) {
-                $result = new Valoracionproducto( $fila['id_usuario'],  $fila['id_subasta'],  $fila['titulo_producto'],  $fila['puntuacion'],  $fila['comentario'],$fila['id_vendedor'],$fila['id_valoracion'],$fila['titulo_valoracion']);            }
+                $result = new Valoracionproducto( $fila['id_usuario'],  $fila['id_subasta'],  $fila['titulo_producto'],  $fila['puntuacion'],  $fila['comentario'],$fila['id_vendedor'],$fila['titulo_valoracion'],$fila['id_valoracion']);            }
             $rs->free();
         } else {
             error_log("Error BD ({$conn->errno}): {$conn->error}");
