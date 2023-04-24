@@ -28,9 +28,9 @@ class Imagen
         $result = [];
 
         $conn = Aplicacion::getInstance()->getConexionBd();
-        $query = 'SELECT * FROM Imagenes';
+        $query = 'SELECT * FROM imagenes';
         if ($tipoAcceso !== null) {
-            $query = sprintf('SELECT * FROM Imagenes I WHERE tipoAcceso = %d', $tipoAcceso);
+            $query = sprintf('SELECT * FROM imagenes I WHERE tipoAcceso = %d', $tipoAcceso);
         }
         
         $rs = $conn->query($query);
@@ -45,7 +45,24 @@ class Imagen
 
         return $result;
     }
-    
+    public static function buscaPorsubasta($idSubasta)
+    {
+        $conn = Aplicacion::getInstance()->getConexionBd();
+        $query = sprintf("SELECT * FROM imagenes I WHERE I.id_subasta='%d' ", $idSubasta );
+        $rs = $conn->query($query);
+        $result = false;
+        if ($rs) {
+            $fila = $rs->fetch_assoc();
+            if ($fila) {
+                $result = new Imagen($fila['id_subasta'],$fila['ruta'], $fila['nombre'], $fila['mimeType'], $fila['tipoAcceso'], $fila['id_imagen']);
+            }
+            $rs->free();
+        } else {
+            error_log("Error BD ({$conn->errno}): {$conn->error}");
+        }
+       
+        return $result;
+    }
     public static function buscaPorTipoAcceso($tipoAcceso = self::PUBLICA)
     {
         return self::getImagenes($tipoAcceso);
@@ -56,7 +73,7 @@ class Imagen
         $result = null;
 
         $conn = BD::getInstance()->getConexionBd();
-        $query = sprintf('SELECT * FROM Imagenes I WHERE I.id_imagen = %d', intval($idImagen));
+        $query = sprintf('SELECT * FROM imagenes I WHERE I.id_imagen = %d', intval($idImagen));
         $rs = $conn->query($query);
         if ($rs) {
             while ($fila = $rs->fetch_assoc()) {
@@ -76,7 +93,7 @@ class Imagen
 
         $conn = Aplicacion::getInstance()->getConexionBd();
         $query = sprintf(
-            "INSERT INTO Imagenes (id_subasta,ruta, nombre, mimeType, tipoAcceso) VALUES ( %d,'%s', '%s', '%s', %d)",
+            "INSERT INTO imagenes (id_subasta,ruta, nombre, mimeType, tipoAcceso) VALUES ( %d,'%s', '%s', '%s', %d)",
             $imagen->id_subasta,
             $conn->real_escape_string($imagen->ruta),
             $conn->real_escape_string($imagen->nombre),
@@ -102,7 +119,7 @@ class Imagen
 
         $conn = Aplicacion::getInstance()->getConexionBd();
         $query = sprintf(
-            "UPDATE Imagenes I SET id_subasta = %d ,ruta = '%s', nombre = '%s', mimeType = '%s', tipoAcceso = %d WHERE I.id_imagen = %d",
+            "UPDATE imagenes I SET id_subasta = %d ,ruta = '%s', nombre = '%s', mimeType = '%s', tipoAcceso = %d WHERE I.id_imagen = %d",
             $imagen->id_subasta,
             $conn->real_escape_string($imagen->ruta),
             $conn->real_escape_string($imagen->nombre),
@@ -125,12 +142,12 @@ class Imagen
         return self::borraPorId($imagen->id_imagen);
     }
 
-    private static function borraPorId($idImagen)
+    public static function borraPorId($idImagen)
     {
         $result = false;
 
         $conn = Aplicacion::getInstance()->getConexionBd();
-        $query = sprintf("DELETE FROM Imagenes WHERE id_imagen = %d", intval($idImagen));
+        $query = sprintf("DELETE FROM imagenes WHERE id_imagen = %d", intval($idImagen));
         $result = $conn->query($query);
         if (!$result) {
             error_log($conn->error);
@@ -140,7 +157,21 @@ class Imagen
 
         return $result;
     }
+    public static function borraPorIdSubasta($idSubasta)
+    {
+        $result = false;
 
+        $conn = Aplicacion::getInstance()->getConexionBd();
+        $query = sprintf("DELETE FROM imagenes WHERE id_subasta = %d", intval($idSubasta));
+        $result = $conn->query($query);
+        if (!$result) {
+            error_log($conn->error);
+        } else if ($conn->affected_rows != 1) {
+            error_log("Se han borrado '$conn->affected_rows' !");
+        }
+
+        return $result;
+    }
     use MagicProperties;
 
     private $id_imagen;

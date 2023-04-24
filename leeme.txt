@@ -1,2 +1,0 @@
-En esta entrega hemos desarollado la funcionalidad de Subasta, podemos crear nuevas subastas, actualizar subastas
-borrar subastas, listar subastas y realizar pujas (Actualizar el valor de puja_actual y el id_ganador de la base de datos)

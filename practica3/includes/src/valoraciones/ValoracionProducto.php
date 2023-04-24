@@ -1,36 +1,36 @@
 <?php
-namespace es\ucm\fdi\aw\valoracion;
+namespace es\ucm\fdi\aw\valoraciones;
 
 use es\ucm\fdi\aw\Aplicacion;
 use es\ucm\fdi\aw\MagicProperties;
 
-class Valoracion
+class Valoracionproducto
 {
     use MagicProperties;
 
    
     
-    public static function crea($idusuario, $idsubasta, $tituloproducto, $puntuacion, $comentario,$idvendedor)
+    public static function crea($idusuario, $idsubasta, $tituloproducto, $puntuacion, $comentario,$idvendedor,$titulovaloracion)
     {
-        $valoracion = new valoracion($idusuario,$idsubasta,$tituloproducto,$puntuacion, $comentario,$idvendedor);
+        $valoracion = new Valoracionproducto($idusuario,$idsubasta,$tituloproducto,$puntuacion, $comentario,$idvendedor,$titulovaloracion);
         return $valoracion->guarda();
     }
-    public static function actualizaValoracion($idvaloracion,$idusuario, $idsubasta, $tituloproducto, $puntuacion, $comentario,$idvendedor)
+    public static function actualizaValoracion($idvaloracion,$idusuario, $idsubasta, $tituloproducto, $puntuacion, $comentario,$idvendedor,$titulovaloracion)
     {
-        $valoracion = new valoracion($idusuario,$idsubasta,$tituloproducto,$puntuacion, $comentario,$idvendedor, $idvaloracion);
+        $valoracion = new Valoracionproducto($idusuario,$idsubasta,$tituloproducto,$puntuacion, $comentario,$idvendedor,$titulovaloracion,$idvaloracion);
         return $valoracion->guarda();
     }
     
     public static function buscaPorId($idvaloracion)
     {
         $conn = Aplicacion::getInstance()->getConexionBd();
-        $query = sprintf("SELECT * FROM valoraciones V WHERE V.id_valoracion='%d' ", $idvaloracion );
+        $query = sprintf("SELECT * FROM valoracionesproducto V WHERE V.id_valoracion='%d' ", $idvaloracion );
         $rs = $conn->query($query);
         $result = false;
         if ($rs) {
             $fila = $rs->fetch_assoc();
             if ($fila) {
-                $result = new Valoracion( $fila['id_usuario'],  $fila['id_subasta'],  $fila['id_producto'],  $fila['puntuacion'],  $fila['comentario'],$fila['id_vendedor'],$fila['id_valoracion']);            }
+                $result = new Valoracionproducto( $fila['id_usuario'],  $fila['id_subasta'],  $fila['titulo_producto'],  $fila['puntuacion'],  $fila['comentario'],$fila['id_vendedor'],$fila['id_valoracion'],$fila['titulo_valoracion']);            }
             $rs->free();
         } else {
             error_log("Error BD ({$conn->errno}): {$conn->error}");
@@ -39,6 +39,24 @@ class Valoracion
         return $result;
     }
 
+    //Sirve para ver si el usuario ya ha valorado al vendedor
+    public static function buscarValoracionExistente($idvendedor,$idusuario)
+    {
+        $conn = Aplicacion::getInstance()->getConexionBd();
+        $query = sprintf("SELECT * FROM valoracionesproducto V WHERE V.id_vendedor='%d' AND V.id_usuario='%d'" , $idvendedor ,$idusuario);
+        $rs = $conn->query($query);
+        $result = false;
+        if ($rs) {
+            $fila = $rs->fetch_assoc();
+            if ($fila) {
+                $result = new Valoracionproducto( $fila['id_usuario'],  $fila['id_subasta'],  $fila['titulo_producto'],  $fila['puntuacion'],  $fila['comentario'],$fila['id_vendedor'],$fila['titulo_valoracion'],$fila['id_valoracion']);            }
+            $rs->free();
+        } else {
+            error_log("Error BD ({$conn->errno}): {$conn->error}");
+        }
+       
+        return $result;
+    }
 
     public static function listarValoraciones($busqueda,$buscar=null)
     {
@@ -49,13 +67,13 @@ class Valoracion
 
         if($busqueda=='usuario'){
             //listado general todas las valoraciones
-            $query = sprintf("SELECT * FROM valoraciones V WHERE V.id_usuario= '%d'",  $idusuario);
+            $query = sprintf("SELECT * FROM valoracionesproducto V WHERE V.id_usuario= '%d'",  $idusuario);
 
            }else if($busqueda=='producto'){
         //listado de subsatas que tengo en estado borrador
-        $query = sprintf("SELECT * FROM valoraciones V WHERE V.id_producto= '%d'",  $conn->real_escape_string($buscar));       
+        $query = sprintf("SELECT * FROM valoracionesproducto V WHERE V.titulo_producto= '%d'",  $conn->real_escape_string($buscar));       
         }else if($busqueda=='vendedor'){
-            $query = sprintf("SELECT * FROM valoraciones V WHERE V.id_vendedor= '%d'",  $conn->real_escape_string($buscar));
+            $query = sprintf("SELECT * FROM valoracionesproducto V WHERE V.id_vendedor= '%d'",  $conn->real_escape_string($buscar));
         }
         $rs = $conn->query($query);
         $valoraciones = array(); 
@@ -64,10 +82,11 @@ class Valoracion
                 $valoracion = new Valoracion(
                     $fila['id_usuario'],
                     $fila['id_subasta'],
-                    $fila['id_producto'],
+                    $fila['titulo_producto'],
                     $fila['puntuacion'],
                     $fila['comentario'],
                     $fila['id_vendedor'],
+                    $fila['titulo_valoracion']
                 );
                 $valoraciones[] = $valoracion; 
             }
@@ -83,13 +102,14 @@ class Valoracion
         $result = false;
         $conn = Aplicacion::getInstance()->getConexionBd();
         
-        $query=sprintf("INSERT INTO subastas(id_usuario, id_subasta, id_producto,puntuacion,comentario,id_vendedor) VALUES ('%d', '%d', '%d', '%s','%s', '%d')"
+        $query=sprintf("INSERT INTO valoracionesproducto(id_usuario,id_subasta,titulo_producto,puntuacion,comentario,id_vendedor,titulo_valoracion) VALUES ('%d', '%d', '%s', '%s','%s', '%d','%s')"
             , $valoracion->idusuario
             , $valoracion->idsubasta
             , $valoracion->tituloproducto
             , $conn->real_escape_string($valoracion->puntuacion)
             , $conn->real_escape_string($valoracion->comentario)
-            , $valoracion->idvendedor       
+            , $valoracion->idvendedor  
+            , $conn->real_escape_string($valoracion->titulovaloracion)  
         );
         if ( $conn->query($query) ) {
             $valoracion->idvaloracion = $conn->insert_id;
@@ -105,12 +125,14 @@ class Valoracion
     {
         $result = false;
         $conn = Aplicacion::getInstance()->getConexionBd();
-        $query = sprintf("UPDATE valoraciones V SET 
+        $query = sprintf("UPDATE valoracionesproducto V SET 
         puntuacion = '%s',
-        comentario = %s,
+        comentario = '%s',
+        titulo_valoracion = '%s'
         WHERE V.id_valoracion = %d",
         $conn->real_escape_string($valoracion->puntuacion),
         $conn->real_escape_string($valoracion->comentario),
+        $conn->real_escape_string($valoracion->titulovaloracion),
         $valoracion->idvaloracion
     );
         if ( $conn->query($query) ) {
@@ -136,7 +158,7 @@ class Valoracion
         } 
        
         $conn = Aplicacion::getInstance()->getConexionBd();
-        $query = sprintf("DELETE FROM valoraciones WHERE id_valoracion = %d" , $idvaloracion);
+        $query = sprintf("DELETE FROM valoracionesproducto WHERE id_valoracion = %d" , $idvaloracion);
         if ( ! $conn->query($query) ) {
             error_log("Error BD ({$conn->errno}): {$conn->error}");
             return false;
@@ -153,21 +175,25 @@ class Valoracion
 
     private $tituloproducto;
 
+    private $titulovaloracion;
+
     private $puntuacion;
 
     private $comentario;
 
     private $idvendedor;
     //Las valoraciones siempre estan relacionadas con un usuario
-    private function __construct($idusuario,$idsubasta,$tituloproducto,$puntuacion, $comentario,$idvendedor,$idvaloracion = null)
+    private function __construct($idusuario,$idsubasta,$tituloproducto,$puntuacion, $comentario,$idvendedor,$titulovaloracion,$idvaloracion = null)
     {
         $this->idvaloracion = $idvaloracion;
         $this->idusuario = $idusuario;
         $this->idsubasta = $idsubasta;
-        $this->idsubasta = $idsubasta;
+        $this->tituloproducto = $tituloproducto;
+        $this->titulovaloracion = $titulovaloracion;
         $this->puntuacion = $puntuacion;
         $this->comentario = $comentario;
         $this->idvendedor = $idvendedor;
+        
     }
 
     public function getIdValoracion() {
@@ -193,7 +219,9 @@ class Valoracion
         return $this->comentario;
     }
 
-
+    public function getitulovaloracion() {
+        return $this->titulovaloracion;
+    }
     public function guarda()
     {
         if ($this->idvaloracion !== null) {

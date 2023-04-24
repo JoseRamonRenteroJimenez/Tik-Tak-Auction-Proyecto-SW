@@ -4,10 +4,8 @@ namespace es\ucm\fdi\aw\valoraciones;
 use es\ucm\fdi\aw\Aplicacion;
 use es\ucm\fdi\aw\Formulario;
 
-class FormularioValoraciones extends Formulario
+class FormularioValoracionesProducto extends Formulario
 {
-    const EXTENSIONES_PERMITIDAS = array('gif', 'jpg', 'jpe', 'jpeg', 'png', 'webp', 'avif');
-    const TIPO_ALMACEN = [Imagen::PUBLICA => 'Publico', Imagen::PRIVADA =>'Privado'];
 
     public function __construct() {
         parent::__construct('formObjeto', ['enctype' => 'multipart/form-data', 'urlRedireccion' => Aplicacion::getInstance()->resuelve('/index.php')]);
@@ -15,7 +13,9 @@ class FormularioValoraciones extends Formulario
     
     protected function generaCamposFormulario(&$datos)
     {
-       
+        $app=Aplicacion::getInstance();
+        $idusuario=$app->idUsuario();
+
         $idvaloracion= '';
         $idsubasta= '';
         $tituloproducto= '';
@@ -24,38 +24,48 @@ class FormularioValoraciones extends Formulario
         $comentario = $datos['comentario'] ?? '';
 
         $idvendedor = $datos['idvendedor'] ?? '';
+        $titulovaloracion= $datos['titulovaloracion'] ?? '';;
 
         if(isset($_POST['idsubasta'])){
-            $idvaloracion= $_POST['idvaloracion'];
-            $idSubasta= $_POST['idsubasta'];
+            $idsubasta= $_POST['idsubasta'];
             $idvendedor= $_POST['idvendedor'];
-            
-            $valoracion = Valoracion::buscaPorId($idvaloracion);
-            $puntuacion = $valoracion->getPuntuacion();
-            $comentario =$valoracion->getComentario();          
-       }
+            $idganador= $idusuario;
+            $tituloproducto= $_POST['tituloproducto'];
+
+            $valoracion = Valoracionproducto::buscarValoracionExistente($idvendedor,$idusuario);
+        
+            if($valoracion != false){
+                $idvaloracion= $valoracion->getIdValoracion();
+                $puntuacion = $valoracion->getPuntuacion();
+                $comentario =$valoracion->getComentario();  
+                $titulovaloracion= $valoracion->getitulovaloracion();
+            }               
+        }
 
 
         // Se generan los mensajes de error si existen.
         
         $htmlErroresGlobales = self::generaListaErroresGlobales($this->errores);
-        $erroresCampos = self::generaErroresCampos(['comentario'], $this->errores, 'span', array('class' => 'error'));
+        $erroresCampos = self::generaErroresCampos(['titulovaloracion','comentario'], $this->errores, 'span', array('class' => 'error'));
        
         $html = <<<EOF
         $htmlErroresGlobales
         <fieldset>
             <legend>Evaluacion de vendedor</legend>
             <input type="hidden" name="idvaloracion" value="$idvaloracion" />
-            <input type="hidden" name="idSubasta" value="$idSubasta" />
-            <input type="hidden" name="tituloproducto" value="$tituloproducto" />
+            <input type="hidden" name="idsubasta" value="$idsubasta" />
             <div >
-                <label>Vendedor:</label> <input type="text" name="idvendedor" value="$idvendedor" />
+                <label>Vendedor:</label> <input type="text" name="idvendedor" readonly value="$idvendedor" />
             </div>
             <div >
-                <label>Producto:</label> <input type="text" name="tituloproducto">$tituloproducto</textarea>
+                <label>Producto:</label> <input type="text" name="tituloproducto" readonly value="$tituloproducto"/>
             </div>
+                <label for="titulovaloracion">Título:</label> 
+                <input type="text" name="titulovaloracion" value="$titulovaloracion" />
+                            $erroresCampos[titulovaloracion]
+            
             <div >
-                <label>Evalua al vendedor:</label> <input type="number" name="puntuacion" value="$puntuacion" />
+                <label>Evalua al vendedor:</label> <input type="number" min="0" max="10" name="puntuacion" value="$puntuacion" />
             </div>
             <div >
                 <label>Descripción:</label> <textarea name="comentario">$comentario</textarea>
@@ -80,7 +90,7 @@ class FormularioValoraciones extends Formulario
         $idvaloracion =trim($datos['idvaloracion'] ?? '');  
         $idvaloracion = filter_var($idvaloracion, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
-        $idSubasta = trim($datos['idSubasta'] ?? '');
+        $idSubasta = trim($datos['idsubasta'] ?? '');
         $idSubasta = filter_var($idSubasta, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
         $tituloproducto = trim($datos['tituloproducto'] ?? '');
@@ -92,16 +102,22 @@ class FormularioValoraciones extends Formulario
         $puntuacion= trim($datos['puntuacion'] ?? '');
         $puntuacion = filter_var($puntuacion, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
+        $titulovaloracion = trim($datos['titulovaloracion'] ?? '');
+        $titulovaloracion = filter_var($titulovaloracion, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        if ( ! $titulovaloracion || mb_strlen($titulovaloracion) < 5) {
+            $this->errores['titulo'] = 'El titulo debe tener una longitud de al menos 5 caracteres.';
+        }
+
         if (count($this->errores) === 0) {
           //  $subasta = Subasta::buscaSubasta($tituloSubasta);
 	
                 $app = Aplicacion::getInstance();
-                $idUsuario = $app->idUsuario();
+                $idusuario = $app->idUsuario();
               if($idvaloracion!=""){
-                $valoracion = Valoracion::actualizaValoracion($idvaloracion,$idusuario, $idsubasta, $tituloproducto, $puntuacion, $comentario,$idvendedor);  
+                $valoracion = Valoracionproducto::actualizaValoracion($idvaloracion,$idusuario, $idSubasta, $tituloproducto, $puntuacion, $comentario,$idvendedor,$titulovaloracion);  
 
               }else{
-                $valoracion = Valoracion::crea($idusuario, $idsubasta, $tituloproducto, $puntuacion, $comentario,$idvendedor);               
+                $valoracion = Valoracionproducto::crea($idusuario, $idSubasta, $tituloproducto, $puntuacion, $comentario,$idvendedor,$titulovaloracion);               
          }
                 
         }

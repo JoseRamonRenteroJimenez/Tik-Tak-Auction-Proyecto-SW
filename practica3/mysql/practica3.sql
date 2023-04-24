@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 17-03-2023 a las 20:43:41
+-- Tiempo de generación: 14-04-2023 a las 19:27:05
 -- Versión del servidor: 10.4.27-MariaDB
 -- Versión de PHP: 8.2.0
 
@@ -24,6 +24,38 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `categorias`
+--
+
+CREATE TABLE `categorias` (
+  `id` int(11) NOT NULL,
+  `nombre` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `categorias`
+--
+
+INSERT INTO `categorias` (`id`, `nombre`) VALUES
+(1, 'Arte y antigüedades'),
+(2, 'Automóviles y motocicletas'),
+(3, 'Electrónica y tecnología'),
+(4, 'Moda y accesorios'),
+(5, 'Joyería y relojes'),
+(6, 'Juguetes y juegos'),
+(7, 'Muebles y decoración del hogar'),
+(8, 'Instrumentos musicales'),
+(9, 'Artículos deportivos y de recreación'),
+(10, 'Herramientas y equipos industriales'),
+(11, 'Productos de belleza y cuidado personal'),
+(12, 'Productos para mascotas'),
+(13, 'Libros y cómics'),
+(14, 'Equipos de cocina y electrodomésticos'),
+(15, 'Otros');
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `chats`
 --
 
@@ -34,6 +66,30 @@ CREATE TABLE `chats` (
   `id_cliente2` int(11) NOT NULL,
   `fecha` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `imagenes`
+--
+
+CREATE TABLE `imagenes` (
+  `id_imagen` int(11) NOT NULL,
+  `id_subasta` int(11) NOT NULL,
+  `ruta` varchar(20) NOT NULL,
+  `nombre` varchar(20) NOT NULL,
+  `mimeType` varchar(30) NOT NULL,
+  `tipoAcceso` tinyint(4) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `imagenes`
+--
+
+INSERT INTO `imagenes` (`id_imagen`, `id_subasta`, `ruta`, `nombre`, `mimeType`, `tipoAcceso`) VALUES
+(1, 12, '', 'WhatsApp-Image-2021-', 'image/png', 0),
+(2, 12, '2.png', 'WhatsApp-Image-2021-', 'image/png', 0),
+(3, 14, '3.png', 'WhatsApp-Image-2021-', 'image/png', 0);
 
 -- --------------------------------------------------------
 
@@ -121,7 +177,6 @@ CREATE TABLE `subastas` (
   `precio_actual` decimal(10,2) DEFAULT NULL,
   `id_ganador` int(11) DEFAULT NULL,
   `estado` varchar(15) DEFAULT NULL,
-  `imagen` varchar(255) DEFAULT NULL,
   `categoria` varchar(255) DEFAULT NULL,
   `estadoproducto` varchar(15) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -130,11 +185,14 @@ CREATE TABLE `subastas` (
 -- Volcado de datos para la tabla `subastas`
 --
 
-INSERT INTO `subastas` (`id_subasta`, `id_usuario`, `titulo`, `descripcion`, `fecha_inicio`, `fecha_fin`, `precio_inicial`, `precio_actual`, `id_ganador`, `estado`, `imagen`, `categoria`, `estadoproducto`) VALUES
-(8, 2, 'Mesa de cocina', 'Mesa de madera de alta calidad para seis personas', '2023-03-18 15:00:00', '2023-03-25 15:00:00', '300.00', '350.00', 2, '', '', 'Muebles', 'nuevo'),
-(9, 2, 'Mesa de coche', 'Mesa de madera de alta calidad para seis personas', '2023-03-18 15:00:00', '2023-03-25 15:00:00', '300.00', '300.00', NULL, 'borrador', '', 'Muebles', 'nuevo'),
-(10, 2, 'Pepe Viyuela', 'asfdf', '2123-12-18 04:21:00', '2023-04-27 21:31:00', '2312.00', '888888.00', 2, '', '', 'elPepe', 'usado'),
-(11, 2, 'Prueba insertado', 'dwpdwowdo', '2023-03-18 03:11:00', '2023-03-25 02:11:00', '1009.00', '1009.00', NULL, 'borrador', '', 'prueba', 'usado');
+INSERT INTO `subastas` (`id_subasta`, `id_usuario`, `titulo`, `descripcion`, `fecha_inicio`, `fecha_fin`, `precio_inicial`, `precio_actual`, `id_ganador`, `estado`, `categoria`, `estadoproducto`) VALUES
+(8, 2, 'Mesa de cocina', 'Mesa de madera de alta calidad para seis personas', '2023-03-18 15:00:00', '2023-03-25 15:00:00', '300.00', '350.00', 2, '', 'Muebles', 'nuevo'),
+(9, 2, 'Mesa de coche', 'Mesa de madera de alta calidad para seis personas', '2023-03-18 15:00:00', '2023-03-25 15:00:00', '300.00', '300.00', NULL, 'borrador', 'Muebles', 'nuevo'),
+(10, 2, 'Pepe Viyuela', 'asfdf', '2123-12-18 04:21:00', '2023-04-27 21:31:00', '2312.00', '888888.00', 2, '', 'elPepe', 'usado'),
+(11, 2, 'Prueba insertado', 'dwpdwowdo', '2023-03-18 03:11:00', '2023-03-25 02:11:00', '1009.00', '1009.00', NULL, 'borrador', 'prueba', 'usado'),
+(12, 2, 'Comprobacion', 'sefserfs', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '233.00', '233.00', NULL, 'cerrada', '3', 'usado'),
+(13, 2, 'Comprobacion', 'sefserfs', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '233.00', '233.00', NULL, 'cerrada', '3', 'usado'),
+(14, 2, 'Prueba foto', 'aaasdasd', '2023-04-07 19:06:00', '2023-04-21 19:07:00', '2323.00', '235564.00', 2, '', '10', 'nuevo');
 
 -- --------------------------------------------------------
 
@@ -163,44 +221,58 @@ INSERT INTO `usuarios` (`id_usuario`, `nombreUsuario`, `nombre`, `email`, `passw
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `valoraciones`
+-- Estructura de tabla para la tabla `valoracionesproducto`
 --
 
-CREATE TABLE `valoraciones` (
+CREATE TABLE `valoracionesproducto` (
   `id_valoracion` int(11) NOT NULL,
   `id_usuario` int(11) NOT NULL,
   `id_subasta` int(11) DEFAULT NULL,
-  `id_producto` int(11) DEFAULT NULL,
+  `titulo_producto` varchar(255) DEFAULT NULL,
   `puntuacion` int(11) NOT NULL,
-  `comentario` text DEFAULT NULL
+  `comentario` text DEFAULT NULL,
+  `id_vendedor` int(11) DEFAULT NULL,
+  `titulo_valoracion` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
-<<<<<<< HEAD
+-- Volcado de datos para la tabla `valoracionesproducto`
+--
+
+INSERT INTO `valoracionesproducto` (`id_valoracion`, `id_usuario`, `id_subasta`, `titulo_producto`, `puntuacion`, `comentario`, `id_vendedor`, `titulo_valoracion`) VALUES
+(3, 2, 8, 'Mesa de cocina', 222, 'aaaaa', 2, 'prueba de titulo');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `valoracionesvendedor`
+--
+
+CREATE TABLE `valoracionesvendedor` (
+  `id_valoracion` int(11) NOT NULL,
+  `id_usuario` int(11) NOT NULL,
+  `puntuacion` int(11) NOT NULL,
+  `comentario` text DEFAULT NULL,
+  `id_vendedor` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `valoracionesvendedor`
+--
+
+INSERT INTO `valoracionesvendedor` (`id_valoracion`, `id_usuario`, `puntuacion`, `comentario`, `id_vendedor`) VALUES
+(4, 2, 455, 'ss', 2);
+
+--
 -- Índices para tablas volcadas
 --
 
-=======
--- creacion de tabla imagenes
 --
-CREATE TABLE imagenes (
-  'id' int(11) NOT NULL AUTO_INCREMENT,
-  'id_subasta' int(11) NOT NULL,
-  'ruta' varchar(20) NOT NULL,
-  'nombre' varchar(20) NOT NULL,
-  'mimeType' varchar(30) NOT NULL,
- 'tipoAcceso' tinyint(4) NOT NULL,
-  PRIMARY KEY ('id_subasta'),
-  CONSTRAINT 'fk_subasta' FOREIGN KEY ('id_subasta') REFERENCES 'subastas' ('id_subasta')
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+-- Indices de la tabla `categorias`
 --
--- modificacion de subastas para eliminar columna imagenes
---
-ALTER TABLE `subastas` DROP COLUMN `imagen`;
---
--- Índices para tablas volcadas
---
->>>>>>> f8be654fffe5619bde51139daa8c1208168a212f
+ALTER TABLE `categorias`
+  ADD PRIMARY KEY (`id`);
+
 --
 -- Indices de la tabla `chats`
 --
@@ -209,6 +281,13 @@ ALTER TABLE `chats`
   ADD KEY `id_subasta_aso` (`id_subasta_aso`),
   ADD KEY `id_cliente1` (`id_cliente1`),
   ADD KEY `id_cliente2` (`id_cliente2`);
+
+--
+-- Indices de la tabla `imagenes`
+--
+ALTER TABLE `imagenes`
+  ADD PRIMARY KEY (`id_imagen`),
+  ADD KEY `fk_subasta` (`id_subasta`);
 
 --
 -- Indices de la tabla `mensajes`
@@ -254,23 +333,43 @@ ALTER TABLE `usuarios`
   ADD UNIQUE KEY `nombreUsuario` (`nombreUsuario`);
 
 --
--- Indices de la tabla `valoraciones`
+-- Indices de la tabla `valoracionesproducto`
 --
-ALTER TABLE `valoraciones`
+ALTER TABLE `valoracionesproducto`
   ADD PRIMARY KEY (`id_valoracion`),
   ADD KEY `id_usuario` (`id_usuario`),
   ADD KEY `id_subasta` (`id_subasta`),
-  ADD KEY `id_producto` (`id_producto`);
+  ADD KEY `id_vendedor` (`id_vendedor`);
+
+--
+-- Indices de la tabla `valoracionesvendedor`
+--
+ALTER TABLE `valoracionesvendedor`
+  ADD PRIMARY KEY (`id_valoracion`),
+  ADD KEY `valoraciones_ibfk_1` (`id_usuario`),
+  ADD KEY `valoraciones_ibfk_2` (`id_vendedor`);
 
 --
 -- AUTO_INCREMENT de las tablas volcadas
 --
 
 --
+-- AUTO_INCREMENT de la tabla `categorias`
+--
+ALTER TABLE `categorias`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+
+--
 -- AUTO_INCREMENT de la tabla `chats`
 --
 ALTER TABLE `chats`
   MODIFY `id_chat` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `imagenes`
+--
+ALTER TABLE `imagenes`
+  MODIFY `id_imagen` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `mensajes`
@@ -288,7 +387,7 @@ ALTER TABLE `notificaciones`
 -- AUTO_INCREMENT de la tabla `subastas`
 --
 ALTER TABLE `subastas`
-  MODIFY `id_subasta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id_subasta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT de la tabla `usuarios`
@@ -297,10 +396,16 @@ ALTER TABLE `usuarios`
   MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT de la tabla `valoraciones`
+-- AUTO_INCREMENT de la tabla `valoracionesproducto`
 --
-ALTER TABLE `valoraciones`
-  MODIFY `id_valoracion` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `valoracionesproducto`
+  MODIFY `id_valoracion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT de la tabla `valoracionesvendedor`
+--
+ALTER TABLE `valoracionesvendedor`
+  MODIFY `id_valoracion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Restricciones para tablas volcadas
@@ -313,6 +418,12 @@ ALTER TABLE `chats`
   ADD CONSTRAINT `chats_ibfk_1` FOREIGN KEY (`id_subasta_aso`) REFERENCES `subastas` (`id_subasta`),
   ADD CONSTRAINT `chats_ibfk_2` FOREIGN KEY (`id_cliente1`) REFERENCES `usuarios` (`id_usuario`),
   ADD CONSTRAINT `chats_ibfk_3` FOREIGN KEY (`id_cliente2`) REFERENCES `usuarios` (`id_usuario`);
+
+--
+-- Filtros para la tabla `imagenes`
+--
+ALTER TABLE `imagenes`
+  ADD CONSTRAINT `fk_subasta` FOREIGN KEY (`id_subasta`) REFERENCES `subastas` (`id_subasta`);
 
 --
 -- Filtros para la tabla `mensajes`
@@ -336,12 +447,18 @@ ALTER TABLE `rolesusuario`
   ADD CONSTRAINT `rolesusuario_ibfk_1` FOREIGN KEY (`rol`) REFERENCES `roles` (`id_rol`);
 
 --
--- Filtros para la tabla `valoraciones`
+-- Filtros para la tabla `valoracionesproducto`
 --
-ALTER TABLE `valoraciones`
+ALTER TABLE `valoracionesproducto`
+  ADD CONSTRAINT `valoracionesproducto_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id_usuario`),
+  ADD CONSTRAINT `valoracionesproducto_ibfk_2` FOREIGN KEY (`id_vendedor`) REFERENCES `usuarios` (`id_usuario`);
+
+--
+-- Filtros para la tabla `valoracionesvendedor`
+--
+ALTER TABLE `valoracionesvendedor`
   ADD CONSTRAINT `valoraciones_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id_usuario`),
-  ADD CONSTRAINT `valoraciones_ibfk_2` FOREIGN KEY (`id_subasta`) REFERENCES `subastas` (`id_subasta`),
-  ADD CONSTRAINT `valoraciones_ibfk_3` FOREIGN KEY (`id_producto`) REFERENCES `subastas` (`id_subasta`);
+  ADD CONSTRAINT `valoraciones_ibfk_2` FOREIGN KEY (`id_vendedor`) REFERENCES `usuarios` (`id_usuario`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

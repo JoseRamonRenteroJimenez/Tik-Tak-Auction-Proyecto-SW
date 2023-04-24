@@ -2,7 +2,7 @@
 
 require_once __DIR__.'/includes/config.php';
 
-$formRegistroValoracion = new \es\ucm\fdi\aw\valoraciones\FormularioValoraciones();
+$formRegistroValoracion = new \es\ucm\fdi\aw\valoraciones\FormularioValoracionesProducto();
 $formRegistroValoracion = $formRegistroValoracion->gestiona();
 
 $tituloPagina = 'Valoraciones';

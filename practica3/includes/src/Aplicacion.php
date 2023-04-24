@@ -118,19 +118,9 @@ class Aplicacion
      */
     public function init($bdDatosConexion, $rutaApp = '/', $dirInstalacion = __DIR__)
     {
-<<<<<<< HEAD
-<<<<<<< HEAD
-        if (!$this->inicializada) {
-=======
      
         if (!$this->inicializada) {
           
->>>>>>> 0184f75da5a1c12fd62c9d877ff1ca3ca932e3f3
-=======
-     
-        if (!$this->inicializada) {
-          
->>>>>>> f8be654fffe5619bde51139daa8c1208168a212f
             $this->bdDatosConexion = $bdDatosConexion;
 
             $this->rutaRaizApp = $rutaApp;

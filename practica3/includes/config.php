@@ -4,46 +4,21 @@
  * Parámetros de conexión a la BD
  */
 define('BD_HOST', 'localhost');
-<<<<<<< HEAD
-<<<<<<< HEAD
-define('BD_NAME', 'aw');
-define('BD_USER', 'aw');
-define('BD_PASS', 'aw');
-=======
-=======
->>>>>>> f8be654fffe5619bde51139daa8c1208168a212f
 define('BD_NAME', 'practica2');
 define('BD_USER', 'practica2');
 define('BD_PASS', 'practica2');
 
-<<<<<<< HEAD
->>>>>>> 0184f75da5a1c12fd62c9d877ff1ca3ca932e3f3
-=======
->>>>>>> f8be654fffe5619bde51139daa8c1208168a212f
 
 /**
  * Parámetros de configuración utilizados para generar las URLs y las rutas a ficheros en la aplicación
  */
 define('RAIZ_APP', __DIR__);
-<<<<<<< HEAD
-<<<<<<< HEAD
-define('RUTA_APP', '/estructura-proyecto');
-=======
-define('RUTA_APP', '/sw/practica2/');
->>>>>>> 0184f75da5a1c12fd62c9d877ff1ca3ca932e3f3
-define('RUTA_IMGS', RUTA_APP.'img/');
-define('RUTA_CSS', RUTA_APP.'css/');
-define('RUTA_JS', RUTA_APP.'js/');
-
-<<<<<<< HEAD
-=======
-=======
-define('RUTA_APP', '/Archivos_GIT/practica3');
-define('RUTA_IMGS', RUTA_APP.'\includes\vistas\imagenes');
+define('RUTA_APP', '/sw/practica3/');
+define('RUTA_IMGS', RUTA_APP.'\includes\vistas\Imagenes');
 define('RUTA_CSS', RUTA_APP.'css/');
 define('RUTA_JS', RUTA_APP.'js/');
 define('RUTA_ALMACEN', implode(DIRECTORY_SEPARATOR, [dirname(__DIR__), 'almacen']));
->>>>>>> f8be654fffe5619bde51139daa8c1208168a212f
+define('RUTA_ALMACEN_BAJADA', RUTA_APP.'almacen/');
 
 
  // Parámetros de conexión a la BD produccion
@@ -52,21 +27,19 @@ define('BD_HOST', 'vm16.db.swarm.test');
 define('BD_NAME', 'practica2');
 define('BD_USER', 'practica2');
 define('BD_PASS', 'practica2');
-*/
+
 
 //Parámetros de configuración utilizados para generar las URLs y las rutas a ficheros en la aplicación produccion
-/*
+
 define('RAIZ_APP', __DIR__);
 define('RUTA_APP', '');
-define('RUTA_IMGS', RUTA_APP.'img/');
+define('RUTA_IMGS', RUTA_APP.'includes\vistas\Imagenes');
 define('RUTA_CSS', RUTA_APP.'css/');
 define('RUTA_JS', RUTA_APP.'js/');
+define('RUTA_ALMACEN', implode(DIRECTORY_SEPARATOR, [dirname(__DIR__), 'almacen']));
+define('RUTA_ALMACEN_BAJADA', RUTA_APP.'almacen/');
 */
 
-<<<<<<< HEAD
->>>>>>> 0184f75da5a1c12fd62c9d877ff1ca3ca932e3f3
-=======
->>>>>>> f8be654fffe5619bde51139daa8c1208168a212f
 /**
  * Configuración del soporte de UTF-8, localización (idioma y país) y zona horaria
  */
@@ -111,30 +84,13 @@ spl_autoload_register(function ($class) {
 /* Inicialización de la aplicación */
 /* */
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-define('INSTALADA', false);
-=======
 define('INSTALADA', true);
->>>>>>> 0184f75da5a1c12fd62c9d877ff1ca3ca932e3f3
-=======
-define('INSTALADA', true);
->>>>>>> f8be654fffe5619bde51139daa8c1208168a212f
 
 $app = \es\ucm\fdi\aw\Aplicacion::getInstance();
 $app->init(array('host'=>BD_HOST, 'bd'=>BD_NAME, 'user'=>BD_USER, 'pass'=>BD_PASS), RUTA_APP, RAIZ_APP);
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-if (! INSTALADA) {
-=======
 
 if (!INSTALADA) {
->>>>>>> 0184f75da5a1c12fd62c9d877ff1ca3ca932e3f3
-=======
-
-if (!INSTALADA) {
->>>>>>> f8be654fffe5619bde51139daa8c1208168a212f
 	$app->paginaError(502, 'Error', 'Oops', 'La aplicación no está configurada. Tienes que modificar el fichero config.php');
 }
 
