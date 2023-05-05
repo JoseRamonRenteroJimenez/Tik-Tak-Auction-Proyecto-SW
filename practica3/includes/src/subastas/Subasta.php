@@ -127,23 +127,7 @@ class Subasta
         return $subastas; // Devolvemos el array de subastas
     }
 
-   /* public static function buscaPorId($idUsuario)
-    {
-        $conn = Aplicacion::getInstance()->getConexionBd();
-        $query = sprintf("SELECT * FROM Usuarios WHERE id=%d", $idUsuario);
-        $rs = $conn->query($query);
-        $result = false;
-        if ($rs) {
-            $fila = $rs->fetch_assoc();
-            if ($fila) {
-                $result = new Usuario($fila['nombreUsuario'], $fila['password'], $fila['nombre'],$fila['email'], $fila['id']);
-            }
-            $rs->free();
-        } else {
-            error_log("Error BD ({$conn->errno}): {$conn->error}");
-        }
-        return $result;
-    }*/
+   
     function obtenerEstadoSubasta($fechaInicio, $fechaFin) {
         $fechaActual = date('Y-m-d H:i:s');
         
@@ -207,7 +191,7 @@ class Subasta
         $subasta->precioinicial,
         $subasta->precioactual,
         $subasta->idganador,
-        $conn->real_escape_string($subasta->estado),
+        $conn->real_escape_string($subasta->obtenerEstadoSubasta($subasta->fechainicio,$subasta->fechafin)),
         $conn->real_escape_string($subasta->categoria),
         $conn->real_escape_string($subasta->estadoproducto),
         $subasta->idSubasta

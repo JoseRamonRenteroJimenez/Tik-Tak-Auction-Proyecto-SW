@@ -11,13 +11,13 @@ function mostrarSaludo()
     $html = '';
 	$busqueda= '';
     $app = Aplicacion::getInstance();
-    
-    if ($_SERVER['PHP_SELF'] == RUTA_APP.'/registro.php') {
+ 
+    if ($_SERVER['PHP_SELF'] == RUTA_APP.'registro.php') {
      $loginUrl = $app->resuelve('/login.php');
      $html = <<<EOS
       ¿Ya estas registrado? <a href="{$loginUrl}">Identificate</a> 
      EOS;
-  } elseif ($_SERVER['PHP_SELF'] == RUTA_APP.'/login.php') {
+  } elseif ($_SERVER['PHP_SELF'] == RUTA_APP.'login.php') {
      
   }
     

@@ -20,26 +20,18 @@ $contenidoPrincipal .=<<<EOS
         </ul>
       </nav>
     </header>
-    <section>
-    <div class="carousel-container">
-      <div class="slides">
-        <div class="slide">
-          <img src="img1.jpg" alt="Imagen 1">
-          <h3>Título de la imagen 1</h3>
-        </div>
-        <div class="slide">
-          <img src="img2.jpg" alt="Imagen 2">
-          <h3>Título de la imagen 2</h3>
-        </div>
-        <div class="slide">
-          <img src="img3.jpg" alt="Imagen 3">
-          <h3>Título de la imagen 3</h3>
-        </div>
+    <section class="carrusel-section">
+          <div class="carousel">
+          <button id="retroceder"></button>
+          <div id="imagen"></div>
+          
+      
+      <div class="controles">
+          <button id="play"></button>
+          <button id="stop" disabled></button>
       </div>
-      <button class="prev-btn">Anterior</button>
-      <button class="next-btn">Siguiente</button>
-    </div>
-    <div id="carrusel">
+      <button id="avanzar"></button>
+      </div>
     </section>
     <section>
       <h2>Subastas destacadas</h2>

@@ -36,7 +36,7 @@ class FormularioRegistro extends Formulario
         </div>   
             
             <div class="txt_field">
-                <input id="nombreUsuario" type="text"  placeholder="Nombre usuario" name="nombreUsuario" value="$nombreUsuario" />
+                <input id="nombreUsuario" type="text"  placeholder="Nombre usuario" name="nombreUsuario" value="$nombreUsuario" /> <span id="validUser"></span>
                 {$erroresCampos['nombreUsuario']}
             </div>
             <div class="txt_field">
@@ -45,7 +45,7 @@ class FormularioRegistro extends Formulario
                 {$erroresCampos['nombre']}
             </div>
             <div class="txt_field">
-                <input id="email" type="text" name="email" placeholder="Email" value="$email" />
+                <input id="email" type="text" name="email" placeholder="Email" value="$email" /> <span id="validEmail"></span>
                 {$erroresCampos['email']}
             </div>
 
@@ -54,7 +54,7 @@ class FormularioRegistro extends Formulario
                 {$erroresCampos['password']}
             </div>
             <div class="txt_field">
-                <input id="password2" type="password" placeholder="Reintroduce el password" name="password2" />
+                <input id="password2" type="password" placeholder="Reintroduce el password" name="password2"> <span id="validpassword"></span></input> 
                 {$erroresCampos['password2']}
             </div>
             <div>

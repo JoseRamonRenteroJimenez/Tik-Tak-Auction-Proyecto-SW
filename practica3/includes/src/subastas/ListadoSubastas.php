@@ -54,7 +54,8 @@ static function listadoCompradas($busqueda){
         $fecha_actual = new DateTime();
         $fecha_dada = new DateTime($subasta->getFechaFin());
         $intervalo = $fecha_dada->diff($fecha_actual);
-        $fechafin=$intervalo->format('%d D:%H H:%I M:%S S');
+       // $fechafin=$intervalo->format('%d D:%H H:%I M:%S S');
+        $fechafin=$fecha_dada->format('M d, Y H:i:s');
         $rutaimagen="";
         if($imagen!=false){
         $rutaimagen=RUTA_ALMACEN_BAJADA.$imagen->getRuta();
@@ -73,7 +74,7 @@ static function listadoCompradas($busqueda){
                     <div class="product-status">
                         <p>Estado: {$subasta->getEstado()}</p>
                         <p>Categoría: {$subasta->getCategoria()}</p>
-                        <p>Tiempo Restante: {$fechafin }</p>
+                        <p id="contador">Tiempo Restante: {$fechafin} </p>
                         <p class="current-bid">Puja Actual: {$subasta->getPrecioActual()}€</p>
                     </div>
 
@@ -81,6 +82,7 @@ static function listadoCompradas($busqueda){
 
                             
                                  $vendedor= \es\ucm\fdi\aw\usuarios\Usuario::buscaPorId($subasta->getIdUsuario());
+                               
                  $html .=<<<EOF
 
                     </div>
@@ -88,7 +90,7 @@ static function listadoCompradas($busqueda){
                 
                 <div class="seller-info">
                     <h2>Información del Vendedor</h2>
-                    <p>Nombre de Usuario: {$vendedor->getNombreUsuario()}</p>
+                    <p>Nombre de Usuario: {$vendedor->getNombreUsuario()} ( )</p>
                     <a href="#">Ver más Artículos</a>
                     <a href="#">Contactar al Vendedor</a>
                 </div>
@@ -108,9 +110,10 @@ static function listadoCompradas($busqueda){
         $titulosCol = mostrarTitulosTabla();
 
         $html ="";
+        $cont=0;
     
        foreach($subastas as $subasta) {
-          
+        $cont=$cont+1;
             $html .= visualizaSubasta($subasta,"pujar");
           // echo($subasta);
        }
@@ -266,7 +269,8 @@ function visualizaSubasta($subasta, $tipo=null) {
     $fecha_actual = new DateTime();
     $fecha_dada = new DateTime($subasta->getFechaFin());
     $intervalo = $fecha_dada->diff($fecha_actual);
-    $fechafin=$intervalo->format('%d D:%H H:%I M:%S S');
+    //$fechafin=$intervalo->format('%d D:%H H:%I M:%S S');
+    $fechafin=$fecha_dada->format('M d, Y H:i:s');
     $rutaimagen="";
     $imagen=Imagen::buscaPorsubasta($subasta->getIdSubasta());
     if($imagen!=false){
@@ -285,7 +289,7 @@ function visualizaSubasta($subasta, $tipo=null) {
                 <div class="price">{$subasta->getPrecioActual()}€</div>
                 <div class="bid-info">
                 <span class="bids">x pujas</span>
-                <span class="time">{$fechafin} días restantes</span>
+                 <p id="contador">Tiempo Restante: {$fechafin} </p>
                 </div>
                 </div>
                 <div class="buttons-container">

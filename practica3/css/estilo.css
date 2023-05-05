@@ -42,6 +42,9 @@ header {
 	padding: 0 40px;
 	box-sizing: border-box;
   }
+.txt_field{
+	display:flex;
+}
   form .txt_field{
 	position: relative;
 	margin: 15px 0;
@@ -58,6 +61,11 @@ header {
 	border-color: black;
 	background: none;
 	outline: none;
+  }
+.txt_field span{
+     display: flex;
+	 justify-content: right;
+	
   }
   .radio-buttons {
     display: flex;
@@ -116,7 +124,6 @@ header {
 	margin: auto;
 }
   
-
 .CabeceraPrincipal {
 	background-color: white;
 	padding: 10px;
@@ -176,16 +183,16 @@ header {
 	display: inline-block; /* Establecer display en inline-block */
 	width: 85%; /* Establecer el ancho de cada div */
 	height: 100%; /* Establecer la altura de cada div */
-	box-sizing: border-box; /* Incluir los bordes y padding en el cÃƒÂ¡lculo del ancho total */
-	border: 0.1em solid gray; /* AÃƒÂ±adir un borde para cada div */
+	box-sizing: border-box; /* Incluir los bordes y padding en el cÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¡lculo del ancho total */
+	border: 0.1em solid gray; /* AÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â±adir un borde para cada div */
 	padding: 10px;
   }
 .boton {
 	display: inline-block; /* Establecer display en inline-block */
 	width: 10%; /* Establecer el ancho de cada div */
 	height: 100%; /* Establecer la altura de cada div */
-	box-sizing: border-box; /* Incluir los bordes y padding en el cÃƒÂ¡lculo del ancho total */
-	 /* AÃƒÂ±adir un borde para cada div */
+	box-sizing: border-box; /* Incluir los bordes y padding en el cÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¡lculo del ancho total */
+	 /* AÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â±adir un borde para cada div */
 	padding: 10px;
   }
 input[type=text], select {
@@ -212,7 +219,7 @@ input[type=submit] {
 	position: absolute;
 	top: 23%;
 	left: 0;
-	width: 200px; /* ajusta el valor segÃƒÂºn el tamaÃƒÂ±o deseado */
+	width: 200px; /* ajusta el valor segÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Âºn el tamaÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â±o deseado */
 	height: auto;
 	margin-top: -100px; /* ajusta el valor para centrar verticalmente */
 	margin-left: 20px; /* ajusta el valor para agregar margen izquierdo */
@@ -236,7 +243,7 @@ input[type=submit] {
   position: absolute;
   top: 20%;
   left: 0;
-  width: 200px; /* ajusta el valor segÃƒÂºn el tamaÃƒÂ±o deseado */
+  width: 200px; /* ajusta el valor segÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Âºn el tamaÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â±o deseado */
   height: auto;
   margin-top: -100px; /* ajusta el valor para centrar verticalmente */
   margin-left: 20px; /* ajusta el valor para agregar margen izquierdo */
@@ -295,56 +302,60 @@ nav a {
 .dropdown:hover .dropdown-content {
   display: block;
 }
-.carousel-container {
-  max-width: 100%;
-	height:10em;
+
+.carousel {
+  position: relative;
+  max-width: auto;
+  height:15em;
   margin: 0 auto;
-  position: relative;
-	border-bottom: 0.1em solid gray;
-}
-
-.slides {
   display: flex;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  scroll-behavior: smooth;
-  -webkit-overflow-scrolling: touch;
+  border-bottom: 0.1em solid gray;
 }
-
-.slide {
-  flex: 0 0 100%;
-  scroll-snap-align: start;
-  position: relative;
-}
-
-.slide:not(:first-child) {
-  display: none;
-}
-
-.slide img {
+#imagen {
   width: 100%;
-  height: 100%;
-  object-fit: cover;
+  height: auto;
+	background-repeat: no-repeat;
+  background-size: auto;
+  background-position: center center;
 }
-
-.prev-btn,
-.next-btn {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
+#retroceder {
+  font-size: 2em;
   background-color: transparent;
   border: none;
-  color: black;
-  font-size: 24px;
-  cursor: pointer;
 }
 
-.prev-btn {
-  left: 0;
+#retroceder::before {
+  content: "\2190";
+}
+#avanzar {
+  font-size: 2em;
+  background-color: transparent;
+  border: none;
 }
 
-.next-btn {
-  right: 0;
+#avanzar::before {
+  content: "\2192";
+}
+.controles {
+  position: absolute;
+  bottom:0;
+  left: 50%;
+}
+.controles button {
+  width: 3rem;
+  height: 3rem;
+  border: none;
+  background-color: transparent;
+}
+
+.controles #play::before {
+  content: "\25B6"; /* CÃ³digo unicode para el emoji de Play */
+  font-size: 1.5rem;
+}
+
+.controles #stop::before {
+  content: "\2B1B"; /* CÃ³digo unicode para el emoji de Stop */
+  font-size: 1rem;
 }
 .listasdestacadas {
   list-style: none;
@@ -495,14 +506,14 @@ margin:auto;
 	margin: 0;
 	padding: 0;
 	display:block;
-	border-bottom: none; /* Eliminar la lÃ­nea inferior */
+	border-bottom: none; /* Eliminar la lÃƒÆ’Ã‚Â­nea inferior */
 }
 .sidebarIzqPerfil li {
 	margin-right: 10px;
 	position: static;
 }
 .sidebarIzqPerfil li:hover > ul {
-	display: block; /* Mostrar el menÃº desplegable al pasar el mouse */
+	display: block; /* Mostrar el menÃƒÆ’Ã‚Âº desplegable al pasar el mouse */
 }
 .sidebarIzqPerfil a {
 	display: block;
@@ -515,7 +526,7 @@ margin:auto;
 	position: relative;
 }
 .sidebarIzqPerfil .dropdown-content {
-	display: none; /* Ocultar el menÃº desplegable por defecto */
+	display: none; /* Ocultar el menÃƒÆ’Ã‚Âº desplegable por defecto */
 	position: absolute;
 	top: 100%;
 	left: 0;
@@ -563,7 +574,7 @@ margin:auto;
   text-align: center;
 }
 .actions {
-  margin-right: 10em;
+  margin-right: 0em;
  
 }
 .actions a {
