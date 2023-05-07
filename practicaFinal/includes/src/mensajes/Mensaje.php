@@ -220,7 +220,7 @@ public static function listarConservaciones($idEmisor)
                             <input type="hidden" name="receptor" value="{$subasta->getIdGanador()}">
                             <input type="hidden" name="emisor" value="{$subasta->getIdUsuario()}">
                             <input type="hidden" name="tituloproducto" value="{$subasta->getTitulo()}">
-                            <button type="submit">Contactar con el vendedor</button>
+                            <button type="submit">Contactar con el cliente</button>
                         </form>
                     </td>                
                 </div>
