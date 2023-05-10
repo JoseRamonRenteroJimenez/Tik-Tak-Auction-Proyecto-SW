@@ -9,10 +9,10 @@ class Subasta
     use MagicProperties;
 
    
-    
-    public static function crea($idusuario, $titulo, $descripcion, $fechainicio, $fechafin, $precioinicial, $precioactual, $categoria, $estadoproducto)
+                                       
+    public static function crea($idusuario, $titulo, $descripcion, $fechainicio, $fechafin, $precioinicial, $precioactual, $categoria, $estadoproducto,$tiposubasta,$intervalotiempo,$intervaloprecio)
     {
-        $subasta = new subasta($idusuario, $titulo, $descripcion, $fechainicio, $fechafin, $precioinicial, $precioactual, $categoria, $estadoproducto);
+        $subasta = new subasta($idusuario, $titulo, $descripcion, $fechainicio, $fechafin, $precioinicial, $precioactual, $categoria, $estadoproducto,$tiposubasta,$intervalotiempo,$intervaloprecio);
         return $subasta->guarda();
     }
     public static function actualizaSubasta($idSubasta,$idusuario, $titulo, $descripcion, $fechainicio, $fechafin, $precioinicial, $precioactual, $categoria, $estadoproducto,$idganador=null)
@@ -30,8 +30,8 @@ class Subasta
         if ($rs) {
             $fila = $rs->fetch_assoc();
             if ($fila) {
-                $result = new Subasta( $fila['id_usuario'],  $fila['titulo'],  $fila['descripcion'],  $fila['fecha_inicio'],  $fila['fecha_fin'],  $fila['precio_inicial'],  $fila['precio_actual'],$fila['categoria'],$fila['estadoproducto'], $fila['id_subasta'], $fila['id_ganador'], $fila['estado']);            }
-            $rs->free();
+                $result = Subasta::creaObjeto($fila);}          
+                $rs->free();
         } else {
             error_log("Error BD ({$conn->errno}): {$conn->error}");
         }
@@ -47,15 +47,17 @@ class Subasta
         if ($rs) {
             $fila = $rs->fetch_assoc();
             if ($fila) {
-                $result = new Subasta( $fila['id_usuario'],  $fila['titulo'],  $fila['descripcion'],  $fila['fecha_inicio'],  $fila['fecha_fin'],  $fila['precio_inicial'],  $fila['precio_actual'],$fila['categoria'],$fila['estadoproducto'], $fila['id_subasta'], $fila['id_ganador'], $fila['estado']);            }
-            $rs->free();
+                $result =Subasta::creaObjeto($fila);} 
+                $rs->free();
         } else {
             error_log("Error BD ({$conn->errno}): {$conn->error}");
         }
        
         return $result;
     }
-
+    public static function creaObjeto($fila){
+        return new Subasta( $fila['id_usuario'],$fila['titulo'], $fila['descripcion'],$fila['fecha_inicio'],$fila['fecha_fin'],$fila['precio_inicial'],$fila['precio_actual'],$fila['categoria'],$fila['estadoproducto'], $fila['tipo_subasta'],$fila['intervalo_tiempo'],$fila['intervalo_precio'],$fila['id_subasta'], $fila['id_ganador'],$fila['estado']); 
+    }
 
     public static function listarSubastas($busqueda,$buscar=null)
     {
@@ -72,7 +74,7 @@ class Subasta
             $query = sprintf("SELECT * FROM subastas S WHERE S.estado= '%s'AND S.id_usuario= '%d'", $conn->real_escape_string($busqueda), $idusuario);
 
         }else if($busqueda=='programado'){
-          //  listado de subastas que tengo en estado programadas
+          //listado de subastas que tengo en estado programadas
           $query = sprintf("SELECT * FROM subastas S WHERE S.estado= '%s'AND S.id_usuario= '%d'", $conn->real_escape_string($busqueda), $idusuario);
 
         }else if($busqueda=='activa'){
@@ -104,20 +106,7 @@ class Subasta
         $subastas = array(); // Creamos un array vacío para almacenar las subastas
         if ($rs) {
             while ($fila = $rs->fetch_assoc()) {
-                $subasta = new Subasta(
-                    $fila['id_usuario'],
-                    $fila['titulo'],
-                    $fila['descripcion'],
-                    $fila['fecha_inicio'],
-                    $fila['fecha_fin'],
-                    $fila['precio_inicial'],
-                    $fila['precio_actual'],
-                    $fila['categoria'],
-                    $fila['estadoproducto'],
-                    $fila['id_subasta'],
-                    $fila['id_ganador'],
-                    $fila['estado']
-                );
+                $subasta = Subasta::creaObjeto($fila);
                 $subastas[] = $subasta; // Agregamos la subasta al array
             }
             $rs->free();
@@ -145,19 +134,22 @@ class Subasta
         $result = false;
         $conn = Aplicacion::getInstance()->getConexionBd();
                                             
-        $query=sprintf("INSERT INTO subastas(id_usuario, titulo, descripcion, fecha_inicio, fecha_fin, precio_inicial, precio_actual, id_ganador, estado, categoria, estadoproducto) VALUES ('%d', '%s', '%s', '%s','%s', '%f', '%f', NULL,'%s', '%s', '%s')"
-            , $subasta->idusuario
-            , $conn->real_escape_string($subasta->titulo)
-            , $conn->real_escape_string($subasta->descripcion)
-            , $conn->real_escape_string($subasta->fechainicio)
-            , $conn->real_escape_string($subasta->fechafin)
-            , $subasta->precioinicial
-            , $subasta->precioactual
-            , $conn->real_escape_string($subasta->obtenerEstadoSubasta($subasta->fechainicio,$subasta->fechafin))
-            , $conn->real_escape_string($subasta->categoria)
-            , $conn->real_escape_string($subasta->estadoproducto)
-            
-        );
+        $query=sprintf("INSERT INTO subastas(id_usuario, titulo, descripcion, fecha_inicio, fecha_fin, precio_inicial, precio_actual, id_ganador, estado, categoria, estadoproducto, tipo_subasta, intervalo_tiempo, intervalo_precio) 
+        VALUES ('%d', '%s', '%s', '%s','%s', '%f', '%f', NULL,'%s', '%s', '%s', '%s', '%s', '%f')"
+        , $subasta->idusuario
+        , $conn->real_escape_string($subasta->titulo)
+        , $conn->real_escape_string($subasta->descripcion)
+        , $conn->real_escape_string($subasta->fechainicio)
+        , $conn->real_escape_string($subasta->fechafin)
+        , $subasta->precioinicial
+        , $subasta->precioactual
+        , $conn->real_escape_string($subasta->obtenerEstadoSubasta($subasta->fechainicio,$subasta->fechafin))
+        , $conn->real_escape_string($subasta->categoria)
+        , $conn->real_escape_string($subasta->estadoproducto)
+        , $conn->real_escape_string($subasta->tiposubasta)
+        , $conn->real_escape_string($subasta->intervalotiempo)
+        , $subasta->intervaloprecio
+    );
         if ( $conn->query($query) ) {
             $subasta->idsubasta = $conn->insert_id;
             $result = $subasta;
@@ -269,12 +261,16 @@ class Subasta
 
     private $estado;
 
-
     private $categoria;
 
     private $estadoproducto;
 
-    private function __construct($idusuario, $titulo, $descripcion, $fechainicio, $fechafin, $precioinicial, $precioactual, $categoria, $estadoproducto,$idsubasta = null,$idganador = null, $estado = null)
+    private $tiposubasta;
+
+    private $intervaloprecio;
+
+    private $intervalotiempo;
+    private function __construct($idusuario, $titulo, $descripcion, $fechainicio, $fechafin, $precioinicial, $precioactual, $categoria, $estadoproducto,$tiposubasta,$intervalotiempo=null,$intervaloprecio=null,$idsubasta = null,$idganador = null, $estado = null)
     {
         $this->idsubasta = $idsubasta;
         $this->idusuario = $idusuario;
@@ -287,7 +283,17 @@ class Subasta
         $this->idganador = $idganador;
         $this->estado = $estado;
         $this->categoria = $categoria;
+        $this->tiposubasta = $tiposubasta;
         $this->estadoproducto = $estadoproducto;
+        $this->intervalotiempo = $intervalotiempo;
+        $this->intervaloprecio = $intervaloprecio;
+    }
+    public function getIntervalotiempo() {
+        return $this->intervalotiempo;
+    }
+
+    public function getIntervaloprecio() {
+        return $this->intervaloprecio;
     }
    public function getIdSubasta() {
         return $this->idsubasta;
@@ -296,7 +302,9 @@ class Subasta
     public function getIdUsuario() {
         return $this->idusuario;
     }
-
+    public function getTipoSubasta() {
+        return $this->tiposubasta;
+    }
     public function getTitulo() {
         return $this->titulo;
     }
@@ -330,6 +338,14 @@ class Subasta
 
     public function getCategoria() {
         return $this->categoria;
+    }
+    public function getCategoriaNombre() {
+        $conn = Aplicacion::getInstance()->getConexionBd();
+        $query = sprintf("SELECT nombre FROM categorias where id= %d",
+        $this->categoria
+    );
+           
+        return  $conn->query($query)->fetch_assoc()['nombre'];
     }
 
     public function getEstadoProducto() {

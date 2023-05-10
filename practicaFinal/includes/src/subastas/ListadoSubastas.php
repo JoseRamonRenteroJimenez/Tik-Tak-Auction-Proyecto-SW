@@ -45,7 +45,18 @@ static function listadoCompradas($busqueda){
        $html .= "</table>";
         return $html;
     }
+    static function fechabajadaprecio($subasta){
 
+    $fecha_actual = date('M d, Y H:i:s');
+    $fecha_inicial= new DateTime($subasta->getFechaInicio());
+
+    $fecha_nuevo_precio = date('M d, Y H:i:s', strtotime($fecha_inicial->format('M d, Y H:i:s'). ' + '. $subasta->getIntervalotiempo().' days'));
+
+    while ($fecha_actual>$fecha_nuevo_precio ){
+         $fecha_nuevo_precio = date('M d, Y H:i:s', strtotime($fecha_nuevo_precio. ' + '. $subasta->getIntervalotiempo().' days'));
+    }
+   return $fecha_nuevo_precio;
+}
     static function listadoUnicaSubasta($id){
         $subasta = Subasta::buscaPorId($id);
         $imagen=Imagen::buscaPorsubasta($id);
@@ -56,49 +67,75 @@ static function listadoCompradas($busqueda){
         $intervalo = $fecha_dada->diff($fecha_actual);
        // $fechafin=$intervalo->format('%d D:%H H:%I M:%S S');
         $fechafin=$fecha_dada->format('M d, Y H:i:s');
+       
+      
         $rutaimagen="";
         if($imagen!=false){
         $rutaimagen=RUTA_ALMACEN_BAJADA.$imagen->getRuta();
         }
-        $app = Aplicacion::getInstance();
-        $html = <<<EOF
-                    <div class="containervendedorproducto">
-                    <div class="product-info">
-                    <div class="product-image">
-                    <img src="{$rutaimagen}" alt="Producto">
-                    </div>
-                    <div class="product-details">
-                    <div class="product-title">
-                        <h1>{$subasta->getTitulo()}</h1>
-                    </div>
-                    <div class="product-status">
-                        <p>Estado: {$subasta->getEstado()}</p>
-                        <p>Categoría: {$subasta->getCategoria()}</p>
-                        <p id="contador">Tiempo Restante: {$fechafin} </p>
-                        <p class="current-bid">Puja Actual: {$subasta->getPrecioActual()}€</p>
-                    </div>
+        $app = Aplicacion::getInstance(); 
+         $vendedor= \es\ucm\fdi\aw\usuarios\Usuario::buscaPorId($subasta->getIdUsuario());
+            
+        
+            
+                        $html = <<<EOF
+                        <div class="containervendedorproducto">
+                        <div class="product-info">
+                        <div class="product-image">
+                        <img src="{$rutaimagen}" alt="Producto">
+                        </div>
+                        <div class="product-details">
+                        <div class="product-title">
+                            <h1>{$subasta->getTitulo()}</h1>
+                        </div>
+                        <div class="product-status">
+                            <p>Estado: {$subasta->getEstado()}</p>
+                            <p>Categoría: {$subasta->getCategoriaNombre()}</p>
+                        EOF;
+                     if ($subasta->getTipoSubasta()=="Holandesa"){ 
 
-                    EOF;       
+                        $fecha_nuevo_precio=ListadoSubastas:: fechabajadaprecio($subasta);
 
-                            
-                                 $vendedor= \es\ucm\fdi\aw\usuarios\Usuario::buscaPorId($subasta->getIdUsuario());
-                               
-                 $html .=<<<EOF
+                                $html .= <<<EOF
+                                                    <p id="contador">Tiempo para finalizar la puja: {$fechafin} </p>
+                                                    <p id="contador">Proximo cambio de precio: {$fecha_nuevo_precio} </p>
+                                                    <p class="current-bid">Puja Actual: {$subasta->getPrecioActual()}€</p>
+                                                </div>
 
-                    </div>
-                </div>
+                                                </div>
+                                            </div>
+                             EOF;  
                 
-                <div class="seller-info">
-                    <h2>Información del Vendedor</h2>
-                    <p>Nombre de Usuario: {$vendedor->getNombreUsuario()} ( )</p>
-                    <a href="#">Ver más Artículos</a>
-                    <a href="#">Contactar al Vendedor</a>
-                </div>
-                </div>
-                
-     EOF;       
-                        
-    
+                    }else if($subasta->getTipoSubasta()=="ReservaCiega"){
+                                    $html .= <<<EOF
+                                        <p id="contador">Tiempo Restante: {$fechafin} </p>
+                                        <p class="current-bid">Puja Actual: esto es una puja a ciegas</p>
+                                    </div>
+
+                                    </div>
+                                </div>
+                        EOF;       
+                    }else{
+                            $html .= <<<EOF
+                                            <p id="contador">Tiempo Restante: {$fechafin} </p>
+                                            <p class="current-bid">Puja Actual: {$subasta->getPrecioActual()}€</p>
+                                        </div>
+
+                                        </div>
+                                        </div>
+                                    
+                        EOF;       
+                    }             
+                    $html .= <<<EOF
+         <div class="seller-info">
+             <h2>Información del Vendedor</h2>
+             <p>Nombre de Usuario: {$vendedor->getNombreUsuario()} ( )</p>
+             <a href="#">Ver más Artículos</a>
+             <a href="#">Contactar al Vendedor</a>
+         </div>
+         </div>
+         
+ EOF;       
        
         return $html;
     }

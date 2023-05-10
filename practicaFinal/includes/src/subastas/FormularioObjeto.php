@@ -27,6 +27,9 @@ class FormularioObjeto extends Formulario
         $categoria = $datos['categoria'] ?? '';
         $estadoProducto = $datos['estadoProducto'] ?? '';
         $tipoAlmacenSeleccionado = $datos['tipo'] ?? null;
+        $tipoSubasta= $datos['tipoSubasta'] ?? '';
+        $intervalotiempo= $datos['intervalotiempo'] ?? '';
+        $intervaloprecio= $datos['intervaloprecio'] ?? '';
 
         if(isset($_POST['idsubasta'])){
             $idSubasta= $_POST['idsubasta'];
@@ -41,6 +44,9 @@ class FormularioObjeto extends Formulario
             $precioInicial=$subasta->getPrecioInicial();
             $categoria=$subasta->getCategoria();
             $estadoProducto=$subasta->getEstadoProducto();
+            $intervalotiempo=$subasta->getIntervalotiempo();
+            $intervaloprecio = $subasta->getIntervaloprecio();
+            $tipoSubasta =$subasta->getTipoSubasta();
        }
 
 
@@ -90,6 +96,22 @@ class FormularioObjeto extends Formulario
                         $erroresCampos[precioInicial]
                     </div>
                     <div class="seccion">
+                    <label for="tipoSubasta">elige un tipo de subasta:</label> 
+                        <select name="tipoSubasta" id="tipoSubasta">
+                            <option value="Reserva">Subasta de Reserva</option>
+                            <option value="ReservaCiega">Subasta de Reserva a Ciegas</option>
+                            <option value="Holandesa">Holandesa o precio descendente</option>
+                        </select>
+                        $erroresCampos[estadoProducto]
+
+                        <div id="intervalos" style="display:none;" >
+                        <label for="intervalotiempo">Intervalo de bajada de precio</label>
+                        <input type="number" name="intervalotiempo" id="intervalotiempo" value="0" /><p>Dias</p>
+                       
+                        <label for="intervaloprecio">Cantidad de bajada de precio</label>
+                        <input type="number" name="intervaloprecio" id="intervaloprecio" value="0" /><p>Euros</p>
+                        </div>
+
                         <label for="fechainicio">Fecha de inicio:</label> 
                        <input type="datetime-local" name="fechaInicio" value="$fechaInicio" />
                         $erroresCampos[fechaInicio]
@@ -126,6 +148,19 @@ class FormularioObjeto extends Formulario
         $this->errores = [];
 
         $estadoproducto = trim($datos['estadoProducto'] ?? '');
+
+        $tipoSubasta = trim($datos['tipoSubasta'] ?? '');
+        
+        $intervalotiempo = trim($datos['intervalotiempo'] ?? '');;
+        $intervalotiempo = filter_var( $intervalotiempo, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        if ( ! $intervalotiempo  ) {
+            $this->errores['intervalotiempo'] = 'Tiempo no valido';
+        }
+        $intervaloprecio = trim($datos['intervaloprecio'] ?? '');
+        $intervaloprecio = filter_var( $intervaloprecio, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        if ( ! $intervaloprecio  ) {
+            $this->errores['intervaloprecio'] = 'Precio no valido';
+        }
        
         $imagen=trim($datos['imagen'] ?? '');
 
@@ -213,7 +248,11 @@ class FormularioObjeto extends Formulario
                 $subasta = Subasta::actualizaSubasta($idSubasta,$idUsuario, $titulo, $descripcion, $fechaInicio, $fechaFin, $precioInicial, $precioactual, $categoria, $estadoproducto,$idganador);  
 
               }else{
-                $subasta = Subasta::crea($idUsuario, $titulo, $descripcion, $fechaInicio, $fechaFin, $precioInicial, $precioInicial, $categoria, $estadoproducto);
+                if($tipoSubasta=="Holandesa"){
+                    $subasta = Subasta::crea($idUsuario, $titulo, $descripcion, $fechaInicio, $fechaFin, $precioInicial, $precioInicial, $categoria, $estadoproducto,$tipoSubasta, $intervalotiempo,$intervaloprecio);
+                }else{
+                    $subasta = Subasta::crea($idUsuario, $titulo, $descripcion, $fechaInicio, $fechaFin, $precioInicial, $precioInicial, $categoria, $estadoproducto,$tipoSubasta,null,null);
+                }
                 $subastaaux = Subasta::buscaSubasta($titulo);
                 $id_subasta=$subastaaux->getIdSubasta();
 
