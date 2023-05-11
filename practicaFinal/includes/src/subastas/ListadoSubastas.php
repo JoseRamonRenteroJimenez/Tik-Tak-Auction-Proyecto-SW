@@ -57,6 +57,21 @@ static function listadoCompradas($busqueda){
     }
    return $fecha_nuevo_precio;
 }
+
+static function generarEstrellas($media) {
+    $estrellas = '';
+    for ($i = 0; $i < 5; $i++) {
+      if ($i < floor($media)) {
+        $estrellas .= '<i class="fas fa-star"></i>';
+      } else if ($i < ceil($media)) {
+        $estrellas .= '<i class="fas fa-star-half-alt"></i>';
+      } else {
+        $estrellas .= '<i class="far fa-star"></i>';
+      }
+    }
+    return $estrellas;
+}
+
     static function listadoUnicaSubasta($id){
         $subasta = Subasta::buscaPorId($id);
         $imagen=Imagen::buscaPorsubasta($id);
@@ -75,6 +90,10 @@ static function listadoCompradas($busqueda){
         }
         $app = Aplicacion::getInstance(); 
          $vendedor= \es\ucm\fdi\aw\usuarios\Usuario::buscaPorId($subasta->getIdUsuario());
+         $valoracionMediaVendedor= \es\ucm\fdi\aw\valoraciones\ValoracionVendedor::mediaValoracionesVendedor($vendedor->getId());
+        $estrellasVendedor = self::generarEstrellas($valoracionMediaVendedor);
+        $subastaId=$subasta->getIdSubasta();
+         $usuarioId=$app->idUsuario(); 
             
         
             
@@ -127,13 +146,28 @@ static function listadoCompradas($busqueda){
                         EOF;       
                     }             
                     $html .= <<<EOF
-         <div class="seller-info">
-             <h2>Información del Vendedor</h2>
-             <p>Nombre de Usuario: {$vendedor->getNombreUsuario()} ( )</p>
-             <a href="#">Ver más Artículos</a>
-             <a href="#">Contactar al Vendedor</a>
-         </div>
-         </div>
+                    <div class="seller-info">
+                    <h2>Información del Vendedor</h2>
+                    <p>Nombre: {$vendedor->getNombre()}</p>
+                    <p>Valoracion media: {$estrellasVendedor}</p>
+                    <a href="vistaSubastaObjeto.php?vendedor={$vendedor->getId()}">Ver más artículos de este vendedor</a>
+                    
+                  
+                    
+                    <a href="#" onclick="document.getElementById('myForm').submit();">Contactar con el vendedor</a>
+                    <form method="POST" action="chatearConVendedor.php" id="myForm">
+                        <input type="hidden" name="mensaje" value="iniciarCHat">
+                        <input type="hidden" name="idsubasta" value="{$subasta->getIdSubasta()}">
+                        <input type="hidden" name="receptor" value="{$subasta->getIdUsuario()}">
+                        <input type="hidden" name="emisor" value="{$subasta->getIdGanador()}">
+                        <input type="hidden" name="tituloproducto" value="{$subasta->getTitulo()}">
+                    </form>
+                    <td>
+
+                
+                 
+                </div>
+                </div>
          
  EOF;       
        

@@ -49,8 +49,8 @@ class Chat extends Formulario
         $html .= '<section class="chat-area">';
        
         $html .= '<div class="details">';
-        $html .= '<span>' . $nombreReceptor . '</span>';
-        $html .= '<p>' . $tituloSubasta . '</p>';
+        $html .= '<span> <p>Destinatario: ' . $nombreReceptor . '</span></p>';
+        $html .= '<p>Subasta: ' . $tituloSubasta . '</p>';
         $html .= '</div>';
        
         $html .= '<div class="chat-box" id="chat-box"></div>';
@@ -68,16 +68,7 @@ class Chat extends Formulario
 
     protected function procesaFormulario(&$datos)
     {
-        $this->errores = [];
-
-        $comentario = trim($datos['comentario'] ?? '');
-        $comentario = filter_var($comentario, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-
-        $titulovaloracion = trim($datos['titulovaloracion'] ?? '');
-        $titulovaloracion = filter_var($titulovaloracion, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-        if ( ! $titulovaloracion || mb_strlen($titulovaloracion) < 5) {
-            $this->errores['titulo'] = 'El titulo debe tener una longitud de al menos 5 caracteres.';
-        }                
+                  
         
     }
 }

@@ -9,6 +9,9 @@ if ($app->tieneRol(es\ucm\fdi\aw\usuarios\Usuario::USER_ROLE)||$app->tieneRol(es
     
     $addsubastaUrl = $app->resuelve('/addSubasta.php');
     $modificarsubastaUrl = $app->resuelve('/vistaModificarSubastas.php');
+    $numsubastas=es\ucm\fdi\aw\subastas\Subasta:: numeroSubastas($app->idUsuario())[0];
+    $numdinero=es\ucm\fdi\aw\subastas\Subasta:: numeroSubastas($app->idUsuario())[1];
+    $numventas=es\ucm\fdi\aw\subastas\Subasta:: numeroSubastas($app->idUsuario())[2];
     
   $contenidoPrincipal=<<<EOS
 
@@ -16,13 +19,13 @@ if ($app->tieneRol(es\ucm\fdi\aw\usuarios\Usuario::USER_ROLE)||$app->tieneRol(es
           <div class="top-bar">
           <div class="stats">
             <div class="datos">
-              <span class="number">12</span> anuncios activos
+              <span class="number">{$numsubastas}</span> anuncios activos
             </div>
             <div class="datos">
-              <span class="number">25</span> ventas
+              <span class="number">{$numventas}</span> ventas
             </div>
             <div class="datos">
-              <span class="number">1250</span> € ganados
+              <span class="number">{$numdinero}</span> € ganados
             </div>
           </div>
           <div class="actions">

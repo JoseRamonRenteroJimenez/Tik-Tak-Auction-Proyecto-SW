@@ -28,13 +28,13 @@ function mostrarUsername()
       <div>
           <nav>
           <ul>
-          <li>  <a href="{$actividad}">Actividad</a></li> 
+         
           <li>  <a href="<?= $app->resuelve('/mensajesPerfil.php')?>">Mensajes</a></li> 
-          <li>   <a href="{$notificaciones}">Notificaciones</a></li> 
+          
           </ul>
           </nav>
           
-    <div class="saludo">
+    <div class="nombrePerfil">
       <?= mostrarUsername(); ?>
     </div>
   </div>

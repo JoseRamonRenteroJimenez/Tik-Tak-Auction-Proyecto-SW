@@ -67,23 +67,6 @@ class Mensaje
         return $mensajes; // Devolvemos el array de mensajes
     }   
 
-    /*public static function buscaPorReceptor($receptorId)
-    {
-        $conn = Aplicacion::getInstance()->getConexionBd();
-        $query = sprintf("SELECT * FROM mensajes WHERE receptor_id ='%d' ", $receptorId );
-        $rs = $conn->query($query);
-        $mensajes = array(); // Creamos un array vacío para almacenar los mensajes
-        if ($rs) {
-            while ($fila = $rs->fetch_assoc()) {
-                $mensaje = new Mensaje( $fila['id_mensaje'],  $fila['id_subasta_aso'],  $fila['emisor_id'],  $fila['receptor_id'],  $fila['mensaje'],  $fila['fecha']);
-                $mensajes[] = $mensaje; 
-            }
-            $rs->free();
-        } else {
-            error_log("Error BD ({$conn->errno}): {$conn->error}");
-        }
-        return $mensajes; // Devolvemos el array de mensajes
-    }*/
 
 public static function usuariosQueHasEnviadoMensaje($emisorId)
 {
@@ -222,7 +205,7 @@ public static function getChat($receptorId ,$subastaAso)
     }
     echo $output;
 }
-public static function listarConservaciones($idEmisor)
+public static function listarConversaciones($idEmisor)
 {
     $app=Aplicacion::getInstance();
     $mensajes = Mensaje::usuariosQueHasEnviadoMensaje($idEmisor); //Obtenemos la informacion de las subastas con conversaciones abiertas

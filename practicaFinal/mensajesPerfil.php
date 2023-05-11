@@ -2,7 +2,7 @@
 
 require_once __DIR__.'/includes/config.php';
 
-$SubastasCompradas = \es\ucm\fdi\aw\mensajes\Mensaje::listarConservaciones($app->idUsuario());
+$SubastasCompradas = \es\ucm\fdi\aw\mensajes\Mensaje::listarConversaciones($app->idUsuario());
 
  
 $tituloPagina = 'Compras';

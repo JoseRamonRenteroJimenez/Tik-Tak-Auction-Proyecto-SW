@@ -59,7 +59,7 @@ class FormularioValoracionesVendedor extends Formulario
                 <label>Producto:</label> <input type="text" name="tituloproducto" readonly value="$tituloproducto"/>
             </div>
             <div >
-                <label>Evalua al vendedor:</label> <input type="number" name="puntuacion" value="$puntuacion" />
+                <label>Evalua al vendedor:</label> <input type="number" min="0" max="5" name="puntuacion" value="$puntuacion" />
             </div>
             <div >
                 <label>Descripción:</label> <textarea name="comentario">$comentario</textarea>

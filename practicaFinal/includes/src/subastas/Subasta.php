@@ -148,16 +148,20 @@ class Subasta
 
         }else if($busqueda=='busquedaTitulo'){
             //listado de subastas buscadas por un titulo
-            $query = sprintf("SELECT * FROM subastas S WHERE S.titulo LIKE '%%%s%%'", $conn->real_escape_string($buscar));
+            $query = sprintf("SELECT * FROM subastas S WHERE S.titulo LIKE '%%%s%%' AND S.estado= 'activa'", $conn->real_escape_string($buscar));
+
+        }else if($busqueda=='busquedaVendedor'){
+            //listado de subastas buscadas por un vendedor
+            $query = sprintf("SELECT * FROM subastas WHERE id_usuario LIKE '%d' AND S.estado= 'activa'", $buscar);
 
         }else if($busqueda=='categoria'){
             //listado de subastas por categoria
-            $query = sprintf("SELECT * FROM subastas S  WHERE S.categoria= '%s'", $conn->real_escape_string($buscar));
+            $query = sprintf("SELECT * FROM subastas S  WHERE S.categoria= '%s'AND S.estado= 'activa'", $conn->real_escape_string($buscar));
 
         }else if($busqueda=='compras'){
             //listado de subastas cerradas 
             
-            $query = sprintf("SELECT * FROM subastas S WHERE S.id_ganador= '%s'", $conn->real_escape_string($idusuario));
+            $query = sprintf("SELECT * FROM subastas S WHERE S.id_ganador= '%s' AND S.estado= 'cerrada'", $conn->real_escape_string($idusuario));
         }else{
             $query = sprintf("SELECT * FROM subastas");
             //$query = sprintf("SELECT * FROM Subastas WHERE Subastas.titulo LIKE %'%s'%",$conn->real_escape_string($busqueda));
@@ -280,11 +284,23 @@ class Subasta
         return true;
     }
 
-    public static function numeroSubastas()
+    public static function numeroSubastas($id=null)
     {
         $app=Aplicacion::getInstance();
         $conn = $app->getConexionBd();
+        $consultas = array();
+        if($id!=null){
+            $query = sprintf("SELECT COUNT(*) as numsub  FROM subastas WHERE   id_usuario =%d AND estado = 'activa' ",$id );
+            $consultas[0]= $conn->query($query)->fetch_assoc()['numsub'];
+
+            $query = sprintf(" SELECT id_usuario, SUM(precio_actual) as total_precio ,COUNT(*) as ventas FROM subastas WHERE estado = 'cerrada' AND id_usuario = %d ",$id );
+            $consultas[1]= $conn->query($query)->fetch_assoc()['total_precio'];
+            $consultas[2]= $conn->query($query)->fetch_assoc()['ventas'];
+
+            return $consultas;
+        }else{
         $query = sprintf("SELECT COUNT(*) FROM subastas");
+    }
         $rs = $conn->query($query);
         $result = false;
         if ($rs) {

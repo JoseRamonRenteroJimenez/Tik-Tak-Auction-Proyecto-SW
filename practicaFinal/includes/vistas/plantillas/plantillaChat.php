@@ -34,6 +34,7 @@ $params['app']->doInclude('/vistas/comun/cabecera.php');
 $params['app']->doInclude('/vistas/comun/pie.php');
 ?>
 </div>
+<script type="text/javascript" src="<?= $params['app']->resuelve('/js/chat.js') ?>"></script>
 </body>
 </html>
-<script type="text/javascript" src="<?= $params['app']->resuelve('/js/chat.js') ?>"></script>
+
