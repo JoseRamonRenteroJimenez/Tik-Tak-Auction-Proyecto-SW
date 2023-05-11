@@ -3,21 +3,82 @@ namespace es\ucm\fdi\aw\subastas;
 
 use es\ucm\fdi\aw\Aplicacion;
 use es\ucm\fdi\aw\MagicProperties;
+use DateTime;
 
 class Subasta
 {
     use MagicProperties;
 
-   
+    public static function actualizaestadoSubastas(){
+        $app=Aplicacion::getInstance();
+        $idusuario=$app->idUsuario();
+        $conn = $app->getConexionBd();
+        $query =" ";
+        $query = sprintf("SELECT * FROM subastas S ");
+        $rs = $conn->query($query);
+        $result = false;
+        $estado="";
+        $PrecioActual="";
+
+        if ($rs) {
+            while ($fila = $rs->fetch_assoc()) {
+                $subasta = Subasta::creaObjeto($fila);
+                $subastas[] = $subasta; // Agregamos la subasta al array
+                $estado=$subasta->obtenerEstadoSubasta($subasta->getfechainicio(),$subasta->getfechafin());
+                if ($subasta->getTipoSubasta()=="Holandesa"){
+                    $cont=0;
+                    $fecha_actual = date('M d, Y H:i:s');
+                    $fecha_nuevo_precio ="";
+                    $fecha_inicial= new DateTime($subasta->getFechaInicio());
+
+                    if ($subasta->getIdGanador()!=null){
+                        $estado="cerrada";
+                    }
+
+                    if($subasta->getPrecioInicial()>$subasta->getPrecioActual()){//comprueba si los precios han cambiado con respecto al inicial lo que significa que no es la primera vez que baja de precio
+                        $PrecioActual=$subasta->getPrecioActual();//usamos la variable para apollarnos 
+
+                        while ($PrecioActual<$subasta->getPrecioInicial()){//si precio inicial es mayor al actual entra al bucle es para calcular cuantas veces bajo el precio 
+                            $cont=$cont+1;//aumenta el contador
+                            $PrecioActual=$PrecioActual+$subasta->getIntervaloprecio();//actualiza la variable para el bucle 
+                        }
+                        $fecha_nuevo_precio = date('M d, Y H:i:s', strtotime($fecha_inicial->format('M d, Y H:i:s'). ' + '. $subasta->getIntervalotiempo().'*'.$cont.' days'));
+                    }else {
+                        $cont=1;
+                        $fecha_nuevo_precio = date('M d, Y H:i:s', strtotime($fecha_inicial->format('M d, Y H:i:s'). ' + '. $subasta->getIntervalotiempo().' days'));
+                    }
+                    if ($fecha_actual>$fecha_nuevo_precio){
+                        $PrecioActual=$subasta->getPrecioActual()-$subasta->getIntervaloprecio();
+                    }
+                }else{
+                    $PrecioActual=$subasta->getPrecioActual();
+                }                     
+
+                $query = sprintf("UPDATE subastas S SET 
+                precio_actual = %f,
+                estado = '%s'
+                WHERE S.id_subasta = %d",
+                $PrecioActual,
+                $estado,
+                $subasta->idSubasta
+            );
+                $conn->query($query);
+            }
+            $rs->free();
+        } else {
+            error_log("Error BD ({$conn->errno}): {$conn->error}");
+        }
+       
+    }
                                        
     public static function crea($idusuario, $titulo, $descripcion, $fechainicio, $fechafin, $precioinicial, $precioactual, $categoria, $estadoproducto,$tiposubasta,$intervalotiempo,$intervaloprecio)
     {
         $subasta = new subasta($idusuario, $titulo, $descripcion, $fechainicio, $fechafin, $precioinicial, $precioactual, $categoria, $estadoproducto,$tiposubasta,$intervalotiempo,$intervaloprecio);
         return $subasta->guarda();
     }
-    public static function actualizaSubasta($idSubasta,$idusuario, $titulo, $descripcion, $fechainicio, $fechafin, $precioinicial, $precioactual, $categoria, $estadoproducto,$idganador=null)
+    public static function actualizaSubasta($idSubasta,$idusuario, $titulo, $descripcion, $fechainicio, $fechafin, $precioinicial, $precioactual, $categoria, $estadoproducto,$idganador=null,$estado=null)
     {
-        $subasta = new subasta($idusuario, $titulo, $descripcion, $fechainicio, $fechafin, $precioinicial, $precioactual, $categoria, $estadoproducto,$idSubasta,$idganador);
+        $subasta = new subasta($idusuario, $titulo, $descripcion, $fechainicio, $fechafin, $precioinicial, $precioactual, $categoria, $estadoproducto,$idSubasta,$idganador,$estado);
         return $subasta->guarda();
     }
     public static function buscaSubasta($tituloSubasta)
@@ -174,7 +235,7 @@ class Subasta
         id_ganador = %d,
         estado = '%s',
         categoria = '%s',
-        estadoproducto = '%s'
+        estadoproducto = '%s',
         WHERE S.id_subasta = %d",
         $conn->real_escape_string($subasta->titulo),
         $conn->real_escape_string($subasta->descripcion),

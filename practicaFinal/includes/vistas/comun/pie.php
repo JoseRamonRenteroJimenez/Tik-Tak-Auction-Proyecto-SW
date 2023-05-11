@@ -1,3 +1,5 @@
 <footer>
-	Pie de página
+	<div class="piepagina">
+		<p>TIKTAK AUCTION </p>
+	</div>
 </footer>

@@ -22,8 +22,34 @@ class HacerPuja extends Formulario
            
         
     if ($app->tieneRol(\es\ucm\fdi\aw\usuarios\Usuario::USER_ROLE)||$app->tieneRol(\es\ucm\fdi\aw\usuarios\Usuario::BUSSINES_ROLE)) {
-                        
-        $html = <<<EOF
+        $html = "";
+         if ($subasta->getTipoSubasta()=="Holandesa"){
+            $html .= <<<EOF
+            <input type="hidden" name="nuevoprecio" value="{$subasta->getPrecioActual()}">    
+            <input type="hidden" name="idsubasta" value="{$subasta->getIdSubasta()}">
+            <input type="hidden" name="refresco" value="true">
+            <button type="submit" id="bid-button">Comprar</button>
+       
+            
+             
+     EOF;    
+         } else if($subasta->getTipoSubasta()=="ReservaCiega"){   
+            $html .= <<<EOF
+                    
+                    
+                      
+            <input type="text" name="nuevoprecio" id="bid-amount" value="{$subasta->getPrecioInicial()}"></input>
+            <input type="hidden" name="idsubasta" value="{$subasta->getIdSubasta()}">
+            <input type="hidden" name="refresco" value="true">
+            <p>Puja Mínima: {$subasta->getPrecioInicial()}</p>
+            <button type="submit" id="bid-button">Pujar</button>
+       
+            
+             
+     EOF;    
+            
+          } else{
+            $html .= <<<EOF
                     
                     
                       
@@ -35,7 +61,9 @@ class HacerPuja extends Formulario
                
                     
                      
-        EOF;                 
+             EOF;    
+            }   
+                    
                     } else {
                         $loginUrl = $app->resuelve('/login.php');
                         $registroUrl = $app->resuelve('/registro.php');

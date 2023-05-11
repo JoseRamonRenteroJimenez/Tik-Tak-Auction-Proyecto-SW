@@ -38,6 +38,17 @@ if ($app->tieneRol(es\ucm\fdi\aw\usuarios\Usuario::USER_ROLE)||$app->tieneRol(es
 
 $contenidoPrincipal .= \es\ucm\fdi\aw\subastas\listasubastas($contenido);
 $contenidoPrincipal .= "</div>";
+}else if($app->tieneRol(es\ucm\fdi\aw\usuarios\Usuario::ADMIN_ROLE)){
+ // $actualizasubastas = es\ucm\fdi\aw\subastas\Subasta::actualizaestadoSubastas();
+                $contenidoPrincipal=<<<EOS
+
+                   <div class="adminboton">
+                 EOS;  
+                 $contenidoPrincipal .= "<a href='".es\ucm\fdi\aw\subastas\Subasta::actualizaestadoSubastas()."' class='btn'>Actualizar subastas</a>";
+                 
+                 $contenidoPrincipal .="</div>";
+
+             
 } else {
   $contenidoPrincipal=<<<EOS
     <h1>Usuario no registrado!</h1>
