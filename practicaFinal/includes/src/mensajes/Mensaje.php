@@ -163,6 +163,65 @@ function mostrarTitulosTabla(){
     return $html;
 
 }
+public static function InsertChat($subastaId ,$mensaje,$receptorId)
+{
+    $app=Aplicacion::getInstance();
+    $conn = $app->getConexionBd();
+    $result = false;
+    $emisorId=$app->idUsuario();
+    $receptor_id = mysqli_real_escape_string($conn, $receptorId);
+    $message = mysqli_real_escape_string($conn, $mensaje);
+    $idSubasta = mysqli_real_escape_string($conn, $subastaId);
+
+
+
+    $query=sprintf("INSERT INTO mensajes(id_subasta_aso,emisor_id,receptor_id, mensaje, fecha) VALUES ('$idSubasta','%d', '%d', '%s',NOW())"
+        , $conn->real_escape_string($emisorId)
+        , $conn->real_escape_string($receptor_id)
+        , $conn->real_escape_string($message)
+    );
+    if ( !$conn->query($query) ) {
+     error_log("Error BD ({$conn->errno}): {$conn->error}");
+    }  
+}
+public static function getChat($receptorId ,$subastaAso)
+{
+    $app=Aplicacion::getInstance();
+    $conn = $app->getConexionBd();
+    $emisorId = $app->idUsuario();
+    $receptor_id = mysqli_real_escape_string($conn, $receptorId);
+    $subasta_aso = mysqli_real_escape_string($conn, $subastaAso);;
+    
+    //$query = sprintf("SELECT * FROM mensajes WHERE emisor_id = %d && receptor_id= %d && id_subasta_aso=%d  ORDER BY id_mensaje", $emisorId, $receptor_id,$subasta_aso);
+    $query = sprintf("
+    SELECT * FROM mensajes LEFT JOIN usuarios ON usuarios.id_usuario = mensajes.emisor_id
+                    WHERE (emisor_id = {$emisorId} AND receptor_id = {$receptor_id})
+                    OR (emisor_id = {$receptor_id} AND receptor_id = {$emisorId}) ORDER BY id_mensaje");
+    
+    $rs = $conn->query($query);
+    $output = "";
+    
+    if ($rs->num_rows > 0) {
+        while ($row = mysqli_fetch_assoc($rs)) {
+            if ($row['emisor_id'] === $emisorId) {
+                $output .= '<div class="chat outgoing">
+                                <div class="details">
+                                    <p>' . $row['mensaje'] . '</p>
+                                </div>
+                            </div>';
+            } else {
+                $output .= '<div class="chat incoming">
+                                <div class="details">
+                                    <p>' . $row['mensaje'] . '</p>
+                                </div>
+                            </div>';
+            }
+        }
+    } else {
+        $output .= '<div class="text">No hay mensajes disponibles. Una vez que envíe el mensaje, aparecerán aquí.</div>';
+    }
+    echo $output;
+}
 public static function listarConservaciones($idEmisor)
 {
     $app=Aplicacion::getInstance();
@@ -220,7 +279,7 @@ public static function listarConservaciones($idEmisor)
                             <input type="hidden" name="receptor" value="{$subasta->getIdGanador()}">
                             <input type="hidden" name="emisor" value="{$subasta->getIdUsuario()}">
                             <input type="hidden" name="tituloproducto" value="{$subasta->getTitulo()}">
-                            <button type="submit">Contactar con el cliente</button>
+                            <button type="submit">Contactar con el vendedor</button>
                         </form>
                     </td>                
                 </div>

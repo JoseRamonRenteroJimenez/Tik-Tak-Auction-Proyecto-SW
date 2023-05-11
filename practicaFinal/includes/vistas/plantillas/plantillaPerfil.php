@@ -24,7 +24,9 @@ $params['app']->doInclude('/vistas/comun/cabecera.php');
 		<div class="estructuraperfil">
 			
 			<?= $params['app']->doInclude('/vistas/comun/sidebarIzqPerfil.php') ?>
+			
 			<?= $params['contenidoPrincipal'] ?>
+		
 		</div>
 		</article>
 	</main>

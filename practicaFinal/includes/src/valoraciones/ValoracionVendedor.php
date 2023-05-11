@@ -91,6 +91,37 @@ class Valoracionvendedor
         return $valoraciones; 
     }
 
+    public static function mediaValoracionesVendedor($idVendedor)
+    {
+        $app=Aplicacion::getInstance();
+        $idusuario=$app->idUsuario();
+        $conn = $app->getConexionBd();
+        $query = sprintf("SELECT * FROM valoracionesvendedor V WHERE V.id_vendedor= '%d'",  $conn->real_escape_string($idVendedor));
+        $rs = $conn->query($query);
+        $valoraciones = array(); 
+        $media_puntuacion = 0;
+        if ($rs) {
+            while ($fila = $rs->fetch_assoc()) {
+                $valoracion = new Valoracionvendedor(
+                    $fila['id_usuario'],
+                    $fila['puntuacion'],
+                    $fila['comentario'],
+                    $fila['id_vendedor'],
+                );
+                $media_puntuacion += $fila['puntuacion'];
+                $valoraciones[] = $valoracion; 
+            }
+            $rs->free();
+            $num_valoraciones = count($valoraciones);
+            if ($num_valoraciones > 0) {
+                $media_puntuacion /= $num_valoraciones;
+            }
+        } else {
+            error_log("Error BD ({$conn->errno}): {$conn->error}");
+        }
+        return $media_puntuacion; 
+    }
+
     private static function inserta($valoracion)
     {
         $result = false;

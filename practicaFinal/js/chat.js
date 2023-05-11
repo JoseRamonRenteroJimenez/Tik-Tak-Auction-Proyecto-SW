@@ -20,7 +20,7 @@ inputField.onkeyup = ()=>{
 
 sendBtn.onclick = ()=>{
     let xhr = new XMLHttpRequest();
-    xhr.open("POST", "includes/src/mensajes/insert-chat.php", true);
+    xhr.open("POST", baseurl +"insert-chat.php", true);
     xhr.onload = ()=>{
       if(xhr.readyState === XMLHttpRequest.DONE){
           if(xhr.status === 200){
@@ -42,7 +42,8 @@ chatBox.onmouseleave = ()=>{
 
 setInterval(() =>{
     let xhr = new XMLHttpRequest();
-    xhr.open("POST", "includes/src/mensajes/get-chat.php", true);
+    xhr.open("POST", baseurl +"get-chat.php", true);
+ 
     xhr.onload = ()=>{
       if(xhr.readyState === XMLHttpRequest.DONE){
           if(xhr.status === 200){

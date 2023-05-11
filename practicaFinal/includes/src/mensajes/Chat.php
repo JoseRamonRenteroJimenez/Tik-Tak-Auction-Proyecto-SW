@@ -27,14 +27,7 @@ class Chat extends Formulario
             $receptorId= $_POST['receptor'];
             $tituloproducto= $_POST['tituloproducto'];
 
-            //$valoracion = Valoracionproducto::buscarValoracionExistente($idvendedor,$idusuario);
-        
-            //if($valoracion != false){
-             //   $idvaloracion= $valoracion->getIdValoracion();
-           //     $puntuacion = $valoracion->getPuntuacion();
-            //    $comentario =$valoracion->getComentario();  
-            //    $titulovaloracion= $valoracion->getitulovaloracion();
-            //}               
+                 
         }
         $nombreReceptor ="";
         $nombreReceptor = \es\ucm\fdi\aw\usuarios\Usuario::buscaPorId($receptorId);
@@ -51,26 +44,26 @@ class Chat extends Formulario
         }
         
         // Se generan los mensajes de error si existen. (Si se usa EOF js no puede detectar los)     
-        echo '<script>var app = ' . json_encode($app) . ';</script>';
-        echo '<div class="wrapper">';
-        echo '<section class="chat-area">';
-        echo '<header>';
-        echo '<div class="details">';
-        echo '<span>' . $nombreReceptor . '</span>';
-        echo '<p>' . $tituloSubasta . '</p>';
-        echo '</div>';
-        echo '</header>';
-        echo '<div class="chat-box"></div>';
-        echo '<form action="#" class="typing-area">';
-        echo '<input type="text" class="incoming_id" name="incoming_id" value="' . $receptorId . '" hidden>';
-        echo '<input type="text" class="subasta_id" name="subasta_id" value="' . $id_SubastaAso . '" hidden>';
-        echo '<input type="text" name="message" class="input-field" placeholder="Escribe tu mensaje aquí..." autocomplete="off">';
-        echo '<button><i class="fab fa-telegram-plane">Enviar</i></button>';
-        echo '</form>';
-        echo '</section>';
-        echo '</div>';
-        echo '<script src="js/chat.js"></script>';
+        
+        $html = '<div class="wrapper">';
+        $html .= '<section class="chat-area">';
        
+        $html .= '<div class="details">';
+        $html .= '<span>' . $nombreReceptor . '</span>';
+        $html .= '<p>' . $tituloSubasta . '</p>';
+        $html .= '</div>';
+       
+        $html .= '<div class="chat-box" id="chat-box"></div>';
+        echo '<form action="#" class="typing-area" id="typing-area">';
+        echo'<input type="text" class="incoming_id" id="incoming_id" name="incoming_id" value="' . $receptorId . '" hidden>';
+        echo'<input type="text" class="subasta_id" id="subasta_id" name="subasta_id" value="' . $id_SubastaAso . '" hidden>';
+        echo'<input type="text" name="message" id="input-field" class="input-field" placeholder="Escribe tu mensaje aquí..." autocomplete="off">';
+        echo'<button id="button">Enviar</button>';
+        echo'</form>';
+        $html .= '</section>';
+        $html .= '</div>';
+       
+       return $html;
     }   
 
     protected function procesaFormulario(&$datos)
