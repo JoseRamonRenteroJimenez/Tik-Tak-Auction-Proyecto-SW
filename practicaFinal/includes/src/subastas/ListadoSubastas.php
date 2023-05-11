@@ -99,6 +99,8 @@ static function listadoCompradas($busqueda){
                                  $vendedor= \es\ucm\fdi\aw\usuarios\Usuario::buscaPorId($subasta->getIdUsuario());
                                  $valoracionMediaVendedor= \es\ucm\fdi\aw\valoraciones\ValoracionVendedor::mediaValoracionesVendedor($vendedor->getId());
                                  $estrellasVendedor = self::generarEstrellas($valoracionMediaVendedor);
+                                 $subastaId=$subasta->getIdSubasta();
+                                 $usuarioId=$app->idUsuario();                          
                  $html .=<<<EOF
 
                     </div>
@@ -109,7 +111,9 @@ static function listadoCompradas($busqueda){
                     <p>Nombre: {$vendedor->getNombre()}</p>
                     <p>Valoracion media: {$estrellasVendedor}</p>
                     <a href="vistaSubastaObjeto.php?vendedor={$vendedor->getId()}">Ver más artículos de este vendedor</a>
-
+                    
+                  
+                    
                     <a href="#" onclick="document.getElementById('myForm').submit();">Contactar con el vendedor</a>
                     <form method="POST" action="chatearConVendedor.php" id="myForm">
                         <input type="hidden" name="mensaje" value="iniciarCHat">

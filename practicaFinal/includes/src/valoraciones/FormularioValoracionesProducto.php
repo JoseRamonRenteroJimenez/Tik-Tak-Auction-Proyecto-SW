@@ -65,7 +65,7 @@ class FormularioValoracionesProducto extends Formulario
                             $erroresCampos[titulovaloracion]
             
             <div >
-                <label>Evalua al vendedor:</label> <input type="number" min="0" max="10" name="puntuacion" class="valoracion-estrellas" value="$puntuacion" />
+                <label>Evalua al producto:</label> <input type="number" min="0" max="5" name="puntuacion" class="valoracion-estrellas" value="$puntuacion" />
             </div>
             <div >
                 <label>Descripción:</label> <textarea name="comentario">$comentario</textarea>

@@ -43,14 +43,14 @@ class Chat extends Formulario
             $tituloSubasta =$datos['tituloSubasta'];
         }
         
-        // Se generan los mensajes de error si existen. (Si se usa EOF js no puede detectar los)     
+        // Se generan los mensajes de error si existen. (Si se usa $html js no puede detectar los campos)     
         
         $html = '<div class="wrapper">';
         $html .= '<section class="chat-area">';
        
         $html .= '<div class="details">';
-        $html .= '<span>' . $nombreReceptor . '</span>';
-        $html .= '<p>' . $tituloSubasta . '</p>';
+        $html .= '<span> <p>Destinatario: ' . $nombreReceptor . '</span></p>';
+        $html .= '<p>Subasta: ' . $tituloSubasta . '</p>';
         $html .= '</div>';
        
         $html .= '<div class="chat-box" id="chat-box"></div>';
@@ -68,16 +68,6 @@ class Chat extends Formulario
 
     protected function procesaFormulario(&$datos)
     {
-        $this->errores = [];
 
-        $comentario = trim($datos['comentario'] ?? '');
-        $comentario = filter_var($comentario, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-
-        $titulovaloracion = trim($datos['titulovaloracion'] ?? '');
-        $titulovaloracion = filter_var($titulovaloracion, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-        if ( ! $titulovaloracion || mb_strlen($titulovaloracion) < 5) {
-            $this->errores['titulo'] = 'El titulo debe tener una longitud de al menos 5 caracteres.';
-        }                
-        
     }
 }

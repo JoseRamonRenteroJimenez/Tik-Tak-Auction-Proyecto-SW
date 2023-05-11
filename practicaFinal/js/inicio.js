@@ -59,7 +59,6 @@ window.onload = function () {
         $botonStop.removeAttribute('disabled');
 
     }
-
     /**
      * Para el autoplay de la imagen
      */
@@ -80,3 +79,18 @@ window.onload = function () {
     // Iniciar
     renderizarImagen();
 } 
+$(document).ready(function() {
+    $('.guardar-subasta').click(function(e) {
+      e.preventDefault();
+      var subastaId = $(this).data('subasta');
+      var usuarioId = $(this).data('usuario');
+      $.ajax({
+        url: 'guardarSubasta.php',
+        method: 'POST',
+        data: {subasta: subastaId, usuario: usuarioId},
+        success: function(response) {
+          // Aquí puedes manejar la respuesta del servidor si lo deseas
+        }
+      });
+    });
+  });

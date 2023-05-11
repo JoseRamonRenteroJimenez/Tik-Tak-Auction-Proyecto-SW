@@ -7,7 +7,7 @@ $SubastasCompradas = \es\ucm\fdi\aw\mensajes\Mensaje::listarConservaciones($app-
  
 $tituloPagina = 'Compras';
 $contenidoPrincipal=<<<EOF
-  	<h1>Listado de subastas compradas</h1>
+  	<h1>Subastas con conversaciones iniciadas</h1>
       $SubastasCompradas
     
 EOF;
