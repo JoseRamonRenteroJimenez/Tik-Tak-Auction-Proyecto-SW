@@ -37,7 +37,7 @@ var intervalo = setInterval(function() {
   $.get(url);
 
     clearInterval(intervalo);
-    contador.innerHTML = '¡La fecha futura ha llegado!';
+    contador.innerHTML = '¡Subasta finalizada!';
   }
 
 }, 1000); // Intervalo de 1 segundo

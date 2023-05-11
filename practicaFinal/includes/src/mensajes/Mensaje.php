@@ -245,7 +245,7 @@ public static function listarConversaciones($idEmisor)
                 <div class="seller">Vendedor: {$nombreVendedor}</div>
                 <div class="price">{$subasta->getPrecioActual()}€</div>
                 <div class="bid-info">
-                    <span class="bids">x pujas</span>
+                    <span class="bids"></span>
                     <p id="contador">Tiempo Restante: {$fechafin} </p>
                 </div>
             </div>
